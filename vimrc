@@ -14,6 +14,7 @@ endif
 
 "Forget compatibility with Vi. Who cares. FIXME need to be checked
 set nocompatible
+set encoding=utf-8
 
 autocmd! BufEnter *
 
