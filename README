@@ -20,6 +20,11 @@ git submodule update --init --recursive
 reomve any ~/.vimrc and ~/.gvimrc files you have.
 create a ~/myvimrc file to overide/add functionality.
 
+temp dirs (create manually):
+create ".backup" (for linux) "backup" (for Windows) directory in parallel to your .vim directory (for backup files).
+create "gvim_tmp" directory in parallel to .vim directory (for tmp operational files)
+you should monitor these directories any maybe do some cleanup once in a while.
+
 I think in the minimum that the local "myvimrc" should contain the following line:
 colorscheme torte
 
