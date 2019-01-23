@@ -119,7 +119,7 @@ augroup END
 "Set font type and size. Depends on the resolution. Larger screens, prefer h20
 "set guifont=LucidaTypewriter\ \9
 if !has('win32')
-   set guifont=Monospace\ \10
+   set guifont=Monospace\ \11
    nmap <silent> + :let &guifont=substitute(&guifont, '\(\d\+\)', '\=submatch(1) + 1', '')<CR>
    nmap <silent> _ :let &guifont=substitute(&guifont, '\(\d\+\)', '\=(submatch(1) - 1)', '')<CR>
 endif
@@ -260,7 +260,7 @@ set wildmenu
 set sft
 "
 "" number of screen lines to show around the cursor
-set so=5
+set so=3
 "
 " supposed to make it full screen, but I never saw it working well
 "if has("gui_running")
@@ -272,10 +272,10 @@ set so=5
 "" Make history buffer larger default 20
 set hi=100
 "
-"if !has('win32')
-"   "" Make shell commands work faster
-"   set shell=csh\ -f
-"endif
+if !has('win32')
+   "" Make shell commands work faster
+   set shell=/bin/bash
+endif
 "
 "" suffixesadd - used when searching for a file with gf
 set suffixesadd=.v,.py,.sv,.c,.cpp,.h,.svh
@@ -403,7 +403,7 @@ function! InsertPythonPackage()
     let result = append(8, "Description  : ") 
     let result = append(9, "Notes        : ") 
     let result = append(10, "---------------------------------------------------------------------------") 
-    let result = append(11, "Copyright 2017 (c) Satixfy Ltd") 
+    let result = append(11, "Copyright 2019 (c) Satixfy Ltd") 
     let result = append(12, "---------------------------------------------------------------------------*/")
     let result = append(13, "'''")     
   
@@ -427,7 +427,7 @@ function! InsertVerilogPackage()
 	 let result = append(8, "// Notes        	: ")
 	 let result = append(9, "// Version			: 0.1")
 	 let result = append(10, "// ---------------------------------------------------------------------------")
-	 let result = append(11, "// Copyright 2017 (c) Satixfy Ltd")
+	 let result = append(11, "// Copyright 2019 (c) Satixfy Ltd")
 	 let result = append(12, "// Confidential Proprietary ")
 	 let result = append(13, "// ---------------------------------------------------------------------------")
 endfunction
@@ -448,9 +448,9 @@ amenu 20.435 &Edit.-SEP4- :
 amenu Edit.Comment <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR> 
 amenu Edit.UnComment <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
 "" Insert # comments
-vmap <F2>  <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR> 
+vmap <F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR> 
 vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
-autocmd BufEnter *.c,*.h,*.cpp,*.v,*.vh,*.sv,*.svi,*.svh vmap <F2>  <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR>
+autocmd BufEnter *.c,*.h,*.cpp,*.v,*.vh,*.sv,*.svi,*.svh vmap <F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR>
 autocmd BufEnter *.c,*.h,*.cpp,*.v,*.vh,*.sv,*.svi,*.svh vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
 autocmd BufEnter *.vim,*.vmap <F2>  <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call CommentVim(fl, ll)<CR>
 autocmd BufEnter *.vim,*.vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnCommentVim(fl, ll)<CR>
@@ -547,7 +547,9 @@ map <F10> :co .<CR><S-V>r-<esc>v<F2>yykP
 "au BufReadPost *.vsif so ~/bin/vsif.vim
 ""au BufReadPost *.sv so ~/.vim/syntax/systemverilog.vim
 let g:verilog_syntax_fold = "all"
-set foldmethod=syntax
+if has("foldmethod")
+   set foldmethod=syntax
+endif
 nnoremap <leader>i :VerilogFollowInstance<CR>
 nnoremap <leader>I :VerilogFollowPort<CR>
 nnoremap <leader>u :VerilogGotoInstanceStart<CR>
