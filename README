@@ -8,7 +8,7 @@ usually for windows: C:\Users/<username> linux: /home/<username>
 
 windows:
 git clone https://github.com/gombosh/dotvim.git vimfiles
-cd vimrc
+cd vimfiles
 git submodule update --init --recursive
 reomve any _vimrc and _gvimrc files you have.
 create a myvimrc file to overide/add functionality.
