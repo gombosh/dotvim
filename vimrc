@@ -4,7 +4,7 @@
 " http://www.satixfy.com
 "
 
-version 7.4
+version 8.1
 if v:version < 700
 	finish
 endif
@@ -218,8 +218,11 @@ map! <S-Insert> <MiddleMouse>
 "
 "Automatically change current directory to that of the file in the buffer
 "vim actually has a native function for this 'autochdir' but this is better
-set autochdir
-"autocmd BufEnter,BufRead * cd %:p:h
+if has("foldmethod")
+   set autochdir
+else
+   autocmd BufEnter,BufRead * cd %:p:h
+endif
 "
 ""Map code completion to , + tab TODO might be use
 ""imap <leader><tab> <C-x><C-o>
@@ -327,11 +330,10 @@ nmap <silent> <A-Right> :wincmd l<CR>
 ""au FocusLost * :wa
 "
 "" Backups
-if has('win32')
-   set backupdir=$HOME/backup " backups
-elseif has('unix')
-   set backupdir=$HOME/.backup " backups
+if !isdirectory(expand("$HOME")."/backup")
+    call mkdir(expand("$HOME")."/backup", "p")
 endif
+set backupdir=$HOME/backup " backups
 ""set directory=~/.vim/tmp/swap// " swap files
 set noswapfile
 set backup " enable backup
@@ -1052,14 +1054,14 @@ if &term == "screen" || &term == "xterm"
 endif
 
 "clang flags
-let g:clang_complete_copen = 1
-let g:clang_auto_select = 2
+"let g:clang_complete_copen = 1
+"let g:clang_auto_select = 2
 "let g:clang_jumpto_declaration_key = '<C-.>'
 "let g:clang_jumpto_back_key = '<C-,>'
-let g:clang_library_path ="/home/dorong/bin/clang/lib"
-if has('win32')
-   let g:clang_complete_loaded = 1
-endif
+"let g:clang_library_path ="/home/dorong/bin/clang/lib"
+"if has('win32')
+"   let g:clang_complete_loaded = 1
+"endif
 "
 " not to use tags
 set complete-=t
