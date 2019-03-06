@@ -1,27 +1,28 @@
 This is a plugin suite for gvim.
 developed on 7.4 but should work just the same on 8.0 and on any older version (assuming the plugin is supported).
 it should also make the adjustments for DOS/UNIX automatically.
+latest release only works with gvim with compiled python3 support.
+for python2 support use older version.
 
 first time use:
 go to your home directory (can be found by using ":echo $HOME" from gvim).
-usually for windows: C:\Users/<username> linux: /home/<username>
+usually for windows: C:\Users\<username> linux: /home/<username>
 
 windows:
 git clone https://github.com/gombosh/dotvim.git vimfiles
 cd vimfiles
-git submodule update --init --recursive
+git submodule update --init --recursive --remote
 reomve any _vimrc and _gvimrc files you have.
 create a myvimrc file to overide/add functionality.
 
 linux:
 git clone https://github.com/gombosh/dotvim.git .vim
 cd .vim
-git submodule update --init --recursive
+git submodule update --init --recursive --remote
 reomve any ~/.vimrc and ~/.gvimrc files you have.
 create a ~/myvimrc file to overide/add functionality.
 
 temp dirs (create manually):
-create ".backup" (for linux) "backup" (for Windows) directory in parallel to your .vim directory (for backup files).
 create "gvim_tmp" directory in parallel to .vim directory (for tmp operational files)
 you should monitor these directories any maybe do some cleanup once in a while.
 
@@ -35,7 +36,7 @@ to update plugins:
 git pull --recurse-submodules
 
 to gen new plugins:
-git submodule update --init --recursive
+git submodule update --init --recursive --remote
 
 yes I know, I should have a script which updates everything.
 
@@ -44,6 +45,12 @@ git add .
 git commit -m "message"
 git push
 
+latest changes:
+- python3 support
+- fixed backup dir not existing issue
+- fixed fold doesn't exist issue
+
+oldef changes:
 tagbar instead of taglist
 airline changed to full path
 solarise color scheme not tested
@@ -52,6 +59,4 @@ CSCOPE SUPPORT ADDED!!!!
 to use it you must have the cscope executable in your "PATH".
 for windows the file is a part of the repository at "vimfiles\bin" so just add it to "PATH".
 
-not needed:
-find .vim/ -name "*.vim" -exec dos2unix {} \;
-find .vim/ -name "*.sh" -exec dos2unix {} \;
+
