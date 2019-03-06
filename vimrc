@@ -9,49 +9,27 @@ if v:version < 700
 	finish
 endif
 
-"let g:exvim_custom_path='c:/exvim/'
-"source c:/exvim/.vimrc
-
-"Forget compatibility with Vi. Who cares. FIXME need to be checked
+"Forget compatibility with Vi. Believe me, it's better this way.
 set nocompatible
 
 autocmd! BufEnter *
 
-"call pathogen#runtime_append_all_bundles()
+" Load all plugins
+"------------------
 execute pathogen#infect()
-"call pathogen#interpose('bundle/YouCompleteMe')
-"call pathogen#interpose('bundle/snippets')
-"call pathogen#interpose('bundle/clang_complete')
-"call pathogen#interpose('bundle/emacsauto')
-"call pathogen#interpose('bundle/fileline')
-"call pathogen#interpose('bundle/grep')
-"call pathogen#interpose('bundle/matchit')
-"call pathogen#interpose('bundle/nerdtree')
-"call pathogen#interpose('bundle/snipmate')
-"call pathogen#interpose('bundle/svn')
-"call pathogen#interpose('bundle/syntastic')
-"call pathogen#interpose('bundle/systemverilog')
-"call pathogen#interpose('bundle/tabular')
-"call pathogen#interpose('bundle/tasklist')
-"call pathogen#interpose('bundle/tlib_vim')
-"call pathogen#interpose('bundle/vim-addon-mw-utils')
-"if &diff
-"else
-"call pathogen#interpose('bundle/python_mode')   
-"endif
 call pathogen#helptags()
+"------------------
 
 "Enable filetypes
 syntax on
 filetype plugin indent on
 
-set visualbell              " enable the visual bell 
+set visualbell              " enable the visual bell - I have this 'ding' sound on every tab.
 
-"Write the old file out when switching between files.
-"set autowrite
+"don't Write the file automatically when switching between files.
 set noautowrite
 
-set backspace=2 "make backspace work like most other apps
+set backspace=2 "make backspace work like most other apps (actually erases the characters)
 
 "move btween windows with ctrl
 map <c-j> <c-w>j
@@ -59,7 +37,7 @@ map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
 
-"Want a different map leader than \
+"If you Want a different map leader than \ use this in your myvimrc file
 "set mapleader = ",";
 
 "Ever notice a slight lag after typing the leader key + command? This lowers
@@ -68,7 +46,7 @@ map <c-h> <c-w>h
 
 "Display current cursor position in lower right corner.
 "set ruler
-"
+
 "add to taswk list
 map <leader>td <Plug>TaskList
 
@@ -91,6 +69,7 @@ au Syntax * RainbowParenthesesLoadBraces
 "au FileType python set omnifunc=pythoncomplete#Complete
 "let g:SuperTabDefaultCompletionType = "context"
 "set completeopt=menuone,longest,preview
+let g:pymode_python = 'python3'
 let g:pymode_rope_lookup_project = 0 "fix a bug in python mode
 "for pymode plugin - remove red end of line 
 "let g:pymode_options_max_line_length = 0
@@ -118,7 +97,7 @@ augroup END
 "Set font type and size. Depends on the resolution. Larger screens, prefer h20
 "set guifont=LucidaTypewriter\ \9
 if !has('win32')
-   set guifont=Monospace\ \10
+   set guifont=Monospace\ \11
    nmap <silent> + :let &guifont=substitute(&guifont, '\(\d\+\)', '\=submatch(1) + 1', '')<CR>
    nmap <silent> _ :let &guifont=substitute(&guifont, '\(\d\+\)', '\=(submatch(1) - 1)', '')<CR>
 endif
@@ -171,6 +150,7 @@ set ve=block
 " by plugin but quite anoying.
 ""set textwidth=79
 "set textwidth=0 "unlimited
+
 "
 " this make some big changes, not everyone will like it.
 ""set formatoptions=qrnl1
@@ -237,7 +217,8 @@ map! <S-Insert> <MiddleMouse>
 "
 "Automatically change current directory to that of the file in the buffer
 "vim actually has a native function for this 'autochdir' but this is better
-autocmd BufEnter * cd %:p:h
+set autochdir
+"autocmd BufEnter,BufRead * cd %:p:h
 "
 ""Map code completion to , + tab TODO might be use
 ""imap <leader><tab> <C-x><C-o>
@@ -259,7 +240,7 @@ set wildmenu
 set sft
 "
 "" number of screen lines to show around the cursor
-set so=5
+set so=3
 "
 " supposed to make it full screen, but I never saw it working well
 "if has("gui_running")
@@ -271,10 +252,10 @@ set so=5
 "" Make history buffer larger default 20
 set hi=100
 "
-"if !has('win32')
-"   "" Make shell commands work faster
-"   set shell=csh\ -f
-"endif
+if !has('win32')
+   "" Make shell commands work faster
+   set shell=/bin/bash
+endif
 "
 "" suffixesadd - used when searching for a file with gf
 set suffixesadd=.v,.py,.sv,.c,.cpp,.h,.svh
@@ -384,7 +365,7 @@ autocmd! BufNewFile *.py call InsertPythonPackage()
 function! InsertPythonPackage() 
     let dir = getcwd() 
     
-    let result = append(0,"#!/usr/local/bin/python2.7")
+    let result = append(0,"#!/usr/bin/env python3")
     let result = append(1, "'''")     
     let result = append(2, "-------------------------------------------------------------------------") 
     let filename = expand("%") 
@@ -402,7 +383,7 @@ function! InsertPythonPackage()
     let result = append(8, "Description  : ") 
     let result = append(9, "Notes        : ") 
     let result = append(10, "---------------------------------------------------------------------------") 
-    let result = append(11, "Copyright 2017 (c) Satixfy Ltd") 
+    let result = append(11, "Copyright 2019 (c) Satixfy Ltd") 
     let result = append(12, "---------------------------------------------------------------------------*/")
     let result = append(13, "'''")     
   
@@ -426,7 +407,7 @@ function! InsertVerilogPackage()
 	 let result = append(8, "// Notes        	: ")
 	 let result = append(9, "// Version			: 0.1")
 	 let result = append(10, "// ---------------------------------------------------------------------------")
-	 let result = append(11, "// Copyright 2017 (c) Satixfy Ltd")
+	 let result = append(11, "// Copyright 2019 (c) Satixfy Ltd")
 	 let result = append(12, "// Confidential Proprietary ")
 	 let result = append(13, "// ---------------------------------------------------------------------------")
 endfunction
@@ -447,9 +428,9 @@ amenu 20.435 &Edit.-SEP4- :
 amenu Edit.Comment <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR> 
 amenu Edit.UnComment <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
 "" Insert # comments
-vmap <F2>  <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR> 
+vmap <F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR> 
 vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
-autocmd BufEnter *.c,*.h,*.cpp,*.v,*.vh,*.sv,*.svi,*.svh vmap <F2>  <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR>
+autocmd BufEnter *.c,*.h,*.cpp,*.v,*.vh,*.sv,*.svi,*.svh vmap <F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR>
 autocmd BufEnter *.c,*.h,*.cpp,*.v,*.vh,*.sv,*.svi,*.svh vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
 autocmd BufEnter *.vim,*.vmap <F2>  <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call CommentVim(fl, ll)<CR>
 autocmd BufEnter *.vim,*.vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnCommentVim(fl, ll)<CR>
@@ -546,7 +527,9 @@ map <F10> :co .<CR><S-V>r-<esc>v<F2>yykP
 "au BufReadPost *.vsif so ~/bin/vsif.vim
 ""au BufReadPost *.sv so ~/.vim/syntax/systemverilog.vim
 let g:verilog_syntax_fold = "all"
-set foldmethod=syntax
+if has("foldmethod")
+   set foldmethod=syntax
+endif
 nnoremap <leader>i :VerilogFollowInstance<CR>
 nnoremap <leader>I :VerilogFollowPort<CR>
 nnoremap <leader>u :VerilogGotoInstanceStart<CR>
@@ -680,9 +663,9 @@ map <S-Down> <Esc>v<Down>
 map <S-Left> <Esc>gT
 map <S-Right> <Esc>gt
 "
-"if has("python")
+"if has("python3")
 "function! Doron()
-"python << endpython
+"python3 << endpython3
 "import vim
 "def doron():
 "   (row, col) = vim.current.window.cursor
@@ -734,11 +717,11 @@ map <S-Right> <Esc>gt
 "      row += 1
 "
 "doron()
-"endpython
+"endpython3
 "endfunction
 "
 "function! CP1()
-"python << endpython
+"python3 << endpython3
 "import vim
 "def cp1():
 "    list_of_vars = []
@@ -794,11 +777,11 @@ map <S-Right> <Esc>gt
 "    vim.current.buffer.append("\tend")
 "
 "cp1()
-"endpython
+"endpython3
 "endfunction
 "
 "function! CP2()
-"python << endpython
+"python3 << endpython3
 "import vim
 "def cp2():
 "    list_of_vars = []
@@ -854,7 +837,7 @@ map <S-Right> <Esc>gt
 "    vim.current.buffer.append("\tend")
 "
 "cp2()
-"endpython
+"endpython3
 "endfunction
 "endif
 if has('win32')
@@ -928,11 +911,11 @@ highlight LineNr ctermfg=grey ctermbg=black guibg=black guifg=grey
 
 "set tags=~/tags
 
-if has("python")
+if has("python3")
 "autocmd BufReadPost * call SET_TAGS_LOCATION()
 autocmd BufEnter * call SET_TAGS_LOCATION()
 function! SET_TAGS_LOCATION()
-python << endpython
+python3 << endpython3
 import vim
 import os
 def set_tags_location():
@@ -950,12 +933,12 @@ def set_tags_location():
         splitted_pwd = splitted_pwd[:-1]
 
 set_tags_location()
-endpython
+endpython3
 endfunction
 
 autocmd BufEnter * call SET_WS()
 function! SET_WS()
-python << endpython
+python3 << endpython3
 import vim
 import os
 def set_ws():
@@ -975,11 +958,11 @@ def set_ws():
         splitted_pwd = splitted_pwd[:-1]
 
 set_ws()
-endpython
+endpython3
 endfunction
 
 function! Pydiff()
-python << endpython
+python3 << endpython3
 import vim
 import os
 def PyDiff():
@@ -990,17 +973,17 @@ def PyDiff():
 		print line
 
 PyDiff()
-endpython
+endpython3
 endfunction
 
 function! MyPwd()
-python << endpython
+python3 << endpython3
    import os
    def MyPwd(file):
       print os.path.abspath(file)
 
    MyPwd("%")
-endpython
+endpython3
 endfunction
 endif
 
