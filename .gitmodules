@@ -82,3 +82,6 @@
 [submodule "bundle/cscope.vim"]
 	path = bundle/cscope.vim
 	url = https://github.com/brookhong/cscope.vim.git
+[submodule "bundle/vim-fetch"]
+	path = bundle/vim-fetch
+	url = https://github.com/kopischke/vim-fetch
