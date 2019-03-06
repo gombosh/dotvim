@@ -11,6 +11,7 @@ endif
 
 "Forget compatibility with Vi. Believe me, it's better this way.
 set nocompatible
+set encoding=utf-8
 
 autocmd! BufEnter *
 
