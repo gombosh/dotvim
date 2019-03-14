@@ -4,7 +4,7 @@
 " http://www.satixfy.com
 "
 
-version 8.1
+version 7.4
 if v:version < 700
 	finish
 endif
@@ -70,7 +70,7 @@ au Syntax * RainbowParenthesesLoadBraces
 "au FileType python set omnifunc=pythoncomplete#Complete
 "let g:SuperTabDefaultCompletionType = "context"
 "set completeopt=menuone,longest,preview
-let g:pymode_python = 'python3'
+"let g:pymode_python = 'python2.7'
 let g:pymode_rope_lookup_project = 0 "fix a bug in python mode
 "for pymode plugin - remove red end of line 
 "let g:pymode_options_max_line_length = 0
@@ -435,8 +435,8 @@ vmap <F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, l
 vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
 autocmd BufEnter *.c,*.h,*.cpp,*.v,*.vh,*.sv,*.svi,*.svh vmap <F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR>
 autocmd BufEnter *.c,*.h,*.cpp,*.v,*.vh,*.sv,*.svi,*.svh vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
-autocmd BufEnter *.vim,*.vmap <F2>  <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call CommentVim(fl, ll)<CR>
-autocmd BufEnter *.vim,*.vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnCommentVim(fl, ll)<CR>
+autocmd BufEnter *.vim,*.vmap vmap <F2>  <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call CommentVim(fl, ll)<CR>
+autocmd BufEnter *.vim,*.vmap vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnCommentVim(fl, ll)<CR>
 autocmd BufEnter *.py,*.sh,*.mk,*.tcl vmap <F2>  <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Commentpy(fl, ll)<CR>
 autocmd BufEnter *.py,*.sh,*.mk,*.tcl vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnCommentpy(fl, ll)<CR>
 "
@@ -666,9 +666,9 @@ map <S-Down> <Esc>v<Down>
 map <S-Left> <Esc>gT
 map <S-Right> <Esc>gt
 "
-"if has("python3")
+"if has("python")
 "function! Doron()
-"python3 << endpython3
+"python << endpython
 "import vim
 "def doron():
 "   (row, col) = vim.current.window.cursor
@@ -720,11 +720,11 @@ map <S-Right> <Esc>gt
 "      row += 1
 "
 "doron()
-"endpython3
+"endpython
 "endfunction
 "
 "function! CP1()
-"python3 << endpython3
+"python << endpython
 "import vim
 "def cp1():
 "    list_of_vars = []
@@ -780,11 +780,11 @@ map <S-Right> <Esc>gt
 "    vim.current.buffer.append("\tend")
 "
 "cp1()
-"endpython3
+"endpython
 "endfunction
 "
 "function! CP2()
-"python3 << endpython3
+"python << endpython
 "import vim
 "def cp2():
 "    list_of_vars = []
@@ -840,7 +840,7 @@ map <S-Right> <Esc>gt
 "    vim.current.buffer.append("\tend")
 "
 "cp2()
-"endpython3
+"endpython
 "endfunction
 "endif
 if has('win32')
@@ -895,6 +895,7 @@ map  <silent> <F6>   :NERDTreeToggle<CR>
 ""autocmd VimEnter * wincmd p
 
 "syntastic syntax helper
+let g:syntastic_python_python_exec = '/sw/common/bin/python3.7'
 "set statusline+=%#warningmsg#
 "set statusline+=%{SyntasticStatuslineFlag()}
 "set statusline+=%*
@@ -914,11 +915,11 @@ highlight LineNr ctermfg=grey ctermbg=black guibg=black guifg=grey
 
 "set tags=~/tags
 
-if has("python3")
+if has("python")
 "autocmd BufReadPost * call SET_TAGS_LOCATION()
 autocmd BufEnter * call SET_TAGS_LOCATION()
 function! SET_TAGS_LOCATION()
-python3 << endpython3
+python << endpython
 import vim
 import os
 def set_tags_location():
@@ -936,12 +937,12 @@ def set_tags_location():
         splitted_pwd = splitted_pwd[:-1]
 
 set_tags_location()
-endpython3
+endpython
 endfunction
 
 autocmd BufEnter * call SET_WS()
 function! SET_WS()
-python3 << endpython3
+python << endpython
 import vim
 import os
 def set_ws():
@@ -961,11 +962,11 @@ def set_ws():
         splitted_pwd = splitted_pwd[:-1]
 
 set_ws()
-endpython3
+endpython
 endfunction
 
 function! Pydiff()
-python3 << endpython3
+python << endpython
 import vim
 import os
 def PyDiff():
@@ -976,17 +977,17 @@ def PyDiff():
 		print line
 
 PyDiff()
-endpython3
+endpython
 endfunction
 
 function! MyPwd()
-python3 << endpython3
+python << endpython
    import os
    def MyPwd(file):
       print os.path.abspath(file)
 
    MyPwd("%")
-endpython3
+endpython
 endfunction
 endif
 
