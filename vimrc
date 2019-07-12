@@ -3,27 +3,113 @@
 " doron.gombosh@satixfy.com
 " http://www.satixfy.com
 "
-
 version 7.4
-if v:version < 700
+if v:version < 800
 	finish
-endif
-
+else
+set t_BE=
 "Forget compatibility with Vi. Believe me, it's better this way.
-set nocompatible
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'scrooloose/nerdtree'
+
+Plugin 'kien/rainbow_parentheses.vim'
+
+Plugin 'matchit.zip'
+
+Plugin 'vim-airline/vim-airline'
+
+Plugin 'brookhong/cscope.vim'
+
+Plugin 'ctrlpvim/ctrlp.vim'
+
+Plugin 'wsdjeg/flygrep.vim'
+
+Plugin 'vcscommand.vim'
+
+Plugin 'scrooloose/syntastic'
+
+Plugin 'vhda/verilog_systemverilog.vim'
+
+Plugin 'godlygeek/tabular'
+
+Plugin 'majutsushi/tagbar'
+
+Plugin 'TaskList.vim'
+
+Plugin 'bogado/file-line'
+
+Plugin 'kopischke/vim-fetch'
+
+Plugin 'honza/vim-snippets'
+
+Plugin 'garbas/vim-snipmate'
+
+Plugin 'MarcWeber/vim-addon-mw-utils'
+
+Plugin 'tomtom/tlib_vim'
+
+Plugin 'klen/python-mode', {'pinned': 1}
+
+Plugin 'wincent/command-t'
+
+Plugin 'rstacruz/sparkup'
+
+"Plugin 'Valloric/YouCompleteMe'
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+"Plugin 'tpope/vim-fugitive'
+" plugin from http://vim-scripts.org/vim/scripts.html
+" Plugin 'L9'
+" Git plugin not hosted on GitHub
+"Plugin 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (i.e. when working on your own plugin)
+"Plugin 'file:///home/gmarik/path/to/plugin'
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+"Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Install L9 and avoid a Naming conflict if you've already installed a
+" different version somewhere else.
+" Plugin 'ascenator/L9', {'name': 'newL9'}
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+endif
 set encoding=utf-8
 
 autocmd! BufEnter *
 
 " Load all plugins
 "------------------
-execute pathogen#infect()
-call pathogen#helptags()
+"execute pathogen#infect()
+"call pathogen#helptags()
 "------------------
 
 "Enable filetypes
 syntax on
-filetype plugin indent on
 
 set visualbell              " enable the visual bell - I have this 'ding' sound on every tab.
 
@@ -70,7 +156,7 @@ au Syntax * RainbowParenthesesLoadBraces
 "au FileType python set omnifunc=pythoncomplete#Complete
 "let g:SuperTabDefaultCompletionType = "context"
 "set completeopt=menuone,longest,preview
-"let g:pymode_python = 'python2.7'
+let g:pymode_python = 'python3'
 let g:pymode_rope_lookup_project = 0 "fix a bug in python mode
 "for pymode plugin - remove red end of line 
 "let g:pymode_options_max_line_length = 0
@@ -843,11 +929,11 @@ map <S-Right> <Esc>gt
 "endpython
 "endfunction
 "endif
-if has('win32')
-   source $HOME/vimfiles/bundle/matchit/plugin/matchit.vim
-elseif has('unix')
-   source $HOME/.vim/bundle/matchit/plugin/matchit.vim
-endif
+"if has('win32')
+"   source $HOME/vimfiles/bundle/matchit/plugin/matchit.vim
+"elseif has('unix')
+"   source $HOME/.vim/bundle/matchit/plugin/matchit.vim
+"endif
 if exists('loaded_matchit')
 let b:match_ignorecase=0
 let b:match_words=
@@ -882,14 +968,12 @@ set listchars=eol:$,tab:\>\ ,trail:.,extends:>,precedes:<
 set nolist   " to turn on (use :set nolist to turn off)
 map <leader>dt :VCSVimDiff<CR>
 
-" Snippets are separated from the engine. Add this if you want them:
-"Plugin 'bundle/vim-snippets'
-
 "NERD TREE
 "Show hidden files in NerdTree
 let NERDTreeShowHidden=1
 "toggle nerdtree with f6
 map  <silent> <F6>   :NERDTreeToggle<CR>
+imap  <silent> <F6>   <Esc>:NERDTreeToggle<CR>
 ""autopen NERDTree and focus cursor in new document
 ""autocmd VimEnter * NERDTree
 ""autocmd VimEnter * wincmd p
@@ -915,11 +999,11 @@ highlight LineNr ctermfg=grey ctermbg=black guibg=black guifg=grey
 
 "set tags=~/tags
 
-if has("python")
+if has("python3")
 "autocmd BufReadPost * call SET_TAGS_LOCATION()
 autocmd BufEnter * call SET_TAGS_LOCATION()
 function! SET_TAGS_LOCATION()
-python << endpython
+python3 << endpython
 import vim
 import os
 def set_tags_location():
@@ -942,7 +1026,7 @@ endfunction
 
 autocmd BufEnter * call SET_WS()
 function! SET_WS()
-python << endpython
+python3 << endpython
 import vim
 import os
 def set_ws():
@@ -966,7 +1050,7 @@ endpython
 endfunction
 
 function! Pydiff()
-python << endpython
+python3 << endpython
 import vim
 import os
 def PyDiff():
@@ -981,7 +1065,7 @@ endpython
 endfunction
 
 function! MyPwd()
-python << endpython
+python3 << endpython
    import os
    def MyPwd(file):
       print os.path.abspath(file)
