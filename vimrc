@@ -24,31 +24,59 @@ endif
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
+" this gets and manages plugins from git
 Plugin 'VundleVim/Vundle.vim'
 
+"Tree view
 Plugin 'scrooloose/nerdtree'
+" use F6 as the main access key
 
+" this colors paranthesis opening/closing in the same color.
 Plugin 'kien/rainbow_parentheses.vim'
 
-Plugin 'matchit.zip'
-
+" this is the nice buttom line with info
 Plugin 'vim-airline/vim-airline'
 
+" this allows movement in the code from declaration to instance etc. (beta)
 Plugin 'brookhong/cscope.vim'
 
+" fuzzy smart file search
 Plugin 'ctrlpvim/ctrlp.vim'
+" ctrl-p to activate, then just write what's on your mind
+" F5 from inside ctrlp will update the database
 
+" new plugin for fast grepping - TODO need to experiment with this.
 Plugin 'wsdjeg/flygrep.vim'
 
+" commands for repositories, auto detects the type of repo
 Plugin 'vcscommand.vim'
+" use :VCS<command> will all the regular repo commands
 
+" auto syntax checking, should appear at the buttom line
 Plugin 'scrooloose/syntastic'
 
+" mega plugin with many cool features for systemverilog - TODO help commands +
+" add snipets + makeprg fpr xcelium analyze
 Plugin 'vhda/verilog_systemverilog.vim'
 
-Plugin 'godlygeek/tabular'
+"for verilog_systemverilog - highlighes the matches of words
+Plugin 'hl_matchit.vim'
 
+"for verilog_systemverilog - autocompleation with tab
+Plugin 'ervandew/supertab'
+
+"for verilog_systemverilog - auto search for functions/variables in file
+"(needs ctags to be working)
 Plugin 'majutsushi/tagbar'
+" activate with F4
+
+"for verilog_systemverilog - should make folding faster in systemverilog
+"I don't know of any specific settings it needs to be working.
+Plugin 'Konfekt/FastFold'
+
+" align text
+Plugin 'godlygeek/tabular'
+" use leader + a + =/:/<space>
 
 Plugin 'TaskList.vim'
 
@@ -105,6 +133,8 @@ filetype plugin indent on    " required
 endif
 set encoding=utf-8
 
+runtime macros/matchit.vim
+
 autocmd! BufEnter *
 
 " Load all plugins
@@ -159,7 +189,8 @@ au Syntax * RainbowParenthesesLoadBraces
 "for python activate supertab completion - need to move to filetype detect file
 " this was old stuff from before python mode
 "au FileType python set omnifunc=pythoncomplete#Complete
-"let g:SuperTabDefaultCompletionType = "context"
+" dorong - brought this back for verilog_systemverilog
+let g:SuperTabDefaultCompletionType = 'context'
 "set completeopt=menuone,longest,preview
 let g:pymode_python = 'python3'
 let g:pymode_rope_lookup_project = 0 "fix a bug in python mode
@@ -185,11 +216,15 @@ augroup END
 
 ""Set the color scheme. Change this to your preference.
 ""Here's 100 to choose from: http://www.vim.org/scripts/script.php?script_id=625
-"colorscheme torte
+colorscheme torte
 "Set font type and size. Depends on the resolution. Larger screens, prefer h20
 "set guifont=LucidaTypewriter\ \9
 if !has('win32')
    set guifont=Monospace\ \11
+   nmap <silent> + :let &guifont=substitute(&guifont, '\(\d\+\)', '\=submatch(1) + 1', '')<CR>
+   nmap <silent> _ :let &guifont=substitute(&guifont, '\(\d\+\)', '\=(submatch(1) - 1)', '')<CR>
+else
+   set guifont=Consolas:h11:cANSI
    nmap <silent> + :let &guifont=substitute(&guifont, '\(\d\+\)', '\=submatch(1) + 1', '')<CR>
    nmap <silent> _ :let &guifont=substitute(&guifont, '\(\d\+\)', '\=(submatch(1) - 1)', '')<CR>
 endif
@@ -204,6 +239,15 @@ else
    let g:tagbar_ctags_bin = '/home/dorong/bin/ctags/bin/ctags'
 endif
 
+"Tabular settings
+if exists(":Tab")
+   nmap <Leader>a= :Tab /=<CR>
+   vmap <Leader>a= :Tab /=<CR>
+   nmap <Leader>a: :Tab /:\zs<CR>
+   vmap <Leader>a: :Tab /:\zs<CR>
+   nmap <Leader>a<Space> :Tab / \zs<CR>
+   vmap <Leader>a<Space> :Tab / \zs<CR>
+endif
 ""Tab stuff http://vimcasts.org/episodes/tabs-and-spaces/
 set tabstop=3 "the width of the tab character (in spaces)
 set shiftwidth=3 "shiftwidth == softtabstop so i can work with spaces and not tabs
@@ -620,7 +664,7 @@ map <F10> :co .<CR><S-V>r-<esc>v<F2>yykP
 ""TODO move to global file
 "au BufReadPost *.vsif so ~/bin/vsif.vim
 ""au BufReadPost *.sv so ~/.vim/syntax/systemverilog.vim
-let g:verilog_syntax_fold = "all"
+let g:verilog_syntax_fold_lst = "all"
 if has("foldmethod")
    set foldmethod=syntax
 endif
@@ -985,6 +1029,7 @@ imap  <silent> <F6>   <Esc>:NERDTreeToggle<CR>
 
 "syntastic syntax helper
 let g:syntastic_python_python_exec = '/sw/common/bin/python3.7'
+" syntastic doesn't work well with airline, TODO check why
 "set statusline+=%#warningmsg#
 "set statusline+=%{SyntasticStatuslineFlag()}
 "set statusline+=%*
@@ -1206,138 +1251,16 @@ endfunction
 "let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
 "let &errorformat="Warning-%t%* %m" . &errorformat
 
-" Definitions for errorformat
-" {{{
-function! VerilogErrorFormat(...)
-  " Choose tool
-" if (a:0 == 0)
-"   let l:tool = inputlist([
-"         \"1. VCS",
-"         \"2. Modelsim",
-"         \"3. iverilog",
-"         \"4. cver",
-"         \"5. Leda",
-"         \])
-"   echo "\n"
-"   if (l:tool == 1)
-"     let l:tool = "vcs"
-"   elseif (l:tool == 2)
-"     let l:tool = "msim"
-"   elseif (l:tool == 3)
-"     let l:tool = "iverilog"
-"   elseif (l:tool == 4)
-"     let l:tool = "cver"
-"   elseif (l:tool == 5)
-"     let l:tool = "leda"
-"   else
-"     let l:tool = "iverilog"
-"   endif
-" else
-"   let l:tool = "vcs"
-" endif
-"
-" " Choose error level
-" if (a:0 <= 1)
-"   if (l:tool == "vcs")
-"     let l:mode = inputlist([
-"           \"1. check all",
-"           \"2. ignore lint",
-"           \"3. ignore lint and warnings"
-"           \])
-"     echo "\n"
-"   elseif (
-"     \ l:tool == "msim" ||
-"     \ l:tool == "cver"
-"     \ )
-"     let l:mode = inputlist([
-"           \"1. check all",
-"           \"2. ignore warnings"
-"           \])
-"     echo "\n"
-"   endif
-" else
-"   let l_mode = 1
-" endif
-  let l:tool = "vcs"
-  let l:mode = 1
-
-  if (l:tool == "vcs")
-    " Error messages
-    set errorformat=%E%trror-\[%.%\\+\]\ %m
-    set errorformat+=%C%.%#line\ %l\ of\ file%.%#
-    set errorformat+=%C%m\"%f\"\\,\ %l%.%#
-    set errorformat+=%C%f\\,\ %l
-    set errorformat+=%C\ \ \"%f\"%.%#
-    set errorformat+=%C%\\s%\\+%l:\ %m
-    set errorformat+=%C%m\"%f\"\\,%.%#
-    set errorformat+=%Z%p^                      "Column pointer
-    set errorformat+=%C%m                       "Catch all rule
-    set errorformat+=%Z%m                       "Finalization messages
-    set errorformat+=%-IParsing\ %m
-    set errorformat+=%-IBack\ to\ file\ '%f'%m
-    "set errorformat+=%C\ \ \"%f\",
-    "set errorformat+=%C\ \ %l%.%#                       "Catch all rule
-    " Warning messages
-    if (l:mode <= 2)
-      set errorformat+=%W%tarning-\[%.%\\+]\\$
-      set errorformat+=%-W%tarning-[LCA_FEATURES_ENABLED]\ Usage\ warning    "Ignore LCA enabled warning
-      set errorformat+=%W%tarning-\[%.%\\+\]\ %m
-    endif
-    " Lint message
-    if (l:mode <= 1)
-      set errorformat+=%I%tint-\[%.%\\+\]\ %m
-      set errorformat+=%I%tote-\[%.%\\+\]\ %m
-      "set errorformat+=%IIgnored\ %m
-      "set errorformat+=%C\"%f\",
-    endif
-    echo "Selected VCS errorformat"
-    "TODO Add support for:
-    "Error-[SE] Syntax error
-    "  Following verilog source has syntax error :
-    "  "../../rtl_v/anadigintf/anasoftramp.v", 128: token is 'else'
-    "          else
-  endif
-" if (l:tool == "msim")
-"   " Error messages
-"   set errorformat=\*\*\ Error:\ %f(%l):\ %m
-"   " Warning messages
-"   if (l:mode <= 1)
-"     set errorformat+=\*\*\ Warning:\ \[\%n\]\ %f(%l):\ %m
-"   endif
-"   echo "Selected Modelsim errorformat"
-" endif
-" if (l:tool == "iverilog")
-"   set errorformat=%f:%l:\ %m
-"   echo "Selected iverilog errorformat"
-" endif
-" if (l:tool == "cver")
-"   " Error messages
-"   set errorformat=\*\*%f(%l)\ ERROR\*\*\ \[%n\]\ %m
-"   " Warning messages
-"   if (l:mode <= 1)
-"     set errorformat+=\*\*%f(%l)\ WARN\*\*\ \[%n\]\ %m,\*\*\ WARN\*\*\ \[\%n\]\ %m
-"   endif
-"   echo "Selected cver errorformat"
-" endif
-" if (l:tool == "leda")
-"   " Simple errorformat:
-"   set errorformat=%f:%l:\ %.%#\[%t%.%#\]\ %m
-"   "TODO Review -> Multiple line errorformat:
-"   "set errorformat=%A\ %#%l:%.%#,%C\ \ \ \ \ \ \ \ %p^^%#,%Z%f:%l:\ %.%#[%t%.%#]\ %m
-"   echo "Selected Leda errorformat"
-" endif
-endfunction
-" }}}
-map <F5> :call VerilogErrorFormat()<CR>:cfile %<CR>:cw<CR>
+map <F5> :VerilogErrorFormat ncverilog 1<CR>
 
 "----------
 " CSCOPE "
 "----------
-"if has('win32')
-"   let g:cscope_cmd = "U:/vimfiles/bin/cscope.exe"
-"else
-"   let g:cscope_cmd = '$HOME/.vim/bin/cscope.exe'
-"endif
+if has('win32')
+   let g:cscope_cmd = "$HOME/vimfiles/bin/cscope.exe"
+else
+   let g:cscope_cmd = '$HOME/.vim/bin/cscope.exe'
+endif
 let g:cscope_interested_files = '\.c$\|\.cpp$\|\.h$\|\.hpp'
 
 nnoremap <leader>fa :call CscopeFindInteractive(expand('<cword>'))<CR>
