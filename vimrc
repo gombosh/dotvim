@@ -60,7 +60,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'vhda/verilog_systemverilog.vim'
 
 "for verilog_systemverilog - highlighes the matches of words
-Plugin 'hl_matchit.vim'
+Plugin 'vimtaku/hl_matchit.vim'
 
 "for verilog_systemverilog - autocompleation with tab
 Plugin 'ervandew/supertab'
@@ -78,7 +78,9 @@ Plugin 'Konfekt/FastFold'
 Plugin 'godlygeek/tabular'
 " use leader + a + =/:/<space>
 
-Plugin 'TaskList.vim'
+" Plugin 'TaskList.vim' - not using it
+
+Plugin 'SirVer/ultisnips'
 
 Plugin 'bogado/file-line'
 
@@ -86,7 +88,7 @@ Plugin 'kopischke/vim-fetch'
 
 Plugin 'honza/vim-snippets'
 
-Plugin 'garbas/vim-snipmate'
+"Plugin 'garbas/vim-snipmate' - trying to move to ultisnip
 
 Plugin 'MarcWeber/vim-addon-mw-utils'
 
