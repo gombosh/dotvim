@@ -54,8 +54,12 @@ Plugin 'vcscommand.vim'
 
 " auto syntax checking, should appear at the buttom line
 Plugin 'scrooloose/syntastic'
+" disabled for now because it doesn't play well with airline
+" TODO check for alternative
 
 " mega plugin with many cool features for systemverilog - TODO help commands +
+" disabled for now because it doesn't play well with airline
+" TODO check for alternatitve
 " add snipets + makeprg fpr xcelium analyze
 Plugin 'vhda/verilog_systemverilog.vim'
 
