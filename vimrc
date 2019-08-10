@@ -3,7 +3,7 @@
 " doron.gombosh@satixfy.com
 " http://www.satixfy.com
 "
-version 7.4
+version 8.1
 if v:version < 800
 	finish
 else
@@ -62,18 +62,14 @@ Plugin 'scrooloose/syntastic'
 " TODO check for alternatitve
 " add snipets + makeprg fpr xcelium analyze
 Plugin 'vhda/verilog_systemverilog.vim'
-
 "for verilog_systemverilog - highlighes the matches of words
 Plugin 'vimtaku/hl_matchit.vim'
-
 "for verilog_systemverilog - autocompleation with tab
-Plugin 'ervandew/supertab'
-
+"Plugin 'ervandew/supertab'
 "for verilog_systemverilog - auto search for functions/variables in file
 "(needs ctags to be working)
 Plugin 'majutsushi/tagbar'
 " activate with F4
-
 "for verilog_systemverilog - should make folding faster in systemverilog
 "I don't know of any specific settings it needs to be working.
 Plugin 'Konfekt/FastFold'
@@ -84,24 +80,35 @@ Plugin 'godlygeek/tabular'
 
 " Plugin 'TaskList.vim' - not using it
 
+"advanced snipets, need py3 and youcompleteme
+" since youcompleteme is problematic on windows
+" it disabled, but this plugin still works
 Plugin 'SirVer/ultisnips'
 
-Plugin 'bogado/file-line'
+" open files with line numbers - old and problematic version
+"disabled.
+"Plugin 'bogado/file-line'
 
+" open files with line numbers
 Plugin 'kopischke/vim-fetch'
 
+if !has('win32')
+   Plugin 'valloric/youcompleteme'
+endif
+
+"Snipmate plugins
+"-----------------
+"Plugin 'MarcWeber/vim-addon-mw-utils'
+"Plugin 'tomtom/tlib_vim'
+"Plugin 'garbas/vim-snipmate', {'pinned': 1}
 Plugin 'honza/vim-snippets'
+"-----------------
 
-"Plugin 'garbas/vim-snipmate' - trying to move to ultisnip
+" made some changes so it's not controlled by vundle
+" it's part of my git repo
+Plugin 'klen/python-mode' ", {'pinned': 1}
 
-Plugin 'MarcWeber/vim-addon-mw-utils'
-
-Plugin 'tomtom/tlib_vim'
-
-Plugin 'klen/python-mode', {'pinned': 1}
-
-Plugin 'wincent/command-t'
-
+" for html (I use it rarely)
 Plugin 'rstacruz/sparkup'
 
 "Plugin 'Valloric/YouCompleteMe'
@@ -140,6 +147,13 @@ endif
 set encoding=utf-8
 
 runtime macros/matchit.vim
+
+set pythonthreedll=python37.dll
+set pythonthreehome=C:\Users\Doron_Dell\AppData\Local\Programs\Python\Python37-32
+
+if has('python3')
+   silent! python3 1
+endif
 
 autocmd! BufEnter *
 
@@ -385,7 +399,7 @@ set wildmenu
 set sft
 "
 "" number of screen lines to show around the cursor
-set so=3
+set scrolloff=3
 "
 " supposed to make it full screen, but I never saw it working well
 "if has("gui_running")
@@ -471,15 +485,21 @@ nmap <silent> <A-Right> :wincmd l<CR>
 ""au FocusLost * :wa
 "
 "" Backups
-if !isdirectory(expand("$HOME")."/backup")
-    call mkdir(expand("$HOME")."/backup", "p")
+if has("vms")
+  set nobackup		" do not keep a backup file, use versions instead
+else
+   if !isdirectory(expand("$HOME")."/backup")
+      call mkdir(expand("$HOME")."/backup", "p")
+   endif
+  set backup		" keep a backup file (restore to previous version)
+  set backupdir=$HOME/backup " backups
+  if has('persistent_undo')
+    set undofile	" keep an undo file (undo changes after closing)
+  endif
 endif
-set backupdir=$HOME/backup " backups
+
 ""set directory=~/.vim/tmp/swap// " swap files
 set noswapfile
-set backup " enable backup
-"set nobackup
-"
 "
 "If you exit Vim and later start it again, you would normally lose a lot of
 "information.  The viminfo file can be used to remember that information, which
@@ -1034,7 +1054,9 @@ imap  <silent> <F6>   <Esc>:NERDTreeToggle<CR>
 ""autocmd VimEnter * wincmd p
 
 "syntastic syntax helper
-let g:syntastic_python_python_exec = '/sw/common/bin/python3.7'
+if has('unix')
+   let g:syntastic_python_python_exec = '/sw/common/bin/python3.7'
+endif
 " syntastic doesn't work well with airline, TODO check why
 "set statusline+=%#warningmsg#
 "set statusline+=%{SyntasticStatuslineFlag()}
