@@ -109,6 +109,8 @@ Plugin 'honza/vim-snippets'
 
 " made some changes so it's not controlled by vundle
 " it's part of my git repo
+" in windows please close seperatly with 
+" git clone --recurse-submodules https://github.com/python-mode/python-mode -c core.symlinks=true bundle/python-mode
 Plugin 'klen/python-mode' ", {'pinned': 1}
 
 " for html (I use it rarely)
