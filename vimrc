@@ -16,7 +16,7 @@ filetype off                  " required
 if has('win32')
    set rtp+=$HOME/vimfiles/bundle/Vundle.vim
    call vundle#begin('$HOME/vimfiles/bundle')
-elseif has('unix')
+else
    set rtp+=~/.vim/bundle/Vundle.vim
    call vundle#begin()
 endif
@@ -46,7 +46,8 @@ Plugin 'ctrlpvim/ctrlp.vim'
 " F5 from inside ctrlp will update the database
 
 " new plugin for fast grepping - TODO need to experiment with this.
-Plugin 'wsdjeg/flygrep.vim'
+"Plugin 'wsdjeg/flygrep.vim'
+Plugin 'mhinz/vim-grepper'
 
 " commands for repositories, auto detects the type of repo
 Plugin 'vcscommand.vim'
@@ -65,7 +66,7 @@ Plugin 'vhda/verilog_systemverilog.vim'
 "for verilog_systemverilog - highlighes the matches of words
 Plugin 'vimtaku/hl_matchit.vim'
 "for verilog_systemverilog - autocompleation with tab
-"Plugin 'ervandew/supertab'
+Plugin 'ervandew/supertab'
 "for verilog_systemverilog - auto search for functions/variables in file
 "(needs ctags to be working)
 Plugin 'majutsushi/tagbar'
@@ -92,9 +93,11 @@ Plugin 'SirVer/ultisnips'
 " open files with line numbers
 Plugin 'kopischke/vim-fetch'
 
-if !has('win32')
-   Plugin 'valloric/youcompleteme'
-endif
+"if !has('win32')
+"   Plugin 'valloric/youcompleteme'
+"endif
+Plugin 'maralla/completor.vim'
+"Plugin 'ajh17/VimCompletesMe.git'
 
 "Snipmate plugins
 "-----------------
@@ -148,8 +151,10 @@ set encoding=utf-8
 
 runtime macros/matchit.vim
 
-set pythonthreedll=python37.dll
-set pythonthreehome=C:\Users\Doron_Dell\AppData\Local\Programs\Python\Python37-32
+if has('win32')
+   set pythonthreedll=python37.dll
+   set pythonthreehome=C:\Users\Doron_Dell\AppData\Local\Programs\Python\Python37-32
+endif
 
 if has('python3')
    silent! python3 1
@@ -205,6 +210,11 @@ au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
+
+" UltiSnips triggering
+let g:UltiSnipsExpandTrigger = '<C-j>'
+let g:UltiSnipsJumpForwardTrigger = '<C-j>'
+let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 
 "for python activate supertab completion - need to move to filetype detect file
 " this was old stuff from before python mode
