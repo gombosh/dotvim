@@ -111,7 +111,9 @@ Plugin 'honza/vim-snippets'
 " it's part of my git repo
 " in windows please close seperatly with 
 " git clone --recurse-submodules https://github.com/python-mode/python-mode -c core.symlinks=true bundle/python-mode
-Plugin 'klen/python-mode' ", {'pinned': 1}
+if !has('win32')
+   Plugin 'klen/python-mode' ", {'pinned': 1}
+endif
 
 " for html (I use it rarely)
 Plugin 'rstacruz/sparkup'
