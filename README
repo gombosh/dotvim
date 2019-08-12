@@ -12,6 +12,8 @@ windows:
 git clone https://github.com/gombosh/dotvim.git vimfiles
 cd vimfiles
 git submodule update --init --recursive --remote
+git clone --recurse-submodules https://github.com/python-mode/python-mode -c core.symlinks=true bundle/python-mode
+vim +PlugInstall +qall (or run "PluginUpdate" from inside vim, ignore the initial errors).
 reomve any _vimrc and _gvimrc files you have.
 create a myvimrc file to overide/add functionality.
 
@@ -19,6 +21,7 @@ linux:
 git clone https://github.com/gombosh/dotvim.git .vim
 cd .vim
 git submodule update --init --recursive --remote
+vim +PlugInstall +qall (or run "PluginUpdate" from inside vim, ignore the initial errors).
 reomve any ~/.vimrc and ~/.gvimrc files you have.
 create a ~/myvimrc file to overide/add functionality.
 
@@ -33,10 +36,7 @@ to update files use:
 git pull
 
 to update plugins:
-git pull --recurse-submodules
-
-to gen new plugins:
-git submodule update --init --recursive --remote
+PluginUpdate
 
 yes I know, I should have a script which updates everything.
 
@@ -46,11 +46,14 @@ git commit -m "message"
 git push
 
 latest changes:
+added vimcompletesme which is very simple and useful.
+cleanup and move to vundle.
+
+oldef changes:
 - python3 support
 - fixed backup dir not existing issue
 - fixed fold doesn't exist issue
 
-oldef changes:
 tagbar instead of taglist
 airline changed to full path
 solarise color scheme not tested
