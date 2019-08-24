@@ -2,7 +2,9 @@
 " Maintained by: Doron Gombosh
 " doron.gombosh@satixfy.com
 " http://www.satixfy.com
-"
+"""DEBUG
+":verbose imap <tab>
+"""Version checking
 version 8.1
 if v:version < 800
 	finish
@@ -10,8 +12,10 @@ else
 set t_BE=
 "Forget compatibility with Vi. Believe me, it's better this way.
 set nocompatible              " be iMproved, required
-filetype off                  " required
 
+"""Vundle plugins loading
+""""Vundle initial loading settings
+filetype off                  " required
 " set the runtime path to include Vundle and initialize
 if has('win32')
    set rtp+=$HOME/vimfiles/bundle/Vundle.vim
@@ -23,6 +27,7 @@ endif
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
+""""Plugins
 " let Vundle manage Vundle, required
 " this gets and manages plugins from git
 Plugin 'VundleVim/Vundle.vim'
@@ -33,12 +38,15 @@ Plugin 'scrooloose/nerdtree'
 
 " this colors paranthesis opening/closing in the same color.
 Plugin 'kien/rainbow_parentheses.vim'
+" this works automatically
 
 " this is the nice buttom line with info
 Plugin 'vim-airline/vim-airline'
+" already setup for you, but you can play with it if you want.
 
 " this allows movement in the code from declaration to instance etc. (beta)
 Plugin 'brookhong/cscope.vim'
+"<leader>fa to start
 
 " fuzzy smart file search
 Plugin 'ctrlpvim/ctrlp.vim'
@@ -48,6 +56,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 " new plugin for fast grepping - TODO need to experiment with this.
 "Plugin 'wsdjeg/flygrep.vim'
 Plugin 'mhinz/vim-grepper'
+"for now I've put it on F10 (and S-F10)
 
 " commands for repositories, auto detects the type of repo
 Plugin 'vcscommand.vim'
@@ -63,6 +72,7 @@ Plugin 'scrooloose/syntastic'
 " TODO check for alternatitve
 " add snipets + makeprg fpr xcelium analyze
 Plugin 'vhda/verilog_systemverilog.vim'
+"<leader>i/o/u/I (after tags file is ready)
 "for verilog_systemverilog - highlighes the matches of words
 Plugin 'vimtaku/hl_matchit.vim'
 "for verilog_systemverilog - autocompleation with tab
@@ -74,6 +84,7 @@ Plugin 'majutsushi/tagbar'
 "for verilog_systemverilog - should make folding faster in systemverilog
 "I don't know of any specific settings it needs to be working.
 Plugin 'Konfekt/FastFold'
+"no need to do anything.
 
 " align text
 Plugin 'godlygeek/tabular'
@@ -81,10 +92,8 @@ Plugin 'godlygeek/tabular'
 
 " Plugin 'TaskList.vim' - not using it
 
-"advanced snipets, need py3 and youcompleteme
-" since youcompleteme is problematic on windows
-" it disabled, but this plugin still works
-Plugin 'SirVer/ultisnips'
+"Auto close paranthesis
+Plugin 'raimondi/delimitmate'
 
 " open files with line numbers - old and problematic version
 "disabled.
@@ -96,16 +105,32 @@ Plugin 'kopischke/vim-fetch'
 "if !has('win32')
 "   Plugin 'valloric/youcompleteme'
 "endif
+"Best (and simplest) completion I found so far.
 Plugin 'maralla/completor.vim'
 "Plugin 'ajh17/VimCompletesMe.git'
 
-"Snipmate plugins
+"Snippet plugins
 "-----------------
+"advanced snipets, need py3
+Plugin 'SirVer/ultisnips'
 "Plugin 'MarcWeber/vim-addon-mw-utils'
 "Plugin 'tomtom/tlib_vim'
 "Plugin 'garbas/vim-snipmate', {'pinned': 1}
 Plugin 'honza/vim-snippets'
 "-----------------
+
+"Tons of colorschemes to choose from.
+Plugin 'flazz/vim-colorschemes'
+
+"Full undo history in a side window.
+Plugin 'sjl/gundo.vim'
+"use F3 to toggle.
+
+" diff dirs!!
+Plugin 'will133/vim-dirdiff'
+" use :DirDiff <dir1> <dir2>
+" note: don't put the last slash on directory path
+" example: ':DirDiff a/b/c/ d/e/f/' wont work, but ':DirDiff a/b/c d/e/f' will.
 
 " made some changes so it's not controlled by vundle
 " it's part of my git repo
@@ -113,10 +138,19 @@ Plugin 'honza/vim-snippets'
 " git clone --recurse-submodules https://github.com/python-mode/python-mode -c core.symlinks=true bundle/python-mode
 if !has('win32')
    Plugin 'klen/python-mode' ", {'pinned': 1}
+else
+   Plugin 'klen/python-mode', {'pinned': 1}
 endif
 
 " for html (I use it rarely)
 Plugin 'rstacruz/sparkup'
+"TODO add usage info
+
+""""Extra plugins to test in the future
+"check this next (looks really cool)
+"Plugin 'terryma/vim-multiple-cursors' "select multiple cursors to type to
+"Plugin 'tomtom/tcomment_vim' "better commenting by filetype
+"Plugin 'tpope/vim-endwise' "might be able to add 'end' automatically in systemverilog
 
 "Plugin 'Valloric/YouCompleteMe'
 " The following are examples of different formats supported.
@@ -136,6 +170,7 @@ Plugin 'rstacruz/sparkup'
 " different version somewhere else.
 " Plugin 'ascenator/L9', {'name': 'newL9'}
 
+""""Vundle ending loading settings
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -153,7 +188,9 @@ filetype plugin indent on    " required
 endif
 set encoding=utf-8
 
-runtime macros/matchit.vim
+packadd! matchit
+"let loaded_matchit = 1
+"runtime macros/matchit.vim
 
 if has('win32')
    set pythonthreedll=python37.dll
@@ -166,12 +203,6 @@ endif
 
 autocmd! BufEnter *
 
-" Load all plugins
-"------------------
-"execute pathogen#infect()
-"call pathogen#helptags()
-"------------------
-
 "Enable filetypes
 syntax on
 
@@ -182,11 +213,12 @@ set noautowrite
 
 set backspace=2 "make backspace work like most other apps (actually erases the characters)
 
-"move btween windows with ctrl
-map <c-j> <c-w>j
-map <c-k> <c-w>k
-map <c-l> <c-w>l
-map <c-h> <c-w>h
+"Tab stuff http://vimcasts.org/episodes/tabs-and-spaces/
+set tabstop=3 "the width of the tab character (in spaces)
+set shiftwidth=3 "shiftwidth == softtabstop so i can work with spaces and not tabs
+set softtabstop=3 "how many white spaces to insert when tabbing
+set expandtab "transform tabs to spaces"
+
 
 "If you Want a different map leader than \ use this in your myvimrc file
 "set mapleader = ",";
@@ -199,16 +231,7 @@ map <c-h> <c-w>h
 "set ruler
 
 "add to taswk list
-map <leader>td <Plug>TaskList
-
-"revision history tool - not installed
-"map <leader>g :GundoToggle<CR>
-
-"replaces grep - not installed
-"nmap <leader>a <Esc>:Ack!
-
-"pyflakes - removed, now it's a part of python-mode
-"let g:pyflakes_use_quickfix = 0
+"map <leader>td <Plug>TaskList
 
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
@@ -216,9 +239,13 @@ au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
 " UltiSnips triggering
-let g:UltiSnipsExpandTrigger = '<C-j>'
-let g:UltiSnipsJumpForwardTrigger = '<C-j>'
-let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+"let g:UltiSnipsExpandTrigger = '<C-j>'
+"let g:UltiSnipsJumpForwardTrigger = '<C-j>'
+"let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+let g:UltiSnipsExpandTrigger = '<tab>'
+
+" If this variable is set, augroup is defined, and start highlighting.
+let g:hl_matchit_enable_on_vim_startup = 1
 
 "for python activate supertab completion - need to move to filetype detect file
 " this was old stuff from before python mode
@@ -240,17 +267,12 @@ let g:pymode_options_colorcolumn = 0
 "let g:pymode_lint_ignore = "E501,W"
 let g:pymode_lint_ignore = "E501"   "skip 'too long' warning
 
-hi Cursor guifg=Black guibg=green
-hi Cursorline term=none cterm=none ctermbg=Green guibg=darkred
-augroup CursorLine
-  au!
-  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-  au WinLeave * setlocal nocursorline
-augroup END
 
-""Set the color scheme. Change this to your preference.
-""Here's 100 to choose from: http://www.vim.org/scripts/script.php?script_id=625
-colorscheme torte
+"""Fonts and Color Schemes
+"Set the color scheme. Change this to your preference.
+"We have a plugin with 1000 schemes installed
+colorscheme badwolf
+
 "Set font type and size. Depends on the resolution. Larger screens, prefer h20
 "set guifont=LucidaTypewriter\ \9
 if !has('win32')
@@ -263,96 +285,85 @@ else
    nmap <silent> _ :let &guifont=substitute(&guifont, '\(\d\+\)', '\=(submatch(1) - 1)', '')<CR>
 endif
 
-"Taglist - not installed
-"let Tlist_Ctags_Cmd="C:/\ctags58/\ctags.exe"
-"Tagbar
-"let g:tagbar_ctags_bin = "C:/ctags58/ctags.exe"
+"""revision history tool
+let g:gundo_prefer_python3 = 1
+map <F3> :GundoToggle<CR>
+
+"""Tags control
+map <F4> :Tagbar<CR>
 if has('win32')
    let g:tagbar_ctags_bin = '$HOME/vimfiles/bin/ctags.exe'
 else
    let g:tagbar_ctags_bin = '/home/dorong/bin/ctags/bin/ctags'
 endif
+""""Taglist - not installed
+"let Tlist_Ctags_Cmd="C:/\ctags58/\ctags.exe"
+""""Tagbar
+"let g:tagbar_ctags_bin = "C:/ctags58/ctags.exe"
 
-"Tabular settings
-if exists(":Tab")
-   nmap <Leader>a= :Tab /=<CR>
-   vmap <Leader>a= :Tab /=<CR>
-   nmap <Leader>a: :Tab /:\zs<CR>
-   vmap <Leader>a: :Tab /:\zs<CR>
-   nmap <Leader>a<Space> :Tab / \zs<CR>
-   vmap <Leader>a<Space> :Tab / \zs<CR>
-endif
-""Tab stuff http://vimcasts.org/episodes/tabs-and-spaces/
-set tabstop=3 "the width of the tab character (in spaces)
-set shiftwidth=3 "shiftwidth == softtabstop so i can work with spaces and not tabs
-set softtabstop=3 "how many white spaces to insert when tabbing
-set expandtab "transform tabs to spaces"
-""set smarttab "inset tabs at start of line and spaces at middle
-
-
+"""Global settings
 "following seeting are controlled by external plugin so I disabled them here.
 "set shortmess=xotI "shorten messages so you dont have to press enter, but i don't use this for now.
 "set showcmd "Show command in bottom right portion of the screen
 set showmatch "When a bracket is inserted briefly jump to the matching one
 
-""Indent stuff - needs to be controlled for each filetype seperatlly
+"Indent stuff - needs to be controlled for each filetype seperatlly
 "set smartindent "this one tries to guess the indent, but it's bad in most cases
 set autoindent "this one is simpler, just takes the indent from the last line, but if I have a special indent file for some filetype, it will overwrite this.
 "
 "set whichwrap=bshl<>[]      "select which keys can wrap lines, I disabled it here, but it looks like it's activated somewhere else.
 "
-"set laststatus=2 "Always show the status line - done by plugin, but maybe I need it because sometimes the statusline dissapears
+"set laststatus=2 "Always show the status line - done by plugin, no need for this
 "
-""Prefer a slightly higher line height - that's the gap between lines
+"Prefer a slightly higher line height - that's the gap between lines
 set linespace=3
 
 "
-""Better line wrapping
+"Better line wrapping
 set wrap
-"" Make shift-W toggle between wrap and unwrap longlines
+" Make shift-W toggle between wrap and unwrap longlines
 map <S-W>  :set wrap! <CR>
 "
-"" Allow virtual edit, place cursor wherever you want
-"" set ve=all
+" Allow virtual edit, place cursor wherever you want
+" set ve=all
 set ve=block
 "
 " set the maximum line size (longer than that will be broken to 2 lines) set
 " by plugin but quite anoying.
-""set textwidth=79
+"set textwidth=79
 "set textwidth=0 "unlimited
 
-"
 " this make some big changes, not everyone will like it.
-""set formatoptions=qrnl1
+" so I removed it
+"set formatoptions=qrnl1
 "
-""Set incremental searching"
+"Set incremental searching (jump to results as you type)
 set incsearch
 "
-""Highlight searching
+"Highlight searching
 set hlsearch
 "
-"" case insensitive search
+" case insensitive search
 set ignorecase
 set smartcase
-"
 
 "Enable code folding - let's let the plugin control that
-"set foldenable
+set foldenable
 "set foldmethod=indent
 "set foldlevel=99
 
-""Hide mouse when typing - can be anoying because you have to move the mouse
+"Hide mouse when typing - can be anoying because you have to move the mouse
 "to see where it is.
 "set mousehide
 "
-""Shortcut to fold tags with leader (usually \) + ft - don't know what that is.
-""nnoremap <leader>ft Vatzf
+"Shortcut to fold tags with leader (usually \) + ft - don't know what that is.
+"nnoremap <leader>ft Vatzf
 "
-"" Create dictionary for custom expansions FIXME useful for UVM, but UVM has
-"" it's own plugins so leave it disabled for now
+" Create dictionary for custom expansions FIXME useful for UVM, but UVM has
+" it's own plugins so leave it disabled for now
 "set dictionary+=/store/public/Temp/uvm_dict.txt
 "
-""Opens a vertical split and switches over (\v)
+"Opens a vertical split and switches over (\v)
 nnoremap <leader>v <C-w>v<C-w>l
 "
 "very usefull for the anoying dos/unix files - force to dos mode.
@@ -362,23 +373,23 @@ map <leader>unix :e ++ff=unix<CR>
 "for permanent fix.
 map <leader>dos2unix :%s/\r\(\n\)/\1/g<CR>
 "
-""Split windows below the current window. - I like this better
+"Split windows below the current window. - I like this better
 set splitbelow
 set splitright
 "
-"" session settings for mksession, the defaults are good enough
-""set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
+" session settings for mksession, the defaults are good enough
+"set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
 "
-""Set up an HTML5 template for all new .html files FIXME for system verilog
-""autocmd BufNewFile * silent! 0r $VIMHOME/templates/%:e.tpl
+"Set up an HTML5 template for all new .html files FIXME for system verilog
+"autocmd BufNewFile * silent! 0r $VIMHOME/templates/%:e.tpl
 
 "Shortcut for editing  vimrc file in a new tab - this is one of the most
 "usefull things in the world!
 nmap <leader>ev :tabedit $MYVIMRC<cr>
 
-""Saves time; maps the spacebar to colon
-""nmap <space> :
-"" Make Space bar enter insert mode - I'm just used to that, sorry.
+"Saves time; maps the spacebar to colon
+"nmap <space> :
+" Make Space bar enter insert mode - I'm just used to that, sorry.
 map <Space> <Insert>
 
 " Make shift-insert work like in Xterm
@@ -393,26 +404,26 @@ else
    autocmd BufEnter,BufRead * cd %:p:h
 endif
 "
-""Map code completion to , + tab TODO might be use
-""imap <leader><tab> <C-x><C-o>
+"Map code completion to , + tab TODO might be use
+"imap <leader><tab> <C-x><C-o>
 "
-""Auto-completion menu for command line - behave like bash
+"Auto-completion menu for command line - behave like bash
 set wildmode=list:longest
-"" More useful command-line completion
+" More useful command-line completion
 set wildmenu
-"" wildchar key that triggers command-line expansion
+" wildchar key that triggers command-line expansion
 "set wildchar=<Tab>
 "
-"" Set showmode (show the mode in the bottom - visual/insert etc.) - done by plugin
+" Set showmode (show the mode in the bottom - visual/insert etc.) - done by plugin
 "set smd
 "
-"" Make complete look in dictionary - makes it slower, I don't think it's good
+" Make complete look in dictionary - makes it slower, I don't think it's good
 "set cpt=.,k,b,t,i
 "
-"" Show full tag of completion
+" Show full tag of completion
 set sft
 "
-"" number of screen lines to show around the cursor
+" number of screen lines to show around the cursor
 set scrolloff=3
 "
 " supposed to make it full screen, but I never saw it working well
@@ -422,7 +433,7 @@ set scrolloff=3
 "  set lines=999 columns=999
 "endif
 "
-"" Make history buffer larger default 20
+" Make history buffer larger default 20
 set hi=100
 "
 if !has('win32')
@@ -430,7 +441,7 @@ if !has('win32')
    set shell=/bin/bash
 endif
 "
-"" suffixesadd - used when searching for a file with gf
+" suffixesadd - used when searching for a file with gf
 set suffixesadd=.v,.py,.sv,.c,.cpp,.h,.svh
 "
 "path - This is a list of directories which will be searched when using gf
@@ -440,12 +451,22 @@ set path=.
 "
 "be xterm
 "
-"" Make block mode work in insert mode
+" Make block mode work in insert mode
 map! <C-V> <Esc><C-V>
 "
 "
-""http://vim.wikia.com/wiki/Make_Vim_completion_popup_menu_work_just_like_in_an_IDE
-""set completeopt=longest,menuone
+""""Highlight current line
+"Highlight the line of the cursor (helps to mark the current line in bold).
+hi Cursor guifg=Black guibg=green
+hi Cursorline term=none cterm=none ctermbg=Green guibg=darkred
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  au WinLeave * setlocal nocursorline
+augroup END
+
+"http://vim.wikia.com/wiki/Make_Vim_completion_popup_menu_work_just_like_in_an_IDE
+"set completeopt=longest,menuone
 "inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 "inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
 "  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
@@ -454,16 +475,16 @@ map! <C-V> <Esc><C-V>
 "
 "nmap <silent> ,da :exec "1," . bufnr('$') . "bd"<cr>
 "
-""Bubble single lines (kicks butt)
-""http://vimcasts.org/episodes/bubbling-text/
+"Bubble single lines (kicks butt)
+"http://vimcasts.org/episodes/bubbling-text/
 "nmap <C-Up> ddkP
 "nmap <C-Down> ddp
 "
-""Bubble multiple lines
+"Bubble multiple lines
 "vmap <C-Up> xkP`[V`]
 "vmap <C-Down> xp`[V`]
 "
-" Source the vimrc file after saving it. This way, you don't have to reload Vim to see the changes.
+""" Source the vimrc file after saving it. This way, you don't have to reload Vim to see the changes.
 if has("autocmd")
  augroup myvimrchooks
   au!
@@ -475,30 +496,36 @@ if has("autocmd")
  augroup END
 endif
 "
-"" easier window navigation
-""nmap <C-h> <C-w>h
-""nmap <C-j> <C-w>j
-""nmap <C-k> <C-w>k
-""nmap <C-l> <C-w>l
+""" easier window navigation
+"nmap <C-h> <C-w>h
+"nmap <C-j> <C-w>j
+"nmap <C-k> <C-w>k
+"nmap <C-l> <C-w>l
 "allows to navigate open windows using the - ALT + arrow keys
 nmap <silent> <A-Up> :wincmd k<CR>
 nmap <silent> <A-Down> :wincmd j<CR>
 nmap <silent> <A-Left> :wincmd h<CR>
 nmap <silent> <A-Right> :wincmd l<CR>
+"set smarttab "inset tabs at start of line and spaces at middle
+"move btween windows with ctrl
+map <c-j> <c-w>j
+map <c-k> <c-w>k
+map <c-l> <c-w>l
+map <c-h> <c-w>h
 
 "
-""Spelling corrects. Just for example. Add yours below.
+"Spelling corrects. Just for example. Add yours below.
 "iab teh the
 "iab Teh The
 "
-"" Get to home dir easier
-"" <leader>hm is easier to type than :cd ~
+""" Get to home dir easier
+" <leader>hm is easier to type than :cd ~
 "nmap <leader>hm :cd ~/ <CR>
 "
-"" Saves file when Vim window loses focus
-""au FocusLost * :wa
+""" Saves file when Vim window loses focus
+"au FocusLost * :wa
 "
-"" Backups
+""" Backups
 if has("vms")
   set nobackup		" do not keep a backup file, use versions instead
 else
@@ -512,7 +539,7 @@ else
   endif
 endif
 
-""set directory=~/.vim/tmp/swap// " swap files
+"set directory=~/.vim/tmp/swap// " swap files
 set noswapfile
 "
 "If you exit Vim and later start it again, you would normally lose a lot of
@@ -520,23 +547,19 @@ set noswapfile
 "enables you to continue where you left off.
 "set viminfo='100,\"50,:200  " read /write a .viminfo file, don't store more than 50 lines of registers
 "
-"" Use popup menu for right mouse button and keep shift-left mouse button as search
+"""Mouse
+" Use popup menu for right mouse button and keep shift-left mouse button as search
 set mousemodel=popup
 map <S-LeftMouse> <LeftMouse>*
 map! <S-LeftMouse> <Esc><LeftMouse>*
 "
-""Added by orenc
-""Make sure that <EOL> is displayed as ^M when file type is "MS-DOS" or "Mac"
-"set ffs=unix
-"
-"" confirm start a dialog when a command fails
+""" confirm start a dialog when a command fails
 set cf
 "
-""TODO what is ttym what is sel (selection)
-"
-"" equalalways	make all windows the same size when adding/removing windows
+""" equalalways	make all windows the same size when adding/removing windows
 "set noea
 "
+"""New file packages
 autocmd! BufNewFile *.py call InsertPythonPackage() 
 
 "TODO change name
@@ -591,21 +614,21 @@ function! InsertVerilogPackage()
 endfunction
 "
 "
-"" map the [ ] keys
-"" go to start/end of next line
+""" map the [ ] keys
+" go to start/end of next line
 "map [ 0<NL> 
 "map ] $<NL>
 "
-"" save and suspend
+""" save and suspend
 map Z :w<NL>
 "
 "
 "
-"Menu items for Commenting and Un-Commenting code 
+"""Menu items for Commenting and Un-Commenting code 
 amenu 20.435 &Edit.-SEP4- : 
 amenu Edit.Comment <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR> 
 amenu Edit.UnComment <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
-"" Insert # comments
+" Insert # comments
 vmap <F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR> 
 vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
 autocmd BufEnter *.c,*.h,*.cpp,*.v,*.vh,*.sv,*.svi,*.svh vmap <F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR>
@@ -688,49 +711,60 @@ let i=i+1
 endwhile 
 endfunction 
 "
-"
+"""Old F10 box lines 
 "map <F10> :co .<NL>:s/[!-~]/-/g<NL>:s/- -/---/g<NL>:s/-  -/----/g<NL><ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR>
 "map <F10> :co .<CR>:s/[!-~]/-/g<CR>:s/- -/---/g<CR>I#<esc>
-map <F10> :co .<CR><S-V>r-<esc>v<F2>yykP
+"map <F10> :co .<CR><S-V>r-<esc>v<F2>yykP
 "
-"" Useful abbreviations
-"iab DG Doron Gombosh
-"iab OE Omer Ephrat
-"iab YG Yael Gluk
-"iab YB Yuval Berger
-"iab DR Dima Roginsky
-"iab IR Igal Rilkin
 "
-""TODO move to global file
+"""Syntax folding and Highlighting
+"TODO move to global file
 "au BufReadPost *.vsif so ~/bin/vsif.vim
-""au BufReadPost *.sv so ~/.vim/syntax/systemverilog.vim
 let g:verilog_syntax_fold_lst = "all"
+let g:verilog_efm_level = "error"
+let g:verilog_efm_uvm_lst = "all"
+"let g:verilog_efm_uvm_lst = "fatal,error,warning"
+let g:verilog_navigate_split = 1
+
 if has("foldmethod")
    set foldmethod=syntax
 endif
 nnoremap <leader>i :VerilogFollowInstance<CR>
 nnoremap <leader>I :VerilogFollowPort<CR>
 nnoremap <leader>u :VerilogGotoInstanceStart<CR>
+nnoremap <leader>o :VerilogReturnInstance<CR>
+
 
 "
-"" maximum of 20 tabs opened with -p
+""" maximum of 12 tabs opened with -p
 set tabpagemax=12
 "
-""guioptions	list of flags that specify how the GUI works
+"""guioptions	list of flags that specify how the GUI works
 set go+=acegmiLTrtb
 set guitablabel=%t
 "
-""svn 
+"""Plugin Settings
+""""VCS (svn) plugin settings 
 map <S-F11> :!svn lock %<CR>
 map <S-F12> :!svn ci % -m "Fixed a Bug"<CR>
 map <F12> :tabnew 
 map <F11> :close <CR>
+
+"VCS diff to trunk
+set listchars=eol:$,tab:\>\ ,trail:.,extends:>,precedes:<
+set nolist   " to turn on (use :set nolist to turn off)
+map <leader>dt :VCSVimDiff<CR>
+
+""""Grep Plugin
 map <F9>  :MyGrep 
 imap <F9> <ESC>:MyGrep 
 map <S-F9> :MyGrep "<cword>" .<CR>
 vmap <S-F9> :MyGrep "<cword>" .<CR>
 imap <S-F9> <ESC>:MyGrep "<cword>" .<CR>
-"Add grep abbilty to gvim
+map <F10> :Grepper -tool ag<cr>
+nnoremap <S-F10> :Grepper -tool ag -cword -noprompt<cr>
+
+"Add grep abbilty to gvim - TODO deprecate this
 function! MyGrep(...)
   if a:0 < 2
     echo "Usage: MyGrep <options> <pattern> <dir>"
@@ -772,7 +806,68 @@ endfunction
 
 command! -nargs=* -complete=file MyGrep call MyGrep(<f-args>)
 
-"FIXME work with session as project
+""""CSCOPE Plugin
+"----------
+" CSCOPE "
+"----------
+if has('win32')
+   let g:cscope_cmd = "$HOME/vimfiles/bin/cscope.exe"
+else
+   let g:cscope_cmd = '$HOME/.vim/bin/cscope.exe'
+endif
+"let g:cscope_interested_files = '\.c$\|\.cpp$\|\.h$\|\.hpp'
+let g:cscope_interested_files = '\.py$'
+
+nnoremap <leader>fa :call CscopeFindInteractive(expand('<cword>'))<CR>
+nnoremap <leader>l :call ToggleLocationList()<CR>
+
+" s: Find this C symbol
+nnoremap  <leader>fs :call CscopeFind('s', expand('<cword>'))<CR>
+" g: Find this definition
+nnoremap  <leader>fg :call CscopeFind('g', expand('<cword>'))<CR>
+" d: Find functions called by this function
+nnoremap  <leader>fd :call CscopeFind('d', expand('<cword>'))<CR>
+" c: Find functions calling this function
+nnoremap  <leader>fc :call CscopeFind('c', expand('<cword>'))<CR>
+" t: Find this text string
+nnoremap  <leader>ft :call CscopeFind('t', expand('<cword>'))<CR>
+" e: Find this egrep pattern
+nnoremap  <leader>fe :call CscopeFind('e', expand('<cword>'))<CR>
+" f: Find this file
+nnoremap  <leader>ff :call CscopeFind('f', expand('<cword>'))<CR>
+" i: Find files #including this file
+nnoremap  <leader>fi :call CscopeFind('i', expand('<cword>'))<CR>
+
+""""NERD TREE Plugin
+"Show hidden files in NerdTree
+let NERDTreeShowHidden=1
+"toggle nerdtree with f6
+map  <silent> <F6>   :NERDTreeToggle<CR>
+imap  <silent> <F6>   <Esc>:NERDTreeToggle<CR>
+"autopen NERDTree and focus cursor in new document
+"autocmd VimEnter * NERDTree
+"autocmd VimEnter * wincmd p
+
+""""AirLine plugin
+set laststatus=2 "always show status line
+" here is an example of how you could replace the branch indicator with
+" the current working directory, followed by the filename.
+let g:airline_section_b = "[" . hostname() . ']%{getcwd()}'
+
+set number "Show lines numbers
+highlight LineNr ctermfg=grey ctermbg=black guibg=black guifg=grey
+
+""""Tabular Plugin settings - auto align text
+if exists(":Tab")
+   nmap <Leader>a= :Tab /=<CR>
+   vmap <Leader>a= :Tab /=<CR>
+   nmap <Leader>a: :Tab /:\zs<CR>
+   vmap <Leader>a: :Tab /:\zs<CR>
+   nmap <Leader>a<Space> :Tab / \zs<CR>
+   vmap <Leader>a<Space> :Tab / \zs<CR>
+endif
+
+"""FIXME work with session as project
 "nmap <F3> <ESC>:call LoadSession()<CR> 
 "let s:sessionloaded = 0 
 "function! LoadSession() 
@@ -780,36 +875,17 @@ command! -nargs=* -complete=file MyGrep call MyGrep(<f-args>)
 "    source session.vim 
 "    let s:sessionloaded = 1 
 "endfunction 
-""function! SaveSession() 
-""    if s:sessionloaded == 1 
-""        mksession! 
-""    end 
-""endfunction 
-""autocmd VimLeave * call SaveSession() 
+"function! SaveSession() 
+"    if s:sessionloaded == 1 
+"        mksession! 
+"    end 
+"endfunction 
+"autocmd VimLeave * call SaveSession() 
 "
 "let g:pydiction_location = '~/.vim/vimfiles/complete-dict'
 "
-""TODO add abrivations
-"set tags=~\tags
-"" Display function name in status bar:
-"let g:ctags_statusline=1
-"" Automatically start script
-"let generate_tags=1
-"" Displays taglist results in a vertical window:
-"let Tlist_Use_Horiz_Window=0
-"" Shorter commands to toggle Taglist display
-"nnoremap TT :TlistToggle<CR>
-map <F4> :Tagbar<CR>
-"" Various Taglist diplay config:
-"let Tlist_Use_Right_Window = 1
-"let Tlist_Compact_Format = 0
-"let Tlist_Exit_OnlyWindow = 1
-"let Tlist_GainFocus_On_ToggleOpen = 0
-"let Tlist_File_Fold_Auto_Close = 1
-"
-"au BufWritePost *.py !pyflakes %
-"
-"" How to behave in Diff mode TODO check if better options
+"""Diff behaviour
+" How to behave in Diff mode TODO check if better options
 "if &diff
 "    set co=171
 "    set equalalways
@@ -825,13 +901,13 @@ map <F4> :Tagbar<CR>
 "done by plugin
 "set stl=%1*(%n)\ %2*%F\ %1*%y%w%m%r%=\ \ \ %2*Row=%l\ Col=%c\%V%3*\ %P%*
 "
-"" Make Shift-Arrow select like in Solaris
+""" Make Shift-Arrow select like in Solaris
 "map! <S-C-Left> <Right><Esc>vb<Left><Insert>
 "map! <S-C-Right> <Right><Esc>ve<Right><Insert>
 "map! <S-Left> <Right><Esc>v<Left><Insert>
 "map! <S-Right> <Right><Esc>v<Right><Insert>
-map! <S-Up> <Esc>v<Up><Insert>
-map! <S-Down> <Esc>v<Down><Insert>
+"map! <S-Up> <Esc>v<Up><Insert>
+"map! <S-Down> <Esc>v<Down><Insert>
 "map <S-C-Left> <Right><Esc>vb<Left>
 "map <S-C-Right> <Esc>vw<Right>
 "map <S-Left> <Right><Esc>v<Left>
@@ -840,7 +916,7 @@ map <S-Up> <Esc>v<Up>
 map <S-Down> <Esc>v<Down>
 map <S-Left> <Esc>gT
 map <S-Right> <Esc>gt
-"
+"""Python code
 "if has("python")
 "function! Doron()
 "python << endpython
@@ -1023,51 +1099,40 @@ map <S-Right> <Esc>gt
 "elseif has('unix')
 "   source $HOME/.vim/bundle/matchit/plugin/matchit.vim
 "endif
-if exists('loaded_matchit')
-let b:match_ignorecase=0
-let b:match_words=
-  \ '\<begin\>:\<end\>,' .
-  \ '\<if\>:\<else\>,' .
-  \ '\<module\>:\<endmodule\>,' .
-  \ '\<class\>:\<endclass\>,' .
-  \ '\<program\>:\<endprogram\>,' .
-  \ '\<clocking\>:\<endclocking\>,' .
-  \ '\<property\>:\<endproperty\>,' .
-  \ '\<sequence\>:\<endsequence\>,' .
-  \ '\<package\>:\<endpackage\>,' .
-  \ '\<covergroup\>:\<endgroup\>,' .
-  \ '\<primitive\>:\<endprimitive\>,' .
-  \ '\<specify\>:\<endspecify\>,' .
-  \ '\<generate\>:\<endgenerate\>,' .
-  \ '\<interface\>:\<endinterface\>,' .
-  \ '\<function\>:\<endfunction\>,' .
-  \ '\<task\>:\<endtask\>,' .
-  \ '\<case\>\|\<casex\>\|\<casez\>:\<endcase\>,' .
-  \ '\<fork\>:\<join\>\|\<join_any\>\|\<join_none\>,' .
-  \ '`ifdef\>:`else\>:`endif\>,'
-endif
+"
+"""Old matchit settings
+"No need for this as the systemverilog plugin should take care of it.
+"if exists('loaded_matchit')
+"let b:match_ignorecase=0
+"let b:match_words=
+"  \ '\<begin\>:\<end\>,' .
+"  \ '\<if\>:\<else\>,' .
+"  \ '\<module\>:\<endmodule\>,' .
+"  \ '\<class\>:\<endclass\>,' .
+"  \ '\<program\>:\<endprogram\>,' .
+"  \ '\<clocking\>:\<endclocking\>,' .
+"  \ '\<property\>:\<endproperty\>,' .
+"  \ '\<sequence\>:\<endsequence\>,' .
+"  \ '\<package\>:\<endpackage\>,' .
+"  \ '\<covergroup\>:\<endgroup\>,' .
+"  \ '\<primitive\>:\<endprimitive\>,' .
+"  \ '\<specify\>:\<endspecify\>,' .
+"  \ '\<generate\>:\<endgenerate\>,' .
+"  \ '\<interface\>:\<endinterface\>,' .
+"  \ '\<function\>:\<endfunction\>,' .
+"  \ '\<task\>:\<endtask\>,' .
+"  \ '\<case\>\|\<casex\>\|\<casez\>:\<endcase\>,' .
+"  \ '\<fork\>:\<join\>\|\<join_any\>\|\<join_none\>,' .
+"  \ '`ifdef\>:`else\>:`endif\>,'
+"endif
 
+"""Old filetypes settings
 "autocmd BufRead,BufNewFile *.v,*.vh setfiletype verilog
 "autocmd BufRead,BufNewFile *.v,*.vh set expandtab tabstop=4 softtabstop=2 shiftwidth=2
 "autocmd BufRead,BufNewFile *.sv,*.svi set filetype=verilog_systemverilog
 "autocmd BufRead,BufNewFile *.sv,*.svi set expandtab tabstop=4 softtabstop=2 shiftwidth=2
 
-"diff to trunk
-set listchars=eol:$,tab:\>\ ,trail:.,extends:>,precedes:<
-set nolist   " to turn on (use :set nolist to turn off)
-map <leader>dt :VCSVimDiff<CR>
-
-"NERD TREE
-"Show hidden files in NerdTree
-let NERDTreeShowHidden=1
-"toggle nerdtree with f6
-map  <silent> <F6>   :NERDTreeToggle<CR>
-imap  <silent> <F6>   <Esc>:NERDTreeToggle<CR>
-""autopen NERDTree and focus cursor in new document
-""autocmd VimEnter * NERDTree
-""autocmd VimEnter * wincmd p
-
-"syntastic syntax helper
+"""syntastic syntax helper
 if has('unix')
    let g:syntastic_python_python_exec = '/sw/common/bin/python3.7'
 endif
@@ -1080,17 +1145,7 @@ endif
 "let g:syntastic_check_on_open = 1
 "let g:syntastic_check_on_wq = 0
 
-"AirLine plugin
-set laststatus=2 "always show status line
-" here is an example of how you could replace the branch indicator with
-" the current working directory, followed by the filename.
-let g:airline_section_b = "[" . hostname() . ']%{getcwd()}'
-
-set number "Show lines numbers
-highlight LineNr ctermfg=grey ctermbg=black guibg=black guifg=grey
-
-"set tags=~/tags
-
+"""Tags location function
 if has("python3")
 "autocmd BufReadPost * call SET_TAGS_LOCATION()
 autocmd BufEnter * call SET_TAGS_LOCATION()
@@ -1116,6 +1171,7 @@ set_tags_location()
 endpython
 endfunction
 
+"""Env var setting functions
 autocmd BufEnter * call SET_WS()
 function! SET_WS()
 python3 << endpython
@@ -1167,6 +1223,7 @@ endpython
 endfunction
 endif
 
+"""xrun Log file syntax highlighting
 function! ElogSettings()
    "colorscheme evening
    hi Cursorline term=none cterm=none ctermbg=Green guibg=darkred
@@ -1204,22 +1261,23 @@ function! ElogSettings()
 endfunction
 autocmd BufRead *.log :call ElogSettings()
 
+"""Dont know what this is
 vmap <C-S> e <ESC> /<C-R>*<CR>
 
-let  g:C_UseTool_cmake    = 'yes' 
-let  g:C_UseTool_doxygen = 'yes'
-
+"""File name with line number detection
 "make vim detect filenames with : so it can open the line and columb
-set isfname+=:
-set isfname-=,
+"set isfname+=:
+"set isfname-=,
 "make vim detect filenames with {} so it can open a filename with env var ${WS}
-set isfname+={,}
+"set isfname+={,}
 
+"""Some automatic log settings 
 "autocmd BufReadPost *.log silent %s!,!:!g
 "autocmd BufReadPost *.log silent %s!|!:!g
 "autocmd BufReadPost *.log :0
 "autocmd BufReadPost *.log :/\*E
 
+"""Title line settings
 "let &titlestring = hostname() . "[vim(" . expand("%:t") . ")]"
 let &titlestring = "%t"
 if &term == "screen"
@@ -1230,23 +1288,14 @@ if &term == "screen" || &term == "xterm"
   set title
 endif
 
-"clang flags
-"let g:clang_complete_copen = 1
-"let g:clang_auto_select = 2
-"let g:clang_jumpto_declaration_key = '<C-.>'
-"let g:clang_jumpto_back_key = '<C-,>'
-"let g:clang_library_path ="/home/dorong/bin/clang/lib"
-"if has('win32')
-"   let g:clang_complete_loaded = 1
-"endif
-"
+"""Do not complete tags (why not?)
 " not to use tags
-set complete-=t
+"set complete-=t
 
-"search for visualy selected text
+"""search for visualy selected text - requested by someone, don't remember who.
 vnoremap // y/<C-R>"<CR>
 
-
+"""Hex mode
 " ex command for toggling hex mode - define mapping if desired
 command! -bar Hexmode call ToggleHex()
 
@@ -1290,43 +1339,20 @@ function! ToggleHex()
   let &modifiable=l:oldmodifiable
 endfunction
 
+""" Error format settings (for quickfix list)
 "let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
 "let &errorformat="Warning-%t%* %m" . &errorformat
 
 map <F5> :VerilogErrorFormat ncverilog 1<CR>
 
-"----------
-" CSCOPE "
-"----------
-if has('win32')
-   let g:cscope_cmd = "$HOME/vimfiles/bin/cscope.exe"
-else
-   let g:cscope_cmd = '$HOME/.vim/bin/cscope.exe'
-endif
-let g:cscope_interested_files = '\.c$\|\.cpp$\|\.h$\|\.hpp'
-
-nnoremap <leader>fa :call CscopeFindInteractive(expand('<cword>'))<CR>
-nnoremap <leader>l :call ToggleLocationList()<CR>
-
-" s: Find this C symbol
-nnoremap  <leader>fs :call CscopeFind('s', expand('<cword>'))<CR>
-" g: Find this definition
-nnoremap  <leader>fg :call CscopeFind('g', expand('<cword>'))<CR>
-" d: Find functions called by this function
-nnoremap  <leader>fd :call CscopeFind('d', expand('<cword>'))<CR>
-" c: Find functions calling this function
-nnoremap  <leader>fc :call CscopeFind('c', expand('<cword>'))<CR>
-" t: Find this text string
-nnoremap  <leader>ft :call CscopeFind('t', expand('<cword>'))<CR>
-" e: Find this egrep pattern
-nnoremap  <leader>fe :call CscopeFind('e', expand('<cword>'))<CR>
-" f: Find this file
-nnoremap  <leader>ff :call CscopeFind('f', expand('<cword>'))<CR>
-" i: Find files #including this file
-nnoremap  <leader>fi :call CscopeFind('i', expand('<cword>'))<CR>
-
-
+"""Load personal vimrc
 if filereadable(glob("$HOME/myvimrc")) 
     source $HOME/myvimrc
 endif
+
+"""this needs to be moved from here
 autocmd! BufNewFile *.py call InsertPythonPackage() 
+
+"""VIMRC folding setting
+"" vim:fdm=expr:fdl=0
+"" vim:fde=getline(v\:lnum)=~'^""'?'>'.(matchend(getline(v\:lnum),'""*')-2)\:'='
