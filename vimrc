@@ -748,8 +748,10 @@ set guitablabel=%t
 map <S-F11> :!svn lock %<CR>
 map <S-F12> :!svn ci % -m "Fixed a Bug"<CR>
 map <F12> :tabnew 
-map <F11> :close <CR>
 
+map <F11> :close <CR>
+"fix problem where opening a tab causes the bottom line to dissapear
+set showtabline=2 
 "VCS diff to trunk
 set listchars=eol:$,tab:\>\ ,trail:.,extends:>,precedes:<
 set nolist   " to turn on (use :set nolist to turn off)
