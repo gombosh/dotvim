@@ -144,6 +144,10 @@ endif
 
 " for html (I use it rarely)
 Plugin 'rstacruz/sparkup'
+Plugin 'tpope/vim-surround'
+Plugin 'hallettj/jslint.vim'
+Plugin 'mattn/emmet-vim'
+Plugin 'scrooloose/nerdcommenter'
 "TODO add usage info
 
 """"Extra plugins to test in the future
@@ -655,91 +659,95 @@ map Z :w<NL>
 "
 "
 """Menu items for Commenting and Un-Commenting code 
-amenu 20.435 &Edit.-SEP4- : 
-amenu Edit.Comment <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR> 
-amenu Edit.UnComment <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
+"amenu 20.435 &Edit.-SEP4- : 
+"amenu Edit.Comment <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR> 
+"amenu Edit.UnComment <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
 " Insert # comments
-vmap <F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR> 
-vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
-autocmd BufEnter *.c,*.h,*.cpp,*.v,*.vh,*.sv,*.svi,*.svh vmap <F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR>
-autocmd BufEnter *.c,*.h,*.cpp,*.v,*.vh,*.sv,*.svi,*.svh vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
-autocmd BufEnter *.vim,*.vmap vmap <F2>  <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call CommentVim(fl, ll)<CR>
-autocmd BufEnter *.vim,*.vmap vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnCommentVim(fl, ll)<CR>
-autocmd BufEnter *.py,*.sh,*.mk,*.tcl vmap <F2>  <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Commentpy(fl, ll)<CR>
-autocmd BufEnter *.py,*.sh,*.mk,*.tcl vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnCommentpy(fl, ll)<CR>
+"vmap <F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR> 
+vmap <F2> :call NERDComment('x', 'toggle')<CR> 
+nmap <F2> :call NERDComment('n', 'toggle')<CR> 
+imap <F2> <ESC>:call NERDComment('n', 'toggle')<CR>
+"vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
+vmap <S-F2> :call NERDComment('x', 'sexy')<CR>
+"autocmd BufEnter *.c,*.h,*.cpp,*.v,*.vh,*.sv,*.svi,*.svh vmap <F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR>
+"autocmd BufEnter *.c,*.h,*.cpp,*.v,*.vh,*.sv,*.svi,*.svh vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
+"autocmd BufEnter *.vim,*.vmap vmap <F2>  <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call CommentVim(fl, ll)<CR>
+"autocmd BufEnter *.vim,*.vmap vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnCommentVim(fl, ll)<CR>
+"autocmd BufEnter *.py,*.sh,*.mk,*.tcl vmap <F2>  <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Commentpy(fl, ll)<CR>
+"autocmd BufEnter *.py,*.sh,*.mk,*.tcl vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnCommentpy(fl, ll)<CR>
 "
 "Function for commenting a block of Visually selected text 
-function! Comment(fl, ll) 
-    let i=a:fl 
-let comment="//" 
-while i<=a:ll 
-    let cl=getline(i) 
-let cl2=comment.cl 
-call setline(i, cl2) 
-let i=i+1 
-endwhile 
-endfunction 
+"function! Comment(fl, ll) 
+    "let i=a:fl 
+"let comment="//" 
+"while i<=a:ll 
+    "let cl=getline(i) 
+"let cl2=comment.cl 
+"call setline(i, cl2) 
+"let i=i+1 
+"endwhile 
+"endfunction 
 
-"Function for Un-Commenting a block of Visually selected text 
-function! UnComment(fl, ll) 
-    let i=a:fl 
-let comment="//" 
-while i<=a:ll 
-    let cl=getline(i) 
-let cl2=substitute(cl, "//", "", "") 
-call setline(i, cl2) 
-let i=i+1 
-endwhile 
-endfunction 
-"
-"-------------------------------------------------------------------
-"Function for commenting a block of Visually selected text 
-function! Commentpy(fl, ll) 
-    let i=a:fl 
-let comment="#" 
-while i<=a:ll 
-    let cl=getline(i) 
-let cl2=comment.cl 
-call setline(i, cl2) 
-let i=i+1 
-endwhile 
-endfunction 
+""Function for Un-Commenting a block of Visually selected text 
+"function! UnComment(fl, ll) 
+    "let i=a:fl 
+"let comment="//" 
+"while i<=a:ll 
+    "let cl=getline(i) 
+"let cl2=substitute(cl, "//", "", "") 
+"call setline(i, cl2) 
+"let i=i+1 
+"endwhile 
+"endfunction 
+""
+""-------------------------------------------------------------------
+""Function for commenting a block of Visually selected text 
+"function! Commentpy(fl, ll) 
+    "let i=a:fl 
+"let comment="#" 
+"while i<=a:ll 
+    "let cl=getline(i) 
+"let cl2=comment.cl 
+"call setline(i, cl2) 
+"let i=i+1 
+"endwhile 
+"endfunction 
 
-"Function for Un-Commenting a block of Visually selected text 
-function! UnCommentpy(fl, ll) 
-    let i=a:fl 
-let comment="#" 
-while i<=a:ll 
-    let cl=getline(i) 
-let cl2=substitute(cl, "#", "", "") 
-call setline(i, cl2) 
-let i=i+1 
-endwhile 
-endfunction 
-"-------------------------------------------------------------------
-"Function for commenting a block of Visually selected text 
-function! CommentVim(fl, ll) 
-    let i=a:fl 
-let comment="\"" 
-while i<=a:ll 
-    let cl=getline(i) 
-let cl2=comment.cl 
-call setline(i, cl2) 
-let i=i+1 
-endwhile 
-endfunction 
+""Function for Un-Commenting a block of Visually selected text 
+"function! UnCommentpy(fl, ll) 
+    "let i=a:fl 
+"let comment="#" 
+"while i<=a:ll 
+    "let cl=getline(i) 
+"let cl2=substitute(cl, "#", "", "") 
+"call setline(i, cl2) 
+"let i=i+1 
+"endwhile 
+"endfunction 
+""-------------------------------------------------------------------
+""Function for commenting a block of Visually selected text 
+"function! CommentVim(fl, ll) 
+    "let i=a:fl 
+"let comment="\"" 
+"while i<=a:ll 
+    "let cl=getline(i) 
+"let cl2=comment.cl 
+"call setline(i, cl2) 
+"let i=i+1 
+"endwhile 
+"endfunction 
 
-"Function for Un-Commenting a block of Visually selected text 
-function! UnCommentVim(fl, ll) 
-    let i=a:fl 
-let comment="\"" 
-while i<=a:ll 
-    let cl=getline(i) 
-let cl2=substitute(cl, "\"", "", "") 
-call setline(i, cl2) 
-let i=i+1 
-endwhile 
-endfunction 
+""Function for Un-Commenting a block of Visually selected text 
+"function! UnCommentVim(fl, ll) 
+    "let i=a:fl 
+"let comment="\"" 
+"while i<=a:ll 
+    "let cl=getline(i) 
+"let cl2=substitute(cl, "\"", "", "") 
+"call setline(i, cl2) 
+"let i=i+1 
+"endwhile 
+"endfunction 
 "
 """Old F10 box lines 
 "map <F10> :co .<NL>:s/[!-~]/-/g<NL>:s/- -/---/g<NL>:s/-  -/----/g<NL><ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR>
@@ -901,6 +909,8 @@ vmap <Leader>a: :Tab /:\zs<CR>
 nmap <Leader>a<Space> :Tab / \zs<CR>
 vmap <Leader>a<Space> :Tab / \zs<CR>
 
+"""Emmet plugin settings
+let g:user_emmet_leader_key=','
 """FIXME work with session as project
 "nmap <F3> <ESC>:call LoadSession()<CR> 
 "let s:sessionloaded = 0 
