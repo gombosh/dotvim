@@ -5,8 +5,8 @@
 """DEBUG
 ":verbose imap <tab>
 """Version checking
-version 8.1
-if v:version < 800
+"version 8.1
+if version < 800
 	finish
 else
 set t_BE=
@@ -188,7 +188,9 @@ filetype plugin indent on    " required
 endif
 set encoding=utf-8
 
-packadd! matchit
+if has("eval")
+   packadd! matchit
+endif
 "let loaded_matchit = 1
 "runtime macros/matchit.vim
 
@@ -299,7 +301,11 @@ let g:pymode_options_colorcolumn = 0
 """Fonts and Color Schemes
 "Set the color scheme. Change this to your preference.
 "We have a plugin with 1000 schemes installed
-colorscheme badwolf
+if has("eval")
+   colorscheme badwolf
+else
+   colorscheme torte
+endif
 
 "Set font type and size. Depends on the resolution. Larger screens, prefer h20
 "set guifont=LucidaTypewriter\ \9
@@ -422,7 +428,7 @@ map! <S-Insert> <MiddleMouse>
 "
 "Automatically change current directory to that of the file in the buffer
 "vim actually has a native function for this 'autochdir' but this is better
-if has("foldmethod")
+if has("eval")
    set autochdir
 else
    autocmd BufEnter,BufRead * cd %:p:h
@@ -750,7 +756,7 @@ let g:verilog_efm_uvm_lst = "all"
 "let g:verilog_efm_uvm_lst = "fatal,error,warning"
 let g:verilog_navigate_split = 1
 
-if has("foldmethod")
+if has("eval")
    "Enable code folding - let's let the plugin control that
    set foldenable
    "set foldlevel=99
@@ -888,14 +894,12 @@ set number "Show lines numbers
 highlight LineNr ctermfg=grey ctermbg=black guibg=black guifg=grey
 
 """"Tabular Plugin settings - auto align text
-if exists(":Tab")
-   nmap <Leader>a= :Tab /=<CR>
-   vmap <Leader>a= :Tab /=<CR>
-   nmap <Leader>a: :Tab /:\zs<CR>
-   vmap <Leader>a: :Tab /:\zs<CR>
-   nmap <Leader>a<Space> :Tab / \zs<CR>
-   vmap <Leader>a<Space> :Tab / \zs<CR>
-endif
+nmap <Leader>a= :Tab /=<CR>
+vmap <Leader>a= :Tab /=<CR>
+nmap <Leader>a: :Tab /:\zs<CR>
+vmap <Leader>a: :Tab /:\zs<CR>
+nmap <Leader>a<Space> :Tab / \zs<CR>
+vmap <Leader>a<Space> :Tab / \zs<CR>
 
 """FIXME work with session as project
 "nmap <F3> <ESC>:call LoadSession()<CR> 
