@@ -32,6 +32,7 @@ endif
 " this gets and manages plugins from git
 Plugin 'VundleVim/Vundle.vim'
 
+Plugin 'davidhalter/jedi-vim'
 "Tree view
 Plugin 'scrooloose/nerdtree'
 " use F6 as the main access key
@@ -89,7 +90,7 @@ Plugin 'Konfekt/FastFold'
 
 " align text
 Plugin 'junegunn/vim-easy-align'
-"Plugin 'godlygeek/tabular'
+Plugin 'godlygeek/tabular'
 " use leader + a + =/:/<space>
 
 " Plugin 'TaskList.vim' - not using it
@@ -294,6 +295,7 @@ let g:pymode_lint_select = ["E501", "W0011", "W430"]
 let g:pymode_rope_project_root = "$HOME/rope_projects"
 
 "disable rope lookup project
+let g:pymode_rope = 0
 let g:pymode_rope_lookup_project = 0 "fix a bug in python mode
 "for pymode plugin - remove red end of line 
 "let g:pymode_options_max_line_length = 0
@@ -909,7 +911,7 @@ imap  <silent> <F6>   <Esc>:NERDTreeToggle<CR>
 "autocmd VimEnter * NERDTree
 "autocmd VimEnter * wincmd p
 "
-map <F7> :profile start profile.log<CR>:profile func *<CR>:profile file *<CR>
+map <F7> :profile start /home/$USER/gvim_profile.log<CR>:profile func *<CR>:profile file *<CR>
 
 """"AirLine plugin
 set laststatus=2 "always show status line
@@ -932,6 +934,7 @@ highlight LineNr ctermfg=grey ctermbg=black guibg=black guifg=grey
 vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+map <leader>s :%s/\s\+/ /g<CR>:noh<CR>
 
 
 """"delimitmate plugin settings
@@ -1209,7 +1212,7 @@ map <S-Right> <Esc>gt
 
 """syntastic syntax helper
 if has('unix')
-   let g:syntastic_python_python_exec = '/sw/common/bin/python3.7'
+   let g:syntastic_python_python_exec = '/sw/common/bin/python3.8'
 endif
 " syntastic doesn't work well with airline, TODO check why
 "set statusline+=%#warningmsg#
