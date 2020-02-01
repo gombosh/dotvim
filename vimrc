@@ -42,7 +42,8 @@ Plugin 'kien/rainbow_parentheses.vim'
 " this works automatically
 
 " this is the nice buttom line with info
-Plugin 'vim-airline/vim-airline'
+Plugin 'itchyny/lightline.vim'
+"Plugin 'vim-airline/vim-airline'
 " already setup for you, but you can play with it if you want.
 
 " this allows movement in the code from declaration to instance etc. (beta)
@@ -94,7 +95,8 @@ Plugin 'Konfekt/FastFold'
 "no need to do anything.
 
 " align text
-Plugin 'godlygeek/tabular'
+Plugin 'junegunn/vim-easy-align'
+"Plugin 'godlygeek/tabular'
 " use leader + a + =/:/<space>
 
 " Plugin 'TaskList.vim' - not using it
@@ -281,7 +283,7 @@ let g:pymode_python = 'python3'
 "Enable pymode indentatio
 let g:pymode_indent = 1
 "Enable pymode folding
-let g:pymode_folding = 1
+let g:pymode_folding = 0
 "enable pymode motion
 let g:pymode_motion = 1
 "enable pymode documentation script and set 'K' as a key for displaying docs
@@ -350,6 +352,20 @@ if has('win32')
 else
    let g:tagbar_ctags_bin = '/home/dorong/bin/ctags/bin/ctags'
 endif
+"let g:tagbar_type_systemverilog= {
+    "\ 'ctagstype' : 'systemverilog',
+    "\ 'kinds'     : [
+        "\'c:classes',
+        "\'t:tasks',
+        "\'f:functions',
+        "\'m:modules',
+        "\'i:interfaces',
+        "\'v:variables',
+        "\'d:defines',
+        "\'e:typedefs',
+        "\'a:parameters'
+  "\]
+"\}
 """"Taglist - not installed
 "let Tlist_Ctags_Cmd="C:/\ctags58/\ctags.exe"
 """"Tagbar
@@ -704,7 +720,7 @@ vmap <S-F2> :call NERDComment('x', 'sexy')<CR>
 "endwhile 
 "endfunction 
 
-""Function for Un-Commenting a block of Visually selected text 
+"Function for Un-Commenting a block of Visually selected text 
 "function! UnComment(fl, ll) 
     "let i=a:fl 
 "let comment="//" 
@@ -715,9 +731,9 @@ vmap <S-F2> :call NERDComment('x', 'sexy')<CR>
 "let i=i+1 
 "endwhile 
 "endfunction 
-""
-""-------------------------------------------------------------------
-""Function for commenting a block of Visually selected text 
+"
+"-------------------------------------------------------------------
+"Function for commenting a block of Visually selected text 
 "function! Commentpy(fl, ll) 
     "let i=a:fl 
 "let comment="#" 
@@ -729,7 +745,7 @@ vmap <S-F2> :call NERDComment('x', 'sexy')<CR>
 "endwhile 
 "endfunction 
 
-""Function for Un-Commenting a block of Visually selected text 
+"Function for Un-Commenting a block of Visually selected text 
 "function! UnCommentpy(fl, ll) 
     "let i=a:fl 
 "let comment="#" 
@@ -740,8 +756,8 @@ vmap <S-F2> :call NERDComment('x', 'sexy')<CR>
 "let i=i+1 
 "endwhile 
 "endfunction 
-""-------------------------------------------------------------------
-""Function for commenting a block of Visually selected text 
+"-------------------------------------------------------------------
+"Function for commenting a block of Visually selected text 
 "function! CommentVim(fl, ll) 
     "let i=a:fl 
 "let comment="\"" 
@@ -753,7 +769,7 @@ vmap <S-F2> :call NERDComment('x', 'sexy')<CR>
 "endwhile 
 "endfunction 
 
-""Function for Un-Commenting a block of Visually selected text 
+"Function for Un-Commenting a block of Visually selected text 
 "function! UnCommentVim(fl, ll) 
     "let i=a:fl 
 "let comment="\"" 
@@ -774,7 +790,7 @@ vmap <S-F2> :call NERDComment('x', 'sexy')<CR>
 """Syntax folding and Highlighting
 "TODO move to global file
 "au BufReadPost *.vsif so ~/bin/vsif.vim
-let g:verilog_syntax_fold_lst = "all"
+"let g:verilog_syntax_fold_lst = "all"
 let g:verilog_efm_level = "error"
 let g:verilog_efm_uvm_lst = "all"
 "let g:verilog_efm_uvm_lst = "fatal,error,warning"
@@ -823,6 +839,7 @@ vmap <S-F9> :MyGrep "<cword>" .<CR>
 imap <S-F9> <ESC>:MyGrep "<cword>" .<CR>
 map <F10> :Grepper -tool ag<cr>
 nnoremap <S-F10> :Grepper -tool ag -cword -noprompt<cr>
+map <leader>g :%!grep 
 
 "Add grep abbilty to gvim - TODO deprecate this
 function! MyGrep(...)
@@ -907,26 +924,41 @@ imap  <silent> <F6>   <Esc>:NERDTreeToggle<CR>
 "autopen NERDTree and focus cursor in new document
 "autocmd VimEnter * NERDTree
 "autocmd VimEnter * wincmd p
+"
+map <F7> :profile start profile.log<CR>:profile func *<CR>:profile file *<CR>
 
 """"AirLine plugin
 set laststatus=2 "always show status line
 " here is an example of how you could replace the branch indicator with
 " the current working directory, followed by the filename.
-let g:airline_section_b = "[" . hostname() . ']%{getcwd()}'
+"let g:airline_section_b = "[" . hostname() . ']%{getcwd()}'
 
 set number "Show lines numbers
 highlight LineNr ctermfg=grey ctermbg=black guibg=black guifg=grey
 
 """"Tabular Plugin settings - auto align text
-nmap <Leader>a= :Tab /=<CR>
-vmap <Leader>a= :Tab /=<CR>
-nmap <Leader>a: :Tab /:\zs<CR>
-vmap <Leader>a: :Tab /:\zs<CR>
-nmap <Leader>a<Space> :Tab / \zs<CR>
-vmap <Leader>a<Space> :Tab / \zs<CR>
+"nmap <Leader>a= :Tab /=<CR>
+"vmap <Leader>a= :Tab /=<CR>
+"nmap <Leader>a: :Tab /:\zs<CR>
+"vmap <Leader>a: :Tab /:\zs<CR>
+"nmap <Leader>a<Space> :Tab / \zs<CR>
+"vmap <Leader>a<Space> :Tab / \zs<CR>
+""""easy align
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+
+""""delimitmate plugin settings
+let delimitMate_expand_cr = 1
+au FileType verilog_systemverilog inoremap begin begin<CR>end<CR><up><up><end><CR>
+"au FileType verilog_systemverilog let b:delimitMate_matchpairs = "(:),[:],{:}"
+au FileType verilog_systemverilog let b:delimitMate_quotes = "\""
 
 """Emmet plugin settings
-let g:user_emmet_leader_key='<C-space>'
+let g:user_emmet_leader_key='<C-Space>'
+
 """FIXME work with session as project
 "nmap <F3> <ESC>:call LoadSession()<CR> 
 "let s:sessionloaded = 0 
@@ -1415,4 +1447,3 @@ autocmd! BufNewFile *.py call InsertPythonPackage()
 
 """VIMRC folding setting
 "" vim:fdm=expr:fdl=0
-"" vim:fde=getline(v\:lnum)=~'^""'?'>'.(matchend(getline(v\:lnum),'""*')-2)\:'='
