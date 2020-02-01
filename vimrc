@@ -34,6 +34,7 @@ Plugin 'VundleVim/Vundle.vim'
 
 "Tree view
 Plugin 'scrooloose/nerdtree'
+Plugin 'greggerz/nerdtree-svn-plugin'
 " use F6 as the main access key
 
 " this colors paranthesis opening/closing in the same color.
@@ -63,9 +64,11 @@ Plugin 'vcscommand.vim'
 " use :VCS<command> will all the regular repo commands
 
 " auto syntax checking, should appear at the buttom line
-Plugin 'scrooloose/syntastic'
+"Plugin 'scrooloose/syntastic'
 " disabled for now because it doesn't play well with airline
-" TODO check for alternative
+" trying an alternative
+" lint on the fly
+Plugin 'w0rp/ale'
 
 " mega plugin with many cool features for systemverilog - TODO help commands +
 " disabled for now because it doesn't play well with airline
@@ -77,6 +80,10 @@ Plugin 'vhda/verilog_systemverilog.vim'
 Plugin 'vimtaku/hl_matchit.vim'
 "for verilog_systemverilog - autocompleation with tab
 Plugin 'ervandew/supertab'
+Plugin 'shougo/deoplete.nvim'
+Plugin 'roxma/nvim-yarp'
+Plugin 'roxma/vim-hug-neovim-rpc'
+
 "for verilog_systemverilog - auto search for functions/variables in file
 "(needs ctags to be working)
 Plugin 'majutsushi/tagbar'
@@ -141,6 +148,8 @@ if !has('win32')
 else
    Plugin 'klen/python-mode', {'pinned': 1}
 endif
+Plugin 'davidhalter/jedi-vim'
+Plugin 'tweekmonster/impsort.vim'
 
 " for html (I use it rarely)
 Plugin 'rstacruz/sparkup'
@@ -148,7 +157,10 @@ Plugin 'tpope/vim-surround'
 Plugin 'hallettj/jslint.vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'scrooloose/nerdcommenter'
+Plugin 'tweekmonster/django-plus.vim'
 "TODO add usage info
+
+Plugin 'vim/killersheep'
 
 """"Extra plugins to test in the future
 "check this next (looks really cool)
@@ -259,6 +271,9 @@ let g:hl_matchit_enable_on_vim_startup = 1
 " dorong - brought this back for verilog_systemverilog
 let g:SuperTabDefaultCompletionType = 'context'
 "set completeopt=menuone,longest,preview
+let g:loaded_python_provider = 0
+let g:deoplete#enable_at_startup = 1
+let g:python3_host_prog=expand('$HOME\AppData\Local\Programs\Python\Python37-32\python.exe')
 
 """Python-Mode plugin settings
 "use python3 for pymode
@@ -296,11 +311,12 @@ let g:pymode_rope_lookup_project = 0 "fix a bug in python mode
 "for pymode plugin - remove red end of line 
 "let g:pymode_options_max_line_length = 0
 let g:pymode_options_colorcolumn = 0
-"Turn on code completion support in the plugin
-"let g:pymode_rope_completion = 0
-"Turn on the rope script
-"let g:pymode_rope = 0
+"Turn off code completion support in the plugin
+let g:pymode_rope_completion = 0
+"Turn off the rope script
+let g:pymode_rope = 0
 
+let g:jedi#use_splits_not_buffers = "left"
 
 """Fonts and Color Schemes
 "Set the color scheme. Change this to your preference.
@@ -910,7 +926,7 @@ nmap <Leader>a<Space> :Tab / \zs<CR>
 vmap <Leader>a<Space> :Tab / \zs<CR>
 
 """Emmet plugin settings
-let g:user_emmet_leader_key=','
+let g:user_emmet_leader_key='<C-space>'
 """FIXME work with session as project
 "nmap <F3> <ESC>:call LoadSession()<CR> 
 "let s:sessionloaded = 0 
