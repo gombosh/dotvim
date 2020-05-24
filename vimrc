@@ -9,20 +9,21 @@
 if version < 800
 	finish
 else
+"fix copy paste problem
 set t_BE=
 "Forget compatibility with Vi. Believe me, it's better this way.
 set nocompatible              " be iMproved, required
 
 """Vundle plugins loading
 """"Vundle initial loading settings
-filetype off                  " required
+filetype off                  " required for vundle
 " set the runtime path to include Vundle and initialize
 if has('win32')
-   set rtp+=$HOME/vimfiles/bundle/Vundle.vim
-   call vundle#begin('$HOME/vimfiles/bundle')
+   "set rtp+=$HOME/vimfiles/bundle/Vundle.vim
+   call plug#begin('$HOME/vimfiles/plugged')
 else
-   set rtp+=~/.vim/bundle/Vundle.vim
-   call vundle#begin()
+   "set rtp+=~/.vim/bundle/Vundle.vim
+   silent! call plug#begin('~/.vim/plugged')
 endif
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
@@ -30,114 +31,111 @@ endif
 """"Plugins
 " let Vundle manage Vundle, required
 " this gets and manages plugins from git
-Plugin 'VundleVim/Vundle.vim'
+"Plug 'VundleVim/Vundle.vim'
 
-Plugin 'davidhalter/jedi-vim'
 "Tree view
-Plugin 'scrooloose/nerdtree'
-Plugin 'greggerz/nerdtree-svn-plugin'
+Plug 'scrooloose/nerdtree', { 'on' : ['NERDTree','NERDTreeToggle'] }
+"Plug 'greggerz/nerdtree-svn-plugin' not working in linux
 " use F6 as the main access key
 
 " this colors paranthesis opening/closing in the same color.
-Plugin 'kien/rainbow_parentheses.vim'
+Plug 'kien/rainbow_parentheses.vim'
 " this works automatically
 
 " this is the nice buttom line with info
-Plugin 'itchyny/lightline.vim'
-"Plugin 'vim-airline/vim-airline'
+Plug 'itchyny/lightline.vim'
+"Plug 'vim-airline/vim-airline'
 " already setup for you, but you can play with it if you want.
 
 " this allows movement in the code from declaration to instance etc. (beta)
-Plugin 'brookhong/cscope.vim'
+"Plug 'brookhong/cscope.vim'
 "<leader>fa to start
 
 " fuzzy smart file search
-Plugin 'ctrlpvim/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 " ctrl-p to activate, then just write what's on your mind
 " F5 from inside ctrlp will update the database
 
 " new plugin for fast grepping - TODO need to experiment with this.
-"Plugin 'wsdjeg/flygrep.vim'
-Plugin 'mhinz/vim-grepper'
+"Plug 'wsdjeg/flygrep.vim'
+"Plug 'mhinz/vim-grepper'
 "for now I've put it on F10 (and S-F10)
 
 " commands for repositories, auto detects the type of repo
-Plugin 'vcscommand.vim'
+Plug 'vim-scripts/vcscommand.vim'
 " use :VCS<command> will all the regular repo commands
+Plug 'mhinz/vim-signify', { 'on' : 'SignifyToggle' }
 
 " auto syntax checking, should appear at the buttom line
-"Plugin 'scrooloose/syntastic'
+"Plug 'scrooloose/syntastic'
 " disabled for now because it doesn't play well with airline
 " trying an alternative
-" lint on the fly
-Plugin 'w0rp/ale'
+" lint on the fly - disabled until I can get it working
+"Plug 'w0rp/ale'
 
 " mega plugin with many cool features for systemverilog - TODO help commands +
 " disabled for now because it doesn't play well with airline
 " TODO check for alternatitve
 " add snipets + makeprg fpr xcelium analyze
-Plugin 'vhda/verilog_systemverilog.vim'
+Plug 'vhda/verilog_systemverilog.vim', { 'for' : 'verilog_systemverilog' }
 "<leader>i/o/u/I (after tags file is ready)
 "for verilog_systemverilog - highlighes the matches of words
-Plugin 'vimtaku/hl_matchit.vim'
+Plug 'vimtaku/hl_matchit.vim'
 "for verilog_systemverilog - autocompleation with tab
-Plugin 'ervandew/supertab'
-Plugin 'shougo/deoplete.nvim'
-Plugin 'roxma/nvim-yarp'
-Plugin 'roxma/vim-hug-neovim-rpc'
+Plug 'ervandew/supertab'
 
 "for verilog_systemverilog - auto search for functions/variables in file
 "(needs ctags to be working)
-Plugin 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar', { 'on' : 'Tagbar' }
 " activate with F4
 "for verilog_systemverilog - should make folding faster in systemverilog
 "I don't know of any specific settings it needs to be working.
-Plugin 'Konfekt/FastFold'
+Plug 'Konfekt/FastFold'
 "no need to do anything.
 
 " align text
-Plugin 'junegunn/vim-easy-align'
-Plugin 'godlygeek/tabular'
+Plug 'junegunn/vim-easy-align'
+Plug 'godlygeek/tabular'
 " use leader + a + =/:/<space>
 
-" Plugin 'TaskList.vim' - not using it
+" Plug 'TaskList.vim' - not using it
 
 "Auto close paranthesis
-Plugin 'raimondi/delimitmate'
+Plug 'raimondi/delimitmate'
 
 " open files with line numbers - old and problematic version
 "disabled.
-"Plugin 'bogado/file-line'
+"Plug 'bogado/file-line'
 
 " open files with line numbers
-Plugin 'kopischke/vim-fetch'
+Plug 'kopischke/vim-fetch'
 
 "if !has('win32')
-"   Plugin 'valloric/youcompleteme'
+"   Plug 'valloric/youcompleteme'
 "endif
 "Best (and simplest) completion I found so far.
-Plugin 'maralla/completor.vim'
-"Plugin 'ajh17/VimCompletesMe.git'
+Plug 'maralla/completor.vim'
+"Plug 'ajh17/VimCompletesMe.git'
 
 "Snippet plugins
 "-----------------
 "advanced snipets, need py3
-Plugin 'SirVer/ultisnips'
-"Plugin 'MarcWeber/vim-addon-mw-utils'
-"Plugin 'tomtom/tlib_vim'
-"Plugin 'garbas/vim-snipmate', {'pinned': 1}
-Plugin 'honza/vim-snippets'
+Plug 'sirver/ultisnips'
+"Plug 'MarcWeber/vim-addon-mw-utils'
+"Plug 'tomtom/tlib_vim'
+"Plug 'garbas/vim-snipmate', {'pinned': 1}
+Plug 'honza/vim-snippets'
 "-----------------
 
 "Tons of colorschemes to choose from.
-Plugin 'flazz/vim-colorschemes'
+Plug 'flazz/vim-colorschemes'
 
 "Full undo history in a side window.
-Plugin 'sjl/gundo.vim'
+Plug 'sjl/gundo.vim'
 "use F3 to toggle.
 
 " diff dirs!!
-Plugin 'will133/vim-dirdiff'
+Plug 'will133/vim-dirdiff'
 " use :DirDiff <dir1> <dir2>
 " note: don't put the last slash on directory path
 " example: ':DirDiff a/b/c/ d/e/f/' wont work, but ':DirDiff a/b/c d/e/f' will.
@@ -146,52 +144,55 @@ Plugin 'will133/vim-dirdiff'
 " it's part of my git repo
 " in windows please close seperatly with 
 " git clone --recurse-submodules https://github.com/python-mode/python-mode -c core.symlinks=true bundle/python-mode
-if !has('win32')
-   Plugin 'klen/python-mode' ", {'pinned': 1}
-else
-   Plugin 'klen/python-mode', {'pinned': 1}
-endif
-Plugin 'davidhalter/jedi-vim'
-Plugin 'tweekmonster/impsort.vim'
+"if !has('win32')
+"   Plug 'python-mode/python-mode' ", {'pinned': 1}
+"else
+"Plug 'python-mode/python-mode', { 'branch': 'develop' }
+"Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+"endif
+Plug 'davidhalter/jedi-vim'
+"Plug 'tweekmonster/impsort.vim'
+
+Plug 'scrooloose/nerdcommenter'
 
 " for html (I use it rarely)
-Plugin 'rstacruz/sparkup'
-Plugin 'tpope/vim-surround'
-Plugin 'hallettj/jslint.vim'
-Plugin 'mattn/emmet-vim'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'tweekmonster/django-plus.vim'
+Plug 'rstacruz/sparkup', { 'for' : 'html' }
+Plug 'tpope/vim-surround', { 'for' : 'html' }
+Plug 'hallettj/jslint.vim', { 'for' : 'html' }
+Plug 'mattn/emmet-vim', { 'for' : 'html' }
+"Plug 'tweekmonster/django-plus.vim'
 "TODO add usage info
 
-Plugin 'vim/killersheep'
+Plug 'vim/killersheep'
 
 """"Extra plugins to test in the future
 "check this next (looks really cool)
-"Plugin 'terryma/vim-multiple-cursors' "select multiple cursors to type to
-"Plugin 'tomtom/tcomment_vim' "better commenting by filetype
-"Plugin 'tpope/vim-endwise' "might be able to add 'end' automatically in systemverilog
+"Plug 'terryma/vim-multiple-cursors' "select multiple cursors to type to
+"Plug 'tomtom/tcomment_vim' "better commenting by filetype
+"Plug 'tpope/vim-endwise' "might be able to add 'end' automatically in systemverilog
 
-"Plugin 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe'
 " The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
+" Keep Plug commands between vundle#begin/end.
 " plugin on GitHub repo
-"Plugin 'tpope/vim-fugitive'
+"Plug 'tpope/vim-fugitive'
 " plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
+" Plug 'L9'
 " Git plugin not hosted on GitHub
-"Plugin 'git://git.wincent.com/command-t.git'
+"Plug 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (i.e. when working on your own plugin)
-"Plugin 'file:///home/gmarik/path/to/plugin'
+"Plug 'file:///home/gmarik/path/to/plugin'
 " The sparkup vim script is in a subdirectory of this repo called vim.
 " Pass the path to set the runtimepath properly.
-"Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+"Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
 " Install L9 and avoid a Naming conflict if you've already installed a
 " different version somewhere else.
-" Plugin 'ascenator/L9', {'name': 'newL9'}
+" Plug 'ascenator/L9', {'name': 'newL9'}
 
 """"Vundle ending loading settings
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
+call plug#end()            " required
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
@@ -207,25 +208,26 @@ filetype plugin indent on    " required
 endif
 set encoding=utf-8
 
+"if this is a modern version of vim, start matchit buildin plugin
 if has("eval")
    packadd! matchit
 endif
-"let loaded_matchit = 1
-"runtime macros/matchit.vim
 
 if has('win32')
    set pythonthreedll=python37.dll
    set pythonthreehome=C:\Users\Doron_Dell\AppData\Local\Programs\Python\Python37-32
 endif
 
-if has('python3')
-   silent! python3 1
-endif
+"not sure why I did this
+"if has('python3')
+"   silent! python3 1
+"endif
 
-autocmd! BufEnter *
+"not sure why I did this
+"autocmd! BufEnter *
 
 "Enable filetypes
-syntax on
+syntax enable
 
 set visualbell              " enable the visual bell - I have this 'ding' sound on every tab.
 
@@ -276,7 +278,9 @@ let g:SuperTabDefaultCompletionType = 'context'
 "set completeopt=menuone,longest,preview
 let g:loaded_python_provider = 0
 let g:deoplete#enable_at_startup = 1
-let g:python3_host_prog=expand('$HOME\AppData\Local\Programs\Python\Python37-32\python.exe')
+if has('win32')
+   let g:python3_host_prog=expand('$HOME\AppData\Local\Programs\Python\Python37-32\python.exe')
+endif
 
 """Python-Mode plugin settings
 "use python3 for pymode
@@ -465,7 +469,8 @@ map <S-Insert> <MiddleMouse>
 map! <S-Insert> <MiddleMouse>
 "
 "Automatically change current directory to that of the file in the buffer
-"vim actually has a native function for this 'autochdir' but this is better
+"vim actually has a native function for this 'autochdir' so use that for
+"modern version. otherwise, use a workaround.
 if has("eval")
    set autochdir
 else
@@ -510,7 +515,7 @@ if !has('win32')
 endif
 "
 " suffixesadd - used when searching for a file with gf
-set suffixesadd=.v,.py,.sv,.c,.cpp,.h,.svh
+set suffixesadd=.v,.py,.sv,.c,.cpp,.h,.svh,.vsif
 "
 "path - This is a list of directories which will be searched when using gf
 "add spv include and uvm include
@@ -652,7 +657,7 @@ function! InsertPythonPackage()
     let result = append(8, "Description  : ") 
     let result = append(9, "Notes        : ") 
     let result = append(10, "---------------------------------------------------------------------------") 
-    let result = append(11, "Copyright 2019 (c) Satixfy Ltd") 
+    let result = append(11, "Copyright 2020 (c) Satixfy Ltd") 
     let result = append(12, "---------------------------------------------------------------------------*/")
     let result = append(13, "'''")     
   
@@ -676,7 +681,7 @@ function! InsertVerilogPackage()
 	 let result = append(8, "// Notes        	: ")
 	 let result = append(9, "// Version			: 0.1")
 	 let result = append(10, "// ---------------------------------------------------------------------------")
-	 let result = append(11, "// Copyright 2019 (c) Satixfy Ltd")
+	 let result = append(11, "// Copyright 2020 (c) Satixfy Ltd")
 	 let result = append(12, "// Confidential Proprietary ")
 	 let result = append(13, "// ---------------------------------------------------------------------------")
 endfunction
@@ -688,7 +693,7 @@ endfunction
 "map ] $<NL>
 "
 """ save and suspend
-map Z :w<NL>
+map Z :w<CR>
 "
 "
 "
@@ -703,86 +708,6 @@ nmap <F2> :call NERDComment('n', 'toggle')<CR>
 imap <F2> <ESC>:call NERDComment('n', 'toggle')<CR>
 "vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
 vmap <S-F2> :call NERDComment('x', 'sexy')<CR>
-"autocmd BufEnter *.c,*.h,*.cpp,*.v,*.vh,*.sv,*.svi,*.svh vmap <F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR>
-"autocmd BufEnter *.c,*.h,*.cpp,*.v,*.vh,*.sv,*.svi,*.svh vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
-"autocmd BufEnter *.vim,*.vmap vmap <F2>  <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call CommentVim(fl, ll)<CR>
-"autocmd BufEnter *.vim,*.vmap vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnCommentVim(fl, ll)<CR>
-"autocmd BufEnter *.py,*.sh,*.mk,*.tcl vmap <F2>  <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Commentpy(fl, ll)<CR>
-"autocmd BufEnter *.py,*.sh,*.mk,*.tcl vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnCommentpy(fl, ll)<CR>
-"
-"Function for commenting a block of Visually selected text 
-"function! Comment(fl, ll) 
-    "let i=a:fl 
-"let comment="//" 
-"while i<=a:ll 
-    "let cl=getline(i) 
-"let cl2=comment.cl 
-"call setline(i, cl2) 
-"let i=i+1 
-"endwhile 
-"endfunction 
-
-"Function for Un-Commenting a block of Visually selected text 
-"function! UnComment(fl, ll) 
-    "let i=a:fl 
-"let comment="//" 
-"while i<=a:ll 
-    "let cl=getline(i) 
-"let cl2=substitute(cl, "//", "", "") 
-"call setline(i, cl2) 
-"let i=i+1 
-"endwhile 
-"endfunction 
-"
-"-------------------------------------------------------------------
-"Function for commenting a block of Visually selected text 
-"function! Commentpy(fl, ll) 
-    "let i=a:fl 
-"let comment="#" 
-"while i<=a:ll 
-    "let cl=getline(i) 
-"let cl2=comment.cl 
-"call setline(i, cl2) 
-"let i=i+1 
-"endwhile 
-"endfunction 
-
-"Function for Un-Commenting a block of Visually selected text 
-"function! UnCommentpy(fl, ll) 
-    "let i=a:fl 
-"let comment="#" 
-"while i<=a:ll 
-    "let cl=getline(i) 
-"let cl2=substitute(cl, "#", "", "") 
-"call setline(i, cl2) 
-"let i=i+1 
-"endwhile 
-"endfunction 
-"-------------------------------------------------------------------
-"Function for commenting a block of Visually selected text 
-"function! CommentVim(fl, ll) 
-    "let i=a:fl 
-"let comment="\"" 
-"while i<=a:ll 
-    "let cl=getline(i) 
-"let cl2=comment.cl 
-"call setline(i, cl2) 
-"let i=i+1 
-"endwhile 
-"endfunction 
-
-"Function for Un-Commenting a block of Visually selected text 
-"function! UnCommentVim(fl, ll) 
-    "let i=a:fl 
-"let comment="\"" 
-"while i<=a:ll 
-    "let cl=getline(i) 
-"let cl2=substitute(cl, "\"", "", "") 
-"call setline(i, cl2) 
-"let i=i+1 
-"endwhile 
-"endfunction 
-"
 """Old F10 box lines 
 "map <F10> :co .<NL>:s/[!-~]/-/g<NL>:s/- -/---/g<NL>:s/-  -/----/g<NL><ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR>
 "map <F10> :co .<CR>:s/[!-~]/-/g<CR>:s/- -/---/g<CR>I#<esc>
@@ -821,17 +746,19 @@ set guitablabel=%t
 "
 """Plugin Settings
 """"VCS (svn) plugin settings 
-map <S-F11> :!svn lock %<CR>
+map <S-F11> <ESC>:SignifyToggle<CR>
 map <S-F12> :!svn ci % -m "Fixed a Bug"<CR>
-map <F12> :tabnew 
 
+map <F12> :tabnew 
 map <F11> :close <CR>
 "fix problem where opening a tab causes the bottom line to dissapear
 set showtabline=2 
-"VCS diff to trunk
 set listchars=eol:$,tab:\>\ ,trail:.,extends:>,precedes:<
 set nolist   " to turn on (use :set nolist to turn off)
-map <leader>dt :VCSVimDiff<CR>
+"VCS diff to trunk
+map <leader>dt :SignifyDiff<CR>
+set updatetime=100 "for async update of signify
+let g:signify_disable_by_default = 1 "dont start signify by default
 
 """"Grep Plugin
 map <F9>  :MyGrep 
@@ -958,6 +885,7 @@ let delimitMate_expand_cr = 1
 au FileType verilog_systemverilog inoremap begin begin<CR>end<CR><up><up><end><CR>
 "au FileType verilog_systemverilog let b:delimitMate_matchpairs = "(:),[:],{:}"
 au FileType verilog_systemverilog let b:delimitMate_quotes = "\""
+au FileType vim let b:delimitMate_quotes = "' ` *"
 
 """Emmet plugin settings
 let g:user_emmet_leader_key='<C-Space>'
@@ -1229,7 +1157,7 @@ map <S-Right> <Esc>gt
 
 """syntastic syntax helper
 if has('unix')
-   let g:syntastic_python_python_exec = '/sw/common/bin/python3.8'
+   let g:syntastic_python_python_exec = '/sw/common/bin/python3'
 endif
 " syntastic doesn't work well with airline, TODO check why
 "set statusline+=%#warningmsg#
@@ -1438,7 +1366,7 @@ endfunction
 "let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
 "let &errorformat="Warning-%t%* %m" . &errorformat
 
-map <F5> :VerilogErrorFormat ncverilog 1<CR>
+map <F5> :set makeprg=cat\ #<<CR>:VerilogErrorFormat ncverilog 1<CR>:copen<CR>
 
 """Load personal vimrc
 if filereadable(glob("$HOME/myvimrc")) 
