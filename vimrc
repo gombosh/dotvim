@@ -77,7 +77,7 @@ Plug 'mhinz/vim-signify', { 'on' : 'SignifyToggle' }
 " disabled for now because it doesn't play well with airline
 " TODO check for alternatitve
 " add snipets + makeprg fpr xcelium analyze
-Plug 'vhda/verilog_systemverilog.vim', { 'for' : 'verilog_systemverilog' }
+Plug 'vhda/verilog_systemverilog.vim', { 'for' : 'verilog_systemverilog,log' }
 "<leader>i/o/u/I (after tags file is ready)
 "for verilog_systemverilog - highlighes the matches of words
 Plug 'vimtaku/hl_matchit.vim'
@@ -163,18 +163,18 @@ Plug 'rstacruz/sparkup', { 'for' : 'html' }
 Plug 'tpope/vim-surround', { 'for' : 'html' }
 Plug 'hallettj/jslint.vim', { 'for' : 'html' }
 Plug 'mattn/emmet-vim', { 'for' : 'html' }
-Plug 'tweekmonster/django-plus.vim'
-Plug 'vim-scripts/django.vim'
+"Plug 'tweekmonster/django-plus.vim'
+"Plug 'vim-scripts/django.vim'
 "TODO add usage info
 
 Plug 'vim/killersheep'
-Plug 'mtdl9/vim-log-highlighting'
-Plug 'shemerey/vim-project'
-Plug 'vim-scripts/vimprj'
-Plug 'vim-scripts/DfrankUtil'
-Plug 'vim-scripts/indexer.tar.gz'
-Plug 'vim-vdebug/vdebug'
-Plug 'skywind3000/asyncrun.vim'
+"Plug 'mtdl9/vim-log-highlighting'
+"Plug 'shemerey/vim-project'
+"Plug 'vim-scripts/vimprj'
+"Plug 'vim-scripts/DfrankUtil'
+"Plug 'vim-scripts/indexer.tar.gz'
+"Plug 'vim-vdebug/vdebug'
+"Plug 'skywind3000/asyncrun.vim'
 
 """"Extra plugins to test in the future
 "check this next (looks really cool)
@@ -318,7 +318,8 @@ let g:pymode_lint = 1
 let g:pymode_lint_on_write = 1
 let g:pymode_lint_message = 1
 let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe']
-let g:pymode_lint_ignore = ["E501", "W",]   "skip 'too long' warning
+let g:pymode_lint_ignore = "E501"   "skip 'too long' warning
+"let g:pymode_lint_ignore = ["E501", "W",]   "skip 'too long' warning
 "enable all python highliting
 let g:pymode_syntax_all = 1
 "E.g. "E501,W002", "E2,W" (Skip all Warnings and Errors that starts with E2) and etc
@@ -884,7 +885,7 @@ vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 map <leader>s :%s/\s\+/ /g<CR>:noh<CR>
-" }}}
+vmap <leader>s :s/\s\+/ /g<CR>
 
 "delimitmate plugin settings {{{
 let delimitMate_expand_cr = 1
@@ -1378,7 +1379,10 @@ endfunction
 "let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
 "let &errorformat="Warning-%t%* %m" . &errorformat
 
-map <F5> :set makeprg=cat\ #<<CR>:VerilogErrorFormat ncverilog 1<CR>:copen<CR>
+"map <F5> :set makeprg=cat\ #<<CR>:VerilogErrorFormat ncverilog 3<CR>:cfile %<CR>:copen<CR>:cn<CR>
+map <F5> :set makeprg=grep\ -e\ UVM_FATAL\ -e\ *E\ -e\ *W\ -e\ *F\ %<CR>:VerilogErrorFormat ncverilog 1<CR>:make<CR>:copen<CR>
+nnoremap } :<C-R>=len(getqflist())==1?"cc":"cn"<CR><CR>
+nnoremap { :<C-R>=len(getqflist())==1?"cc":"cp"<CR><CR>
 
 """Load personal vimrc
 if filereadable(glob("$HOME/myvimrc")) 
