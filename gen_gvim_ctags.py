@@ -37,7 +37,8 @@ def gen_ctags(lang="systemverilog"):
     global op_done
     global args
     print "generating ctags..."
-    cmd_str = 'ctags --options=/home/dorong/.vim/bin/.ctags.cnf --extra=+q --fields=+i --language-force=%s -L filelist.tmp -f '%lang
+    # cmd_str = 'ctags --options=/home/dorong/.vim/bin/.ctags.cnf --extra=+q --fields=+i --language-force=%s -L filelist.tmp -f '%lang
+    cmd_str = 'ctags --options=/home/dorong/.vim/bin/.ctags.cnf --extra=+q --fields=+i -n --language-force=%s -L filelist.tmp -f '%lang
     if args['o']:
         cmd_str += args['o']
     else:
@@ -122,7 +123,10 @@ def gen_nc_tags():
             try:
                 line = line.strip()
                 print "HANDLING:",line
-                if line[0]=="/" and line[1]!="/":
+                if "VIPCAT" in line:
+                    print "skipping",line
+                    continue
+                elif line[0]=="/" and line[1]!="/":
                     os.system('echo %s >> filelist.tmp'%line)
                 elif "incdir" in line:
                     print('find %s -name "*.v" >> filelist.tmp'%(line.split("+")[-1]))

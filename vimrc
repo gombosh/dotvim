@@ -281,7 +281,7 @@ let g:SuperTabDefaultCompletionType = 'context'
 let g:loaded_python_provider = 0
 let g:deoplete#enable_at_startup = 1
 if has('win32')
-   let g:python3_host_prog=expand('$HOME\AppData\Local\Programs\Python\Python37-32\python.exe')
+   let g:python3_host_prog=expand('$HOME\AppData\Local\Programs\Python\Python38-32\python.exe')
 endif
 
 """Python-Mode plugin settings
@@ -602,22 +602,12 @@ map <c-h> <c-w>h
 "au FocusLost * :wa
 "
 """ Backups
-if has("vms")
-  set nobackup		" do not keep a backup file, use versions instead
-else
-   if !isdirectory(expand("$HOME")."/backup")
-      call mkdir(expand("$HOME")."/backup", "p")
-   endif
-  set backup		" keep a backup file (restore to previous version)
-  set backupdir=$HOME/backup " backups
-  if has('persistent_undo')
-    set undofile	" keep an undo file (undo changes after closing)
-  endif
-endif
-
-"set directory=~/.vim/tmp/swap// " swap files
-set noswapfile
-"
+set backupdir=.backup/,~/.backup/,/tmp//
+set directory=.swp/,~/.swp/,/tmp//
+set undodir=.undo/,~/.undo/,/tmp//
+set undofile
+set backup
+set swapfile
 "If you exit Vim and later start it again, you would normally lose a lot of
 "information.  The viminfo file can be used to remember that information, which
 "enables you to continue where you left off.
@@ -880,6 +870,7 @@ highlight LineNr ctermfg=grey ctermbg=black guibg=black guifg=grey
 vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+"remove all extra white spaces
 map <leader>s :%s/\s\+/ /g<CR>:noh<CR>
 vmap <leader>s :s/\s\+/ /g<CR>
 
@@ -1371,7 +1362,7 @@ endfunction
 "let &errorformat="Warning-%t%* %m" . &errorformat
 
 "map <F5> :set makeprg=cat\ #<<CR>:VerilogErrorFormat ncverilog 3<CR>:cfile %<CR>:copen<CR>:cn<CR>
-map <F5> :set makeprg=grep\ -e\ UVM_FATAL\ -e\ *E\ -e\ *W\ -e\ *F\ %<CR>:VerilogErrorFormat ncverilog 1<CR>:make<CR>:copen<CR>
+map <F5> :set makeprg=grep\ -e\ UVM_FATAL\ -e\ *E\ -e\ *W\ -e\ *F\ %<CR>:VerilogErrorFormat ncverilog 1<CR>:make<CR>:copen<CR><CR>
 nnoremap } :<C-R>=len(getqflist())==1?"cc":"cn"<CR><CR>
 nnoremap { :<C-R>=len(getqflist())==1?"cc":"cp"<CR><CR>
 
