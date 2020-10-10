@@ -14,8 +14,7 @@ set t_BE=
 "Forget compatibility with Vi. Believe me, it's better this way.
 set nocompatible              " be iMproved, required
 
-"""Vundle plugins loading
-""""Vundle initial loading settings
+" Vimplug plugins loading {{{
 filetype off                  " required for vundle
 " set the runtime path to include Vundle and initialize
 if has('win32')
@@ -27,8 +26,9 @@ else
 endif
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
+" }}}
 
-""""Plugins
+"Plugins {{{
 " let Vundle manage Vundle, required
 " this gets and manages plugins from git
 "Plug 'VundleVim/Vundle.vim'
@@ -114,9 +114,11 @@ Plug 'kopischke/vim-fetch'
 "   Plug 'valloric/youcompleteme'
 "endif
 "Best (and simplest) completion I found so far.
-Plug 'maralla/completor.vim'
+"Plug 'maralla/completor.vim'
 "Plug 'ajh17/VimCompletesMe.git'
-
+Plug 'Shougo/deoplete.nvim'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
 "Snippet plugins
 "-----------------
 "advanced snipets, need py3
@@ -131,7 +133,7 @@ Plug 'honza/vim-snippets'
 Plug 'flazz/vim-colorschemes'
 
 "Full undo history in a side window.
-Plug 'sjl/gundo.vim'
+Plug 'sjl/gundo.vim', { 'on' : 'GundoToggle' }
 "use F3 to toggle.
 
 " diff dirs!!
@@ -161,10 +163,18 @@ Plug 'rstacruz/sparkup', { 'for' : 'html' }
 Plug 'tpope/vim-surround', { 'for' : 'html' }
 Plug 'hallettj/jslint.vim', { 'for' : 'html' }
 Plug 'mattn/emmet-vim', { 'for' : 'html' }
-"Plug 'tweekmonster/django-plus.vim'
+Plug 'tweekmonster/django-plus.vim'
+Plug 'vim-scripts/django.vim'
 "TODO add usage info
 
 Plug 'vim/killersheep'
+Plug 'mtdl9/vim-log-highlighting'
+Plug 'shemerey/vim-project'
+Plug 'vim-scripts/vimprj'
+Plug 'vim-scripts/DfrankUtil'
+Plug 'vim-scripts/indexer.tar.gz'
+Plug 'vim-vdebug/vdebug'
+Plug 'skywind3000/asyncrun.vim'
 
 """"Extra plugins to test in the future
 "check this next (looks really cool)
@@ -189,8 +199,9 @@ Plug 'vim/killersheep'
 " Install L9 and avoid a Naming conflict if you've already installed a
 " different version somewhere else.
 " Plug 'ascenator/L9', {'name': 'newL9'}
+" }}}
 
-""""Vundle ending loading settings
+""""Vimplug ending loading settings {{{
 " All of your Plugins must be added before the following line
 call plug#end()            " required
 filetype plugin indent on    " required
@@ -206,16 +217,18 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 endif
+" }}}
 set encoding=utf-8
 
 "if this is a modern version of vim, start matchit buildin plugin
 if has("eval")
    packadd! matchit
+   runtime macros/matchit.vim
 endif
 
 if has('win32')
-   set pythonthreedll=python37.dll
-   set pythonthreehome=C:\Users\Doron_Dell\AppData\Local\Programs\Python\Python37-32
+   set pythonthreedll=python38.dll
+   set pythonthreehome=C:\Users\Doron_Dell\AppData\Local\Programs\Python\Python38-32
 endif
 
 "not sure why I did this
@@ -279,10 +292,10 @@ let g:SuperTabDefaultCompletionType = 'context'
 let g:loaded_python_provider = 0
 let g:deoplete#enable_at_startup = 1
 if has('win32')
-   let g:python3_host_prog=expand('$HOME\AppData\Local\Programs\Python\Python37-32\python.exe')
+   let g:python3_host_prog=expand('$HOME\AppData\Local\Programs\Python\Python38-32\python.exe')
 endif
 
-"""Python-Mode plugin settings
+"Python-Mode plugin settings {{{
 "use python3 for pymode
 let g:pymode_python = 'python3'
 "Enable pymode indentatio
@@ -325,8 +338,9 @@ let g:pymode_rope_completion = 0
 let g:pymode_rope = 0
 
 let g:jedi#use_splits_not_buffers = "left"
+" }}}
 
-"""Fonts and Color Schemes
+"Fonts and Color Schemes {{{
 "Set the color scheme. Change this to your preference.
 "We have a plugin with 1000 schemes installed
 if has("eval")
@@ -346,38 +360,22 @@ else
    nmap <silent> + :let &guifont=substitute(&guifont, '\(\d\+\)', '\=submatch(1) + 1', '')<CR>
    nmap <silent> _ :let &guifont=substitute(&guifont, '\(\d\+\)', '\=(submatch(1) - 1)', '')<CR>
 endif
+" }}}
 
-"""revision history tool
+"revision history tool {{{
 let g:gundo_prefer_python3 = 1
 map <F3> :GundoToggle<CR>
+" }}}
 
-"""Tags control
+"Tags control {{{
 map <F4> :Tagbar<CR>
 if has('win32')
    let g:tagbar_ctags_bin = '$HOME/vimfiles/bin/ctags.exe'
 else
    let g:tagbar_ctags_bin = '/home/dorong/bin/ctags/bin/ctags'
 endif
-"let g:tagbar_type_systemverilog= {
-    "\ 'ctagstype' : 'systemverilog',
-    "\ 'kinds'     : [
-        "\'c:classes',
-        "\'t:tasks',
-        "\'f:functions',
-        "\'m:modules',
-        "\'i:interfaces',
-        "\'v:variables',
-        "\'d:defines',
-        "\'e:typedefs',
-        "\'a:parameters'
-  "\]
-"\}
-""""Taglist - not installed
-"let Tlist_Ctags_Cmd="C:/\ctags58/\ctags.exe"
-""""Tagbar
-"let g:tagbar_ctags_bin = "C:/ctags58/ctags.exe"
 
-"""Global settings
+"Global settings {{{
 "following seeting are controlled by external plugin so I disabled them here.
 "set shortmess=xotI "shorten messages so you dont have to press enter, but i don't use this for now.
 "set showcmd "Show command in bottom right portion of the screen
@@ -481,9 +479,9 @@ endif
 "imap <leader><tab> <C-x><C-o>
 "
 "Auto-completion menu for command line - behave like bash
-set wildmode=list:longest
+"set wildmode=list:longest
 " More useful command-line completion
-set wildmenu
+"set wildmenu
 " wildchar key that triggers command-line expansion
 "set wildchar=<Tab>
 "
@@ -515,7 +513,7 @@ if !has('win32')
 endif
 "
 " suffixesadd - used when searching for a file with gf
-set suffixesadd=.v,.py,.sv,.c,.cpp,.h,.svh,.vsif
+set suffixesadd=.v,.py,.sv,.c,.cpp,.h,.svh,.vsif,.sh
 "
 "path - This is a list of directories which will be searched when using gf
 "add spv include and uvm include
@@ -526,9 +524,9 @@ set path=.
 "
 " Make block mode work in insert mode
 map! <C-V> <Esc><C-V>
+" }}}
 "
-"
-""""Highlight current line
+"Highlight current line {{{
 "Highlight the line of the cursor (helps to mark the current line in bold).
 hi Cursor guifg=Black guibg=green
 hi Cursorline term=none cterm=none ctermbg=Green guibg=darkred
@@ -556,8 +554,9 @@ augroup END
 "Bubble multiple lines
 "vmap <C-Up> xkP`[V`]
 "vmap <C-Down> xp`[V`]
-"
-""" Source the vimrc file after saving it. This way, you don't have to reload Vim to see the changes.
+" }}}
+
+" Source the vimrc file after saving it. This way, you don't have to reload Vim to see the changes. {{{
 if has("autocmd")
  augroup myvimrchooks
   au!
@@ -568,8 +567,9 @@ if has("autocmd")
   endif
  augroup END
 endif
-"
-""" easier window navigation
+" }}}
+
+" easier window navigation {{{
 "nmap <C-h> <C-w>h
 "nmap <C-j> <C-w>j
 "nmap <C-k> <C-w>k
@@ -585,8 +585,8 @@ map <c-j> <c-w>j
 map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
+" }}}
 
-"
 "Spelling corrects. Just for example. Add yours below.
 "iab teh the
 "iab Teh The
@@ -598,8 +598,13 @@ map <c-h> <c-w>h
 """ Saves file when Vim window loses focus
 "au FocusLost * :wa
 "
-""" Backups
-if has("vms")
+" Backups {{{
+"
+if has('unix')
+   set backupdir=.backup/,~/.backup/,/tmp//
+   set directory=.swp/,~/.swp/,/tmp//
+   set undodir=.undo/,~/.undo/,/tmp//
+elseif has("vms")
   set nobackup		" do not keep a backup file, use versions instead
 else
    if !isdirectory(expand("$HOME")."/backup")
@@ -612,27 +617,29 @@ else
   endif
 endif
 
-"set directory=~/.vim/tmp/swap// " swap files
-set noswapfile
-"
+""set directory=~/.vim/tmp/swap// " swap files
+"set noswapfile
+"" }}}
+
 "If you exit Vim and later start it again, you would normally lose a lot of
 "information.  The viminfo file can be used to remember that information, which
 "enables you to continue where you left off.
 "set viminfo='100,\"50,:200  " read /write a .viminfo file, don't store more than 50 lines of registers
 "
-"""Mouse
+"Mouse {{{
 " Use popup menu for right mouse button and keep shift-left mouse button as search
 set mousemodel=popup
 map <S-LeftMouse> <LeftMouse>*
 map! <S-LeftMouse> <Esc><LeftMouse>*
-"
-""" confirm start a dialog when a command fails
+" }}}
+
+" confirm start a dialog when a command fails {{{
 set cf
-"
-""" equalalways	make all windows the same size when adding/removing windows
+" }}}
+" equalalways	make all windows the same size when adding/removing windows
 "set noea
 "
-"""New file packages
+"New file packages {{{
 autocmd! BufNewFile *.py call InsertPythonPackage() 
 
 "TODO change name
@@ -685,9 +692,9 @@ function! InsertVerilogPackage()
 	 let result = append(12, "// Confidential Proprietary ")
 	 let result = append(13, "// ---------------------------------------------------------------------------")
 endfunction
+" }}}
 "
-"
-""" map the [ ] keys
+" map the [ ] keys
 " go to start/end of next line
 "map [ 0<NL> 
 "map ] $<NL>
@@ -697,24 +704,21 @@ map Z :w<CR>
 "
 "
 "
-"""Menu items for Commenting and Un-Commenting code 
-"amenu 20.435 &Edit.-SEP4- : 
-"amenu Edit.Comment <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR> 
-"amenu Edit.UnComment <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
-" Insert # comments
-"vmap <F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR> 
+" Commenting and Un-Commenting code {{{
 vmap <F2> :call NERDComment('x', 'toggle')<CR> 
 nmap <F2> :call NERDComment('n', 'toggle')<CR> 
 imap <F2> <ESC>:call NERDComment('n', 'toggle')<CR>
 "vmap <S-F2> <ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call UnComment(fl, ll)<CR>
 vmap <S-F2> :call NERDComment('x', 'sexy')<CR>
-"""Old F10 box lines 
+" }}}
+
+"Old F10 box lines {{{
 "map <F10> :co .<NL>:s/[!-~]/-/g<NL>:s/- -/---/g<NL>:s/-  -/----/g<NL><ESC>`<:let fl=line(".")<CR>`>:let ll=line(".")<CR>:call Comment(fl, ll)<CR>
 "map <F10> :co .<CR>:s/[!-~]/-/g<CR>:s/- -/---/g<CR>I#<esc>
 "map <F10> :co .<CR><S-V>r-<esc>v<F2>yykP
+" }}}
 "
-"
-"""Syntax folding and Highlighting
+"Syntax folding and Highlighting {{{
 "TODO move to global file
 "au BufReadPost *.vsif so ~/bin/vsif.vim
 "let g:verilog_syntax_fold_lst = "all"
@@ -727,16 +731,16 @@ if has("eval")
    "Enable code folding - let's let the plugin control that
    set foldenable
    "set foldlevel=99
-   set foldmethod=syntax
+   "set foldmethod=syntax
    "set foldmethod=indent
+   set foldmethod=marker
 endif
 nnoremap <leader>i :VerilogFollowInstance<CR>
 nnoremap <leader>I :VerilogFollowPort<CR>
 nnoremap <leader>u :VerilogGotoInstanceStart<CR>
 nnoremap <leader>o :VerilogReturnInstance<CR>
+" }}}
 
-
-"
 """ maximum of 12 tabs opened with -p
 set tabpagemax=12
 "
@@ -744,7 +748,7 @@ set tabpagemax=12
 set go+=acegmiLTrtb
 set guitablabel=%t
 "
-"""Plugin Settings
+"Plugin Settings {{{
 """"VCS (svn) plugin settings 
 map <S-F11> <ESC>:SignifyToggle<CR>
 map <S-F12> :!svn ci % -m "Fixed a Bug"<CR>
@@ -812,39 +816,40 @@ endfunction
 
 command! -nargs=* -complete=file MyGrep call MyGrep(<f-args>)
 
-""""CSCOPE Plugin
+"CSCOPE Plugin - plugin is disabled {{{
 "----------
 " CSCOPE "
 "----------
-if has('win32')
-   let g:cscope_cmd = "$HOME/vimfiles/bin/cscope.exe"
-else
-   let g:cscope_cmd = '$HOME/.vim/bin/cscope.exe'
-endif
-"let g:cscope_interested_files = '\.c$\|\.cpp$\|\.h$\|\.hpp'
-let g:cscope_interested_files = '\.py$'
+"if has('win32')
+   "let g:cscope_cmd = "$HOME/vimfiles/bin/cscope.exe"
+"else
+   "let g:cscope_cmd = '$HOME/.vim/bin/cscope.exe'
+"endif
+""let g:cscope_interested_files = '\.c$\|\.cpp$\|\.h$\|\.hpp'
+"let g:cscope_interested_files = '\.py$'
 
-nnoremap <leader>fa :call CscopeFindInteractive(expand('<cword>'))<CR>
-nnoremap <leader>l :call ToggleLocationList()<CR>
+"nnoremap <leader>fa :call CscopeFindInteractive(expand('<cword>'))<CR>
+"nnoremap <leader>l :call ToggleLocationList()<CR>
 
-" s: Find this C symbol
-nnoremap  <leader>fs :call CscopeFind('s', expand('<cword>'))<CR>
-" g: Find this definition
-nnoremap  <leader>fg :call CscopeFind('g', expand('<cword>'))<CR>
-" d: Find functions called by this function
-nnoremap  <leader>fd :call CscopeFind('d', expand('<cword>'))<CR>
-" c: Find functions calling this function
-nnoremap  <leader>fc :call CscopeFind('c', expand('<cword>'))<CR>
-" t: Find this text string
-nnoremap  <leader>ft :call CscopeFind('t', expand('<cword>'))<CR>
-" e: Find this egrep pattern
-nnoremap  <leader>fe :call CscopeFind('e', expand('<cword>'))<CR>
-" f: Find this file
-nnoremap  <leader>ff :call CscopeFind('f', expand('<cword>'))<CR>
-" i: Find files #including this file
-nnoremap  <leader>fi :call CscopeFind('i', expand('<cword>'))<CR>
+"" s: Find this C symbol
+"nnoremap  <leader>fs :call CscopeFind('s', expand('<cword>'))<CR>
+"" g: Find this definition
+"nnoremap  <leader>fg :call CscopeFind('g', expand('<cword>'))<CR>
+"" d: Find functions called by this function
+"nnoremap  <leader>fd :call CscopeFind('d', expand('<cword>'))<CR>
+"" c: Find functions calling this function
+"nnoremap  <leader>fc :call CscopeFind('c', expand('<cword>'))<CR>
+"" t: Find this text string
+"nnoremap  <leader>ft :call CscopeFind('t', expand('<cword>'))<CR>
+"" e: Find this egrep pattern
+"nnoremap  <leader>fe :call CscopeFind('e', expand('<cword>'))<CR>
+"" f: Find this file
+"nnoremap  <leader>ff :call CscopeFind('f', expand('<cword>'))<CR>
+"" i: Find files #including this file
+"nnoremap  <leader>fi :call CscopeFind('i', expand('<cword>'))<CR>
+" }}}
 
-""""NERD TREE Plugin
+"NERD TREE Plugin {{{
 "Show hidden files in NerdTree
 let NERDTreeShowHidden=1
 "toggle nerdtree with f6
@@ -853,10 +858,10 @@ imap  <silent> <F6>   <Esc>:NERDTreeToggle<CR>
 "autopen NERDTree and focus cursor in new document
 "autocmd VimEnter * NERDTree
 "autocmd VimEnter * wincmd p
-"
+" }}}
 map <F7> :profile start /home/$USER/gvim_profile.log<CR>:profile func *<CR>:profile file *<CR>
 
-""""AirLine plugin
+"AirLine plugin {{{
 set laststatus=2 "always show status line
 " here is an example of how you could replace the branch indicator with
 " the current working directory, followed by the filename.
@@ -864,8 +869,9 @@ set laststatus=2 "always show status line
 
 set number "Show lines numbers
 highlight LineNr ctermfg=grey ctermbg=black guibg=black guifg=grey
+" }}}
 
-""""Tabular Plugin settings - auto align text
+"Tabular Plugin settings - auto align text {{{
 "nmap <Leader>a= :Tab /=<CR>
 "vmap <Leader>a= :Tab /=<CR>
 "nmap <Leader>a: :Tab /:\zs<CR>
@@ -878,17 +884,19 @@ vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 map <leader>s :%s/\s\+/ /g<CR>:noh<CR>
+" }}}
 
-
-""""delimitmate plugin settings
+"delimitmate plugin settings {{{
 let delimitMate_expand_cr = 1
 au FileType verilog_systemverilog inoremap begin begin<CR>end<CR><up><up><end><CR>
 "au FileType verilog_systemverilog let b:delimitMate_matchpairs = "(:),[:],{:}"
 au FileType verilog_systemverilog let b:delimitMate_quotes = "\""
 au FileType vim let b:delimitMate_quotes = "' ` *"
+" }}}
 
-"""Emmet plugin settings
+"Emmet plugin settings - only loaded for html {{{
 let g:user_emmet_leader_key='<C-Space>'
+" }}}
 
 """FIXME work with session as project
 "nmap <F3> <ESC>:call LoadSession()<CR> 
@@ -1155,7 +1163,7 @@ map <S-Right> <Esc>gt
 "autocmd BufRead,BufNewFile *.sv,*.svi set filetype=verilog_systemverilog
 "autocmd BufRead,BufNewFile *.sv,*.svi set expandtab tabstop=4 softtabstop=2 shiftwidth=2
 
-"""syntastic syntax helper
+"syntastic syntax helper {{{
 if has('unix')
    let g:syntastic_python_python_exec = '/sw/common/bin/python3'
 endif
@@ -1167,8 +1175,9 @@ endif
 "let g:syntastic_auto_loc_list = 1
 "let g:syntastic_check_on_open = 1
 "let g:syntastic_check_on_wq = 0
+" }}}
 
-"""Tags location function
+"Tags location function {{{
 if has("python3")
 "autocmd BufReadPost * call SET_TAGS_LOCATION()
 autocmd BufEnter * call SET_TAGS_LOCATION()
@@ -1193,8 +1202,9 @@ def set_tags_location():
 set_tags_location()
 endpython
 endfunction
+" }}}
 
-"""Env var setting functions
+"Env var setting functions {{{
 autocmd BufEnter * call SET_WS()
 function! SET_WS()
 python3 << endpython
@@ -1245,8 +1255,9 @@ python3 << endpython
 endpython
 endfunction
 endif
+" }}}
 
-"""xrun Log file syntax highlighting
+"xrun Log file syntax highlighting {{{
 function! ElogSettings()
    "colorscheme evening
    hi Cursorline term=none cterm=none ctermbg=Green guibg=darkred
@@ -1283,6 +1294,7 @@ function! ElogSettings()
 	hi TstLog  	gui=bold guibg=Blue guifg=Green
 endfunction
 autocmd BufRead *.log :call ElogSettings()
+" }}}
 
 """Dont know what this is
 vmap <C-S> e <ESC> /<C-R>*<CR>
@@ -1377,4 +1389,4 @@ endif
 autocmd! BufNewFile *.py call InsertPythonPackage() 
 
 """VIMRC folding setting
-"" vim:fdm=expr:fdl=0
+"vim:fdm=marker
