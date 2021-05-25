@@ -2,6 +2,12 @@
 " this was old stuff from before python mode
 "au FileType python set omnifunc=pythoncomplete#Complete
 "
+let g:loaded_python_provider = 0
+let g:deoplete#enable_at_startup = 1
+if has('win32')
+   let g:python3_host_prog=expand('$HOME\AppData\Local\Programs\Python\Python38-32\python.exe')
+endif
+
 "Python-Mode plugin settings
 "use python3 for pymode
 let g:pymode_python = 'python3'
