@@ -1,3 +1,8 @@
+if has('win32')
+   set pythonthreedll=python38.dll
+   set pythonthreehome=C:\Users\Doron_Dell\AppData\Local\Programs\Python\Python38-32
+endif
+
 "for python activate supertab completion - need to move to filetype detect file
 " this was old stuff from before python mode
 "au FileType python set omnifunc=pythoncomplete#Complete
