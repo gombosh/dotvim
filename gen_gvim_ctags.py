@@ -38,7 +38,8 @@ def gen_ctags(lang="systemverilog"):
     global args
     print "generating ctags..."
     # cmd_str = 'ctags --options=/home/dorong/.vim/bin/.ctags.cnf --extra=+q --fields=+i --language-force=%s -L filelist.tmp -f '%lang
-    cmd_str = 'ctags --options=/home/dorong/.vim/bin/.ctags.cnf --extra=+q --fields=+i -n --language-force=%s -L filelist.tmp -f '%lang
+    # cmd_str = 'ctags --options=/home/dorong/.vim/bin/.ctags.cnf --extra=+q --fields=+i -n --language-force=%s -L filelist.tmp -f '%lang
+    cmd_str = 'ctags --extra=+q --fields=+i -n --language-force=%s -L filelist.tmp -f '%lang
     if args['o']:
         cmd_str += args['o']
     else:
