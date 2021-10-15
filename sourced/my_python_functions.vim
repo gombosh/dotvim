@@ -1,11 +1,11 @@
 " Tag settings - http://vim.wikia.com/wiki/VimTip94
 " Vim will search for the file named 'tags', starting with the current directory and then going to the parent directory and then 
 " recursively to the directory one level above, till it either locates the 'tags' file or reaches the root '/' directory.
-set tags=tags;/
+"set tags=tags;/
 set tagstack " this setting should replace SET_TAGS_LOCATION
 "Tags location function
 if has("python3")
-"autocmd BufReadPost * call SET_TAGS_LOCATION()
+autocmd BufReadPost * call SET_TAGS_LOCATION()
 "autocmd BufEnter * call SET_TAGS_LOCATION()
 function! SET_TAGS_LOCATION()
 python3 << endpython

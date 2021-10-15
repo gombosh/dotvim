@@ -38,14 +38,12 @@ endif
 "Forget compatibility with Vi. Believe me, it's better this way.
 set nocompatible              " be iMproved, required
 
-" Enable filetype plugins
-filetype plugin indent on    " required
 
 
 "If you Want a different map leader than \ use this in your myvimrc file
 "set mapleader = ",";
 "Ever notice a slight lag after typing the leader key + command? This lowers the timeout.
-"set timeoutlen=500
+set ttimeoutlen=500
 
 
 "don't Write the file automatically when switching between files.
@@ -60,14 +58,16 @@ else
    set shell=/bin/bash
 endif
 
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Show full tag of completion
-set showfulltag
+"set showfulltag
 
 " number of screen lines to show around the cursor
-set scrolloff=3
+set scrolloff=2
 
 set number "Show lines numbers
 highlight LineNr ctermfg=grey ctermbg=black guibg=black guifg=grey
@@ -75,7 +75,7 @@ highlight LineNr ctermfg=grey ctermbg=black guibg=black guifg=grey
 "Auto-completion menu for command line - behave like bash
 set wildmode=list:longest
 " More useful command-line completion
-set wildmenu
+"set wildmenu "this will give a menu in the command line instead
 "set completeopt=menuone,longest,preview
 
 " Ignore compiled files
@@ -85,6 +85,8 @@ if has("win32")
 else
     set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 endif
+
+set lines=210 columns=999
 
 "Display current cursor position in lower right corner.
 "set ruler
@@ -124,6 +126,8 @@ set magic
 set showmatch "When a bracket is inserted briefly jump to the matching one
 " How many blinks when matching brackets
 set mat=2
+let g:matchparen_timeout = 2
+let g:matchparen_insert_timeout = 2
 
 " No annoying sound on errors
 set visualbell t_vb= " disable bell and visual bell - I have this 'ding' sound on every tab or any other flashes.
@@ -144,7 +148,7 @@ catch
 endtry
 "Set the color scheme. Change this to your preference.
 "We have a plugin with 1000 schemes installed
-set background=dark
+"set background=dark
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -297,14 +301,15 @@ map <c-l> <c-w>l<c-w>|
 map <c-h> <c-w>h<c-w>|
 map <c-=> <c-w>=
 
-if has("eval")
-   "Enable code folding - let's let the plugin control that
-   set foldenable
-   "set foldlevel=99
-   set foldmethod=syntax
-   "set foldmethod=indent
-   "set foldmethod=marker
-endif
+set nofoldenable
+"if has("eval")
+   ""Enable code folding - let's let the plugin control that
+   "set foldenable
+   ""set foldlevel=99
+   "set foldmethod=syntax
+   ""set foldmethod=indent
+   ""set foldmethod=marker
+"endif
 
 """"""""""""""""""""""""""""""
 " => Status line
@@ -343,27 +348,27 @@ nmap <C-Down> ddp
 vmap <C-Up> xkP`[V`]
 vmap <C-Down> xp`[V`]
 
+"add nice block around text
+nnoremap <leader># I#<Space><Esc>A<Space>#<Esc>yy2P<C-V>$r#2j.
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has('win32') && !has('nvim')
-   set pythonthreedll=python39.dll
-   set pythonthreehome=C:\Users\gombo\AppData\Local\Programs\Python\Python39-32
+    set pythonthreedll=python39.dll
+    set pythonthreehome=C:\Users\gombo\AppData\Local\Programs\Python\Python39-32
 endif
 
 "Shortcut for editing  vimrc file in a new tab - this is one of the most
 "usefull things in the world!
 nmap <leader>ev :tabedit $MYVIMRC<cr>
+nmap <leader>ep :tabedit $VIMHOME/sourced/plugin_config.vim<cr>
 
 " Source the vimrc file after saving it. This way, you don't have to reload Vim to see the changes. {{{
 if has("autocmd")
  augroup myvimrchooks
   au!
-  if has('win32')
-     autocmd bufwritepost vimrc source $HOME/vimfiles/vimrc
-  elseif has('unix')
-     autocmd bufwritepost vimrc source $HOME/.vim/vimrc
-  endif
+     autocmd bufwritepost vimrc,plugin_config.vim source $MYVIMRC
  augroup END
 endif
 
@@ -379,7 +384,7 @@ autocmd BufEnter,BufRead * silent! lcd %:p:h
 
 "Highlight current line {{{
 "Highlight the line of the cursor (helps to mark the current line in bold).
-hi Cursor guifg=Black guibg=green
+"hi Cursor guifg=Black guibg=green
 hi Cursorline term=none cterm=none ctermbg=Green guibg=darkred
 augroup CursorLine
   au!
@@ -388,14 +393,14 @@ augroup CursorLine
 augroup END
 
 "Copy current filename with path to clipboard
-map! <leader>pwd <Esc>:let @* = expand('%:p')<cr>
+map <leader>pwd <Esc>:let @* = expand('%:p')<cr>
 
 set cf "jump to first error in quickfix
 
 """Hex mode
 " ex command for toggling hex mode - define mapping if desired
-source $HOME/vimfiles/sourced/hexmode.vim
-command! -bar Hexmode call ToggleHex()
+"source $VIMHOME/sourced/hexmode.vim
+"command! -bar Hexmode call ToggleHex()
 
 map <F7> :profile start /home/$USER/gvim_profile.log<CR>:profile func *<CR>:profile file *<CR>
 
@@ -403,6 +408,8 @@ map <F7> :profile start /home/$USER/gvim_profile.log<CR>:profile func *<CR>:prof
 set showtabline=2 
 set listchars=eol:$,tab:\>\ ,trail:.,extends:>,precedes:<
 set nolist   " to turn on (use :set nolist to turn off)
+set isfname-=,
+":set includeexpr=substitute(v:fname,'\\|',':','g')
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
@@ -428,14 +435,15 @@ function! VisualSelection(direction, extra_filter) range
     let @" = l:saved_reg
 endfunction
 
+"let g:ale_disable_lsp = 1
 
 "Set up an HTML5 template for all new .html files FIXME for system verilog
 "autocmd BufNewFile * silent! 0r $VIMHOME/templates/%:e.tpl
-source $VIMHOME/sourced/set_title.vim
+"source $VIMHOME/sourced/set_title.vim
 source $VIMHOME/sourced/my_python_functions.vim
 source $VIMHOME/sourced/new_files_template.vim
-source $VIMHOME/sourced/set_title.vim
-source $VIMHOME/sourced/elog_settings.vim
+"source $VIMHOME/sourced/set_title.vim
+"source $VIMHOME/sourced/elog_settings.vim
 source $VIMHOME/sourced/plugin_config.vim
 
 

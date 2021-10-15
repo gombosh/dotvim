@@ -37,9 +37,9 @@ def gen_ctags(lang="systemverilog"):
     global op_done
     global args
     print "generating ctags..."
-    # cmd_str = 'ctags --options=/home/dorong/.vim/bin/.ctags.cnf --extra=+q --fields=+i --language-force=%s -L filelist.tmp -f '%lang
-    # cmd_str = 'ctags --options=/home/dorong/.vim/bin/.ctags.cnf --extra=+q --fields=+i -n --language-force=%s -L filelist.tmp -f '%lang
-    cmd_str = 'ctags --extra=+q --fields=+i -n --language-force=%s -L filelist.tmp -f '%lang
+    # cmd_str = 'ctags --options=/home/dorong/.vim/bin/.ctags.cnf --extra=+q --fields=+i --language-force=%s -L /tmp/filelist.tmp -f '%lang
+    # cmd_str = 'ctags --options=/home/dorong/.vim/bin/.ctags.cnf --extra=+q --fields=+i -n --language-force=%s -L /tmp/filelist.tmp -f '%lang
+    cmd_str = '/sw/common/pkgs/uctags/bin/ctags --extras=+q --fields=+i -n --language-force=%s -L /tmp/filelist.tmp -f '%lang
     if args['o']:
         cmd_str += args['o']
     else:
@@ -74,7 +74,7 @@ def gen_systemverilog_tags():
     popen_cmd = 'grep --regexp .*Parsing.*\\\\.sv '+file_list_arr[0].strip()+'*.log'
     print "running",popen_cmd
     filelist = os.popen(popen_cmd)
-    output_file = open("filelist.tmp","w")
+    output_file = open("/tmp/filelist.tmp","w")
     for line in filelist:
         output_file.write(line.split("'")[1]+"\n")
 
@@ -82,7 +82,7 @@ def gen_systemverilog_tags():
     op_done = True
     #print "parsing temp file list..."
     #thread_for_op_done()
-    #os.system("perl -pi -e 's/^\s+//' filelist.tmp")
+    #os.system("perl -pi -e 's/^\s+//' /tmp/filelist.tmp")
     #op_done = True
     print "generating ctags file (at ~/tags)",
     thread_for_op_done()
@@ -95,18 +95,18 @@ def gen_spv_tags():
     print "creating temp file..."
 
     thread_for_op_done()
-    os.system('find . -name "*.cpp" > filelist.tmp')
-    os.system('find . -name "*.h" >> filelist.tmp')
-    os.system('find ../../../SpvCommon/ -name "*.cpp" >> filelist.tmp')
-    os.system('find ../../../SpvCommon/ -name "*.h" >> filelist.tmp')
-    os.system('find ../../../SpvCommonPkt/ -name "*.cpp" >> filelist.tmp')
-    os.system('find ../../../SpvCommonPkt/ -name "*.h" >> filelist.tmp')
-    os.system('ls /sw/SpvProduct/include/*.h >> filelist.tmp')
-    os.system('cat filelist.tmp')
+    os.system('find . -name "*.cpp" > /tmp/filelist.tmp')
+    os.system('find . -name "*.h" >> /tmp/filelist.tmp')
+    os.system('find ../../../SpvCommon/ -name "*.cpp" >> /tmp/filelist.tmp')
+    os.system('find ../../../SpvCommon/ -name "*.h" >> /tmp/filelist.tmp')
+    os.system('find ../../../SpvCommonPkt/ -name "*.cpp" >> /tmp/filelist.tmp')
+    os.system('find ../../../SpvCommonPkt/ -name "*.h" >> /tmp/filelist.tmp')
+    os.system('ls /sw/SpvProduct/include/*.h >> /tmp/filelist.tmp')
+    os.system('cat /tmp/filelist.tmp')
     op_done = True
     #print "parsing temp file list..."
     #thread_for_op_done()
-    #os.system("perl -pi -e 's/^\s+//' filelist.tmp")
+    #os.system("perl -pi -e 's/^\s+//' /tmp/filelist.tmp")
     #op_done = True
     print "generating ctags file (at ~/tags)",
     thread_for_op_done()
@@ -119,7 +119,7 @@ def gen_nc_tags():
     thread_for_op_done()
     with open(args["i"],"r") as filelist:
         filelist_lines = filelist.readlines()
-        os.system("\\rm -rf filelist.tmp")
+        os.system("\\rm -rf /tmp/filelist.tmp")
         for line in filelist_lines:
             try:
                 line = line.strip()
@@ -128,12 +128,12 @@ def gen_nc_tags():
                     print "skipping",line
                     continue
                 elif line[0]=="/" and line[1]!="/":
-                    os.system('echo %s >> filelist.tmp'%line)
+                    os.system('echo %s >> /tmp/filelist.tmp'%line)
                 elif "incdir" in line:
-                    print('find %s -name "*.v" >> filelist.tmp'%(line.split("+")[-1]))
-                    os.system('find %s -name "*.v" >> filelist.tmp'%(line.split("+")[-1]))
-                    os.system('find %s -name "*.sv" >> filelist.tmp'%(line.split("+")[-1]))
-                    os.system('find %s -name "*.svh" >> filelist.tmp'%(line.split("+")[-1]))
+                    print('find %s -name "*.v" >> /tmp/filelist.tmp'%(line.split("+")[-1]))
+                    os.system('find %s -name "*.v" >> /tmp/filelist.tmp'%(line.split("+")[-1]))
+                    os.system('find %s -name "*.sv" >> /tmp/filelist.tmp'%(line.split("+")[-1]))
+                    os.system('find %s -name "*.svh" >> /tmp/filelist.tmp'%(line.split("+")[-1]))
                 else:
                     print "skipping",line
                     continue
@@ -141,7 +141,7 @@ def gen_nc_tags():
                 print "skipping",line
                 continue
 
-    os.system('cat filelist.tmp')
+    os.system('cat /tmp/filelist.tmp')
     op_done = True
     print "generating ctags file (at ~/tags)",
     thread_for_op_done()
@@ -161,18 +161,18 @@ def gen_verilog_tags():
     popen_cmd = 'grep --regexp .*Parsing.*\\\\.v '+file_list_arr[0].strip()
     print "running",popen_cmd
     filelist = os.popen(popen_cmd)
-    output_file = open("filelist.tmp","w")
+    output_file = open("/tmp/filelist.tmp","w")
     for line in filelist:
         output_file.write(line.split("'")[1]+"\n")
 
     output_file.close()
-    os.system('find . -name "*.v" >> filelist.tmp')
-    os.system('find ../../common/rtl -name "*.v" >> filelist.tmp')
-    os.system("cat filelist.tmp")
+    os.system('find . -name "*.v" >> /tmp/filelist.tmp')
+    os.system('find ../../common/rtl -name "*.v" >> /tmp/filelist.tmp')
+    os.system("cat /tmp/filelist.tmp")
     op_done = True
     #print "parsing temp file list..."
     #thread_for_op_done()
-    #os.system("perl -pi -e 's/^\s+//' filelist.tmp")
+    #os.system("perl -pi -e 's/^\s+//' /tmp/filelist.tmp")
     #op_done = True
     print "generating ctags file (at ~/tags)",
     thread_for_op_done()
@@ -211,7 +211,7 @@ def main():
         gen_nc_tags()
 
     print "\nctags generation done..."
-    #os.system('rm -f filelist.tmp')
+    #os.system('rm -f /tmp/filelist.tmp')
     print "temp file removed..."
     print "operation done."
 

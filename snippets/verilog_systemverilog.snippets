@@ -58,13 +58,13 @@ snippet al
 		${0}
 	end
 # Module block
-snippet mod
+snippet module
 	module ${1:module_name} (${2});
 		${0}
 	endmodule
 
 # Foreach Loop
-snippet fe
+snippet foreach
 	foreach (${1}) begin
 		${0}
 	end
@@ -173,6 +173,7 @@ snippet types
 	typedef struct {
 		${0}
 	} ${1:name_t};
+
 # Program block
 snippet prog
 	program ${1:program_name} ();
@@ -203,12 +204,12 @@ snippet clocking  clocking .. { .. }
 	endclocking: $1
 
 # Covergroup construct
-snippet cg
+snippet covergroup
 	covergroup ${1:group_name} @(${2:posedge} ${3:clk});
 		${0}
 	endgroup : $1
 # Package declaration
-snippet pkg
+snippet package
 	package ${1:package_name};
 		${0}
 	endpackage : $1
