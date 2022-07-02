@@ -1,4 +1,7 @@
 This is a plugin suite for gvim.
+
+UPDATE: tested and working for version 9.0!
+
 developed on 7.4 but should work just the same on 8.0 and on any older version (assuming the plugin is supported).
 it should also make the adjustments for DOS/UNIX automatically.
 latest release only works with gvim with compiled python3 support.
@@ -63,4 +66,7 @@ CSCOPE SUPPORT ADDED!!!!
 to use it you must have the cscope executable in your "PATH".
 for windows the file is a part of the repository at "vimfiles\bin" so just add it to "PATH".
 
-
+Troubleshooting:
+if under windows we get an error when opening vim:
+`coc.nvim node is not executable`
+please download node.js for windows at https://nodejs.org/en/download/
