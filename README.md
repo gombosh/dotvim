@@ -12,21 +12,30 @@ go to your home directory (can be found by using ":echo $HOME" from gvim).
 usually for windows: C:\Users\<username> linux: /home/<username>
 
 ### windows:
+```
 git clone https://github.com/gombosh/dotvim.git vimfiles
 cd vimfiles
 git submodule update --init --recursive --remote
+```
 run the following line with admin permissions (make sure git is installed with symlink support)
+```
 git clone --recurse-submodules https://github.com/python-mode/python-mode -c core.symlinks=true bundle/python-mode
+```
 vim +PlugInstall +qall (or run "PluginUpdate" from inside vim, ignore the initial errors).
+  
 reomve any _vimrc and _gvimrc files you have.
+  
 create a myvimrc file to overide/add functionality.
 
 ### linux:
+```
 git clone https://github.com/gombosh/dotvim.git .vim
 cd .vim
 git submodule update --init --recursive --remote
 vim +PlugInstall +qall (or run "PluginUpdate" from inside vim, ignore the initial errors).
+```
 reomve any ~/.vimrc and ~/.gvimrc files you have.
+  
 create a ~/myvimrc file to overide/add functionality.
 
 ### temp dirs (create manually):
