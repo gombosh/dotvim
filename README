@@ -68,5 +68,7 @@ for windows the file is a part of the repository at "vimfiles\bin" so just add i
 
 Troubleshooting:
 if under windows we get an error when opening vim:
-`coc.nvim node is not executable`
+```
+coc.nvim node is not executable
+```
 please download node.js for windows at https://nodejs.org/en/download/
