@@ -29,7 +29,7 @@ vim +PlugInstall +qall (or run "PluginUpdate" from inside vim, ignore the initia
 reomve any ~/.vimrc and ~/.gvimrc files you have.
 create a ~/myvimrc file to overide/add functionality.
 
-temp dirs (create manually):
+# temp dirs (create manually):
 create "gvim_tmp" directory in parallel to .vim directory (for tmp operational files)
 you should monitor these directories any maybe do some cleanup once in a while.
 
