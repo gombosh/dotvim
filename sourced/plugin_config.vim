@@ -17,9 +17,7 @@ endif
 
 " }}}
 
-"for ozr
-Plug 'vim-scripts/VisIncr'
-Plug 'dhruvasagar/vim-table-mode'
+Plug 'github/copilot.vim'
 
 "Tree view
 Plug 'scrooloose/nerdtree', { 'on' : ['NERDTree','NERDTreeToggle'] }
@@ -58,8 +56,10 @@ Plug 'vim-scripts/vcscommand.vim'
 " use :VCS<command> will all the regular repo commands
 Plug 'mhinz/vim-signify', { 'on' : 'SignifyToggle' }
 " activate with Shift-F11 - will show status for each line
+"
+Plug 'tpope/vim-fugitive'
 
-" mega plugin with many cool features for systemverilog - TODO help commands +
+"" mega plugin with many cool features for systemverilog - TODO help commands +
 " disabled for now because it doesn't play well with airline
 " TODO check for alternatitve
 " add snipets + makeprg fpr xcelium analyze
@@ -110,7 +110,7 @@ Plug 'kopischke/vim-fetch'
 "Snippet plugins
 "-----------------
 "advanced snipets, need py3
-Plug 'sirver/ultisnips'
+"Plug 'sirver/ultisnips'
 "Plug 'MarcWeber/vim-addon-mw-utils'
 "Plug 'tomtom/tlib_vim'
 "Plug 'garbas/vim-snipmate', {'pinned': 1}
@@ -136,6 +136,8 @@ Plug 'will133/vim-dirdiff'
 "Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 "Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 "endif
+
+Plug 'psf/black', { 'branch': 'stable' }
 Plug 'davidhalter/jedi-vim', { 'for' : 'python' }
 Plug 'tweekmonster/impsort.vim', { 'for' : 'python' }
 "Plug 'sheerun/vim-polyglot', { 'for' : 'python' } "disabled - we use ale
@@ -163,6 +165,7 @@ Plug 'yegappan/mru'
 " trying an alternative
 " lint on the fly
 Plug 'dense-analysis/ale'
+
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "Vimplug ending loading settings {{{

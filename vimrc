@@ -355,8 +355,8 @@ nnoremap <leader># I#<Space><Esc>A<Space>#<Esc>yy2P<C-V>$r#2j.
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has('win32') && !has('nvim')
-    set pythonthreedll=python39.dll
-    set pythonthreehome=C:\Users\gombo\AppData\Local\Programs\Python\Python39-32
+    set pythonthreedll=python310.dll
+    set pythonthreehome=$TEMP\..\Programs\Python\Python310
 endif
 
 "Shortcut for editing  vimrc file in a new tab - this is one of the most
