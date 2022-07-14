@@ -1,6 +1,6 @@
 This is a plugin suite for gvim.
 
-UPDATE: tested and working for version 9.0!
+# UPDATE: tested and working for version 9.0!
 
 developed on 7.4 but should work just the same on 8.0 and on any older version (assuming the plugin is supported).
 it should also make the adjustments for DOS/UNIX automatically.
@@ -11,25 +11,34 @@ first time use:
 go to your home directory (can be found by using ":echo $HOME" from gvim).
 usually for windows: C:\Users\<username> linux: /home/<username>
 
-windows:
+### windows:
+```
 git clone https://github.com/gombosh/dotvim.git vimfiles
 cd vimfiles
 git submodule update --init --recursive --remote
+```
 run the following line with admin permissions (make sure git is installed with symlink support)
+```
 git clone --recurse-submodules https://github.com/python-mode/python-mode -c core.symlinks=true bundle/python-mode
+```
 vim +PlugInstall +qall (or run "PluginUpdate" from inside vim, ignore the initial errors).
+  
 reomve any _vimrc and _gvimrc files you have.
+  
 create a myvimrc file to overide/add functionality.
 
-linux:
+### linux:
+```
 git clone https://github.com/gombosh/dotvim.git .vim
 cd .vim
 git submodule update --init --recursive --remote
 vim +PlugInstall +qall (or run "PluginUpdate" from inside vim, ignore the initial errors).
+```
 reomve any ~/.vimrc and ~/.gvimrc files you have.
+  
 create a ~/myvimrc file to overide/add functionality.
 
-# temp dirs (create manually):
+### temp dirs (create manually):
 create "gvim_tmp" directory in parallel to .vim directory (for tmp operational files)
 you should monitor these directories any maybe do some cleanup once in a while.
 
@@ -66,7 +75,7 @@ CSCOPE SUPPORT ADDED!!!!
 to use it you must have the cscope executable in your "PATH".
 for windows the file is a part of the repository at "vimfiles\bin" so just add it to "PATH".
 
-Troubleshooting:
+## Troubleshooting:
 if under windows we get an error when opening vim:
 ```
 coc.nvim node is not executable
