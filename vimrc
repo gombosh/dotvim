@@ -6,6 +6,7 @@
 
 """Version checking
 "version 8.1
+"also supports vim 9.0 and nvim
 if version < 800 | finish | endif
 
 " Sections:

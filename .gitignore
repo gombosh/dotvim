@@ -1,0 +1,5 @@
+*.un~
+.vimrc.*
+plugged/**
+*.swp
+**/*.old
