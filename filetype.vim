@@ -9,4 +9,5 @@
      au! BufRead,BufNewFile *.f setf f_file
      au! BufRead,BufNewFile *.fpp setf fpp_file
      au! BufRead,BufNewFile depend.txt setf depend_file
+     au! BufRead,BufNewFile *.jenkinsfile setf groovy
 	augroup END

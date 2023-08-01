@@ -9,47 +9,32 @@
 "also supports vim 9.0 and nvim
 if version < 800 | finish | endif
 
-" Sections:
-"    -> General
-"    -> VIM user interface
-"    -> Colors and Fonts
-"    -> Files and backups
-"    -> Text, tab and indent related
-"    -> Visual mode related
-"    -> Moving around, tabs and buffers
-"    -> Status line
-"    -> Editing mappings
-"    -> vimgrep searching and cope displaying
-"    -> Misc
-"    -> Helper functions
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"fix copy paste problem
+"{ General
+"{{ fix copy paste problem
 set t_BE=
-
-" set the path of .vim directory
+"}}
+"{{ set the path of .vim directory
 if has('win32') || has ('win64')
     let $VIMHOME = $HOME."/vimfiles"
 else
     let $VIMHOME = $HOME."/.vim"
 endif
-
-"Forget compatibility with Vi. Believe me, it's better this way.
+"}}
+"{{Forget compatibility with Vi. Believe me, it's better this way.
 set nocompatible              " be iMproved, required
+"}}
 
-
-
+"{{Leader key
 "If you Want a different map leader than \ use this in your myvimrc file
 "set mapleader = ",";
 "Ever notice a slight lag after typing the leader key + command? This lowers the timeout.
 set ttimeoutlen=500
-
-
+"}}
+"{{AutoWrite
 "don't Write the file automatically when switching between files.
 set noautowrite
-
+"}}
+"{{Shell
 if ($OS == 'Windows_NT')
    " 1.2 executing OS command within Vim
    set shell=c:\Windows\system32\cmd.exe
@@ -58,11 +43,12 @@ if ($OS == 'Windows_NT')
 else
    set shell=/bin/bash
 endif
-
+"}}
+"}
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
+"{VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Show full tag of completion
 "set showfulltag
@@ -138,7 +124,7 @@ set noerrorbells
 set timeoutlen=500 "how much time to wait for a command
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colors and Fonts
+"{ Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Enable filetypes
 syntax enable
@@ -166,9 +152,9 @@ set encoding=utf-8
 
 " Use Unix as the standard file type
 set fileformats=unix,dos,mac
-
+"}
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Files, backups and undo
+"{ Files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has('unix')
    set backupdir=.backup/,~/.backup/,/tmp//
@@ -196,9 +182,9 @@ set viminfo='20,\"50 " read /write a .viminfo file, don't store more than 50 lin
 
 map <F12> :tabnew 
 map <F11> :close <CR>
-
+"}
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent related
+"{ Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use spaces instead of tabs
 set expandtab
@@ -228,7 +214,7 @@ set wrap
 map <S-W>  :set wrap! <CR>
 
 """"""""""""""""""""""""""""""
-" => Visual mode related
+"{ Visual mode related
 """"""""""""""""""""""""""""""
 " Visual mode pressing * searches for the current selection
 " Super useful! From an idea by Michael Naumann
@@ -246,9 +232,9 @@ map! <C-V> <Esc><C-V>
 
 """ maximum of 12 tabs opened with -p
 set tabpagemax=12
-
+"}
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Moving around, tabs, windows and buffers
+"{ Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
@@ -302,24 +288,51 @@ map <c-l> <c-w>l<c-w>|
 map <c-h> <c-w>h<c-w>|
 map <c-=> <c-w>=
 
-set nofoldenable
-"if has("eval")
+"set nofoldenable
+if has("eval")
    ""Enable code folding - let's let the plugin control that
    "set foldenable
    ""set foldlevel=99
    "set foldmethod=syntax
    ""set foldmethod=indent
-   ""set foldmethod=marker
-"endif
+   "set foldmethod=marker
+    set foldmethod=expr
+    set foldexpr=VimFolds(v:lnum) 
+    set foldtext=MyFoldText()
+endif
 
+function! VimFolds(lnum)
+    " get content of current line and the line below
+    let l:cur_line = getline(a:lnum)
+    let l:next_line = getline(a:lnum+1)
+
+    if l:cur_line =~# '^"{'
+        return '>' . (matchend(l:cur_line, '"{*') - 1)
+    else
+        if l:cur_line ==# '' && (matchend(l:next_line, '"{*') - 1) == 1
+            return 0
+        else
+            return '='
+        endif
+    endif
+endfunction
+
+function! MyFoldText()
+    let line = getline(v:foldstart)
+    let folded_line_num = v:foldend - v:foldstart
+    let line_text = substitute(line, '^"{\+', '', 'g')
+    let fillcharcount = &textwidth - len(line_text) - len(folded_line_num)
+    return '+'. repeat('-', 4) . line_text . repeat('.', fillcharcount) . ' (' . folded_line_num . ' L)'
+endfunction
+"}
 """"""""""""""""""""""""""""""
-" => Status line
+"{ Status line
 """"""""""""""""""""""""""""""
 " Always show the status line
 set laststatus=2
-
+"}
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Editing mappings
+"{ Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "very usefull for the anoying dos/unix files - force to dos mode.
 map <leader>dos :e ++ff=dos<CR>
@@ -351,13 +364,13 @@ vmap <C-Down> xp`[V`]
 
 "add nice block around text
 nnoremap <leader># I#<Space><Esc>A<Space>#<Esc>yy2P<C-V>$r#2j.
-
+"}
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Misc
+"{ Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has('win32') && !has('nvim')
-    set pythonthreedll=python310.dll
-    set pythonthreehome=$TEMP\..\Programs\Python\Python310
+    set pythonthreedll=python311.dll
+    set pythonthreehome="C:Program Files\Python311"
 endif
 
 "Shortcut for editing  vimrc file in a new tab - this is one of the most
@@ -411,9 +424,9 @@ set listchars=eol:$,tab:\>\ ,trail:.,extends:>,precedes:<
 set nolist   " to turn on (use :set nolist to turn off)
 set isfname-=,
 ":set includeexpr=substitute(v:fname,'\\|',':','g')
-
+"}
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Helper functions
+"{ Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! CmdLine(str)
     call feedkeys(":" . a:str)
@@ -446,9 +459,9 @@ source $VIMHOME/sourced/new_files_template.vim
 "source $VIMHOME/sourced/set_title.vim
 "source $VIMHOME/sourced/elog_settings.vim
 source $VIMHOME/sourced/plugin_config.vim
-
-
-"""Load personal vimrc
+"}
+"{ Load personal vimrc
 if filereadable(glob("$HOME/myvimrc")) 
     source $HOME/myvimrc
 endif
+"}
