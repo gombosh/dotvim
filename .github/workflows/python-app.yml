@@ -33,3 +33,4 @@ jobs:
     - name: Test plugins install
       run: |
         vim --version
+        vim +PlugInstall +qall -e
