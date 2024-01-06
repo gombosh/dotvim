@@ -35,5 +35,5 @@ jobs:
         vim --version
         cd ..
         rm -rf $HOME/.vim
-        mv dotvim $HOME/.vim
+        cp -r dotvim $HOME/.vim
         vim +PlugInstall +qall +silent
