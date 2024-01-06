@@ -33,5 +33,7 @@ jobs:
     - name: Test plugins install
       run: |
         vim --version
-        cd .. mv dotvim $HOME/.vim
+        cd ..
+        rm -rf $HOME/.vim
+        mv dotvim $HOME/.vim
         vim +PlugInstall +qall +silent
