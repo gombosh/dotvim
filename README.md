@@ -31,7 +31,6 @@ create a myvimrc file to overide/add functionality.
 ```
 git clone https://github.com/gombosh/dotvim.git .vim
 cd .vim
-git submodule update --init --recursive --remote
 vim +PlugInstall +qall (or run "PluginUpdate" from inside vim, ignore the initial errors).
 ```
 reomve any ~/.vimrc and ~/.gvimrc files you have.
