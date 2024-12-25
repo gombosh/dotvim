@@ -10,4 +10,5 @@
      au! BufRead,BufNewFile *.fpp setf fpp_file
      au! BufRead,BufNewFile depend.txt setf depend_file
      au! BufRead,BufNewFile *.jenkinsfile setf groovy
+     au! BufRead,BufNewFile .*/templates/.*%.yaml setf helm
 	augroup END

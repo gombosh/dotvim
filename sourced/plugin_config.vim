@@ -100,6 +100,9 @@ Plug 'yggdroot/indentline'
 "{vim-fetch - open files with line numbers
 Plug 'kopischke/vim-fetch'
 "}
+"{helm syntax plugin
+Plug 'towolf/vim-helm'
+"}
 "{autocomplete plugins
 "Best (and simplest) completion I found so far.
 "Plug 'maralla/completor.vim'
@@ -512,6 +515,7 @@ let g:copilot_filetypes = {
     \ 'python': v:true,
     \ 'groovy': v:true
     \ }
+let g:copilot_proxy = 'http://bcproxy.amat.com:8080'
 
 autocmd BufReadPre *
      \ let f=getfsize(expand("<afile>"))
