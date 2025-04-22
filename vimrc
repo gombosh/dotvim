@@ -6,7 +6,7 @@
 
 if !has('nvim')
     set ttymouse=xterm2
-endif
+else
 
 "{{ set the path of .vim directory
 if has('win32') || has ('win64')
@@ -372,3 +372,4 @@ if filereadable(glob("$HOME/myvimrc"))
     source $HOME/myvimrc
 endif
 "}
+endif
