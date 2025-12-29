@@ -1,37 +1,27 @@
-This is a plugin suite for gvim.
-
-# UPDATE: tested and working for version 9.0!
-
-developed on 7.4 but should work just the same on 8.0 and on any older version (assuming the plugin is supported).
-it should also make the adjustments for DOS/UNIX automatically.
-latest release only works with gvim with compiled python3 support.
-for python2 support use older version.
+This is a plugin suite for nvim.
 
 first time use:
-go to your home directory (can be found by using ":echo $HOME" from gvim).
+go to your home directory (can be found by using ":echo $HOME" from nvim).
 usually for windows: C:\Users\<username> linux: /home/<username>
 
 ### windows:
 ```
 git clone https://github.com/gombosh/dotvim.git vimfiles
-cd vimfiles
-git submodule update --init --recursive --remote
 ```
-run the following line with admin permissions (make sure git is installed with symlink support)
 ```
-git clone --recurse-submodules https://github.com/python-mode/python-mode -c core.symlinks=true bundle/python-mode
-```
-vim +PlugInstall +qall (or run "PluginUpdate" from inside vim, ignore the initial errors).
+nvim +PlugInstall +qall (or run "PluginUpdate" from inside vim, ignore the initial errors).
   
 reomve any _vimrc and _gvimrc files you have.
   
 create a myvimrc file to overide/add functionality.
 
+copy the init.vim to the AppData/Local/nvim folder (create it if missing)
+
 ### linux:
 ```
 git clone https://github.com/gombosh/dotvim.git .vim
 cd .vim
-vim +PlugInstall +qall (or run "PluginUpdate" from inside vim, ignore the initial errors).
+nvim +PlugInstall +qall (or run "PluginUpdate" from inside vim, ignore the initial errors).
 ```
 reomve any ~/.vimrc and ~/.gvimrc files you have.
   
