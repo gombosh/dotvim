@@ -7,12 +7,11 @@
 """Version checking
 "version 8.1
 "also supports vim 9.0 and nvim
+"to unfold a section use zo
 if version < 800 | finish | endif
 
+
 "{ General
-"{{ fix copy paste problem
-set t_BE=
-"}}
 "{{ set the path of .vim directory
 if has('win32') || has ('win64')
     let $VIMHOME = $HOME."/vimfiles"
@@ -20,10 +19,6 @@ else
     let $VIMHOME = $HOME."/.vim"
 endif
 "}}
-"{{Forget compatibility with Vi. Believe me, it's better this way.
-set nocompatible              " be iMproved, required
-"}}
-
 "{{Leader key
 "If you Want a different map leader than \ use this in your myvimrc file
 "set mapleader = ",";
@@ -45,8 +40,6 @@ else
 endif
 "}}
 "}
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "{VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -54,10 +47,9 @@ endif
 "set showfulltag
 
 " number of screen lines to show around the cursor
-set scrolloff=2
+set scrolloff=4
 
 set number "Show lines numbers
-highlight LineNr ctermfg=grey ctermbg=black guibg=black guifg=grey
 
 "Auto-completion menu for command line - behave like bash
 set wildmode=list:longest
@@ -73,19 +65,10 @@ else
     set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 endif
 
-set lines=210 columns=999
-
 "Display current cursor position in lower right corner.
 "set ruler
 
-" Height of the command bar
-set cmdheight=1
-
-" A buffer becomes hidden when it is abandoned
-set hidden
-
 " Configure backspace so it acts as it should act
-set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
 "set backspace=2 "make backspace work like most other apps (actually erases the characters)
 
@@ -93,18 +76,12 @@ set whichwrap+=<,>,h,l
 " set ve=all
 set ve=block
 
-"Set incremental searching (jump to results as you type)
-set incsearch
-"
-"Highlight searching
-set hlsearch
-"
 " case insensitive search
 set ignorecase
 set smartcase
 
 " Don't redraw while executing macros (good performance config)
-set lazyredraw "shoud make things faster
+"set lazyredraw "shoud make things faster
 
 " For regular expressions turn magic on
 set magic
@@ -147,11 +124,6 @@ if has("gui_running")
     set guitablabel=%t
 endif
 
-" Set utf8 as standard encoding and en_US as the standard language
-set encoding=utf-8
-
-" Use Unix as the standard file type
-set fileformats=unix,dos,mac
 "}
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "{ Files, backups and undo
@@ -194,19 +166,8 @@ set shiftwidth=3 "shiftwidth == softtabstop so i can work with spaces and not ta
 set softtabstop=3 "how many white spaces to insert when tabbing
 "set switchbuf+=usetab,newtab //FIXME switch to new tab when quickfix is opened
 
-" Be smart when using tabs ;)
-set smarttab
-
-" 1 tab == 4 spaces
-set shiftwidth=4
-set tabstop=4
-
-"Indent stuff - needs to be controlled for each filetype seperatlly
-"set smartindent "this one tries to guess the indent, but it's bad in most cases
-set autoindent "this one is simpler, just takes the indent from the last line, but if I have a special indent file for some filetype, it will overwrite this.
-
 "Prefer a slightly higher line height - that's the gap between lines
-set linespace=3
+"set linespace=3
 
 "Better line wrapping
 set wrap
@@ -255,15 +216,6 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 
 "Set font type and size. Depends on the resolution. Larger screens, prefer h20
 "set guifont=LucidaTypewriter\ \9
-if !has('win32')
-   set guifont=Monospace\ \11
-   nmap <silent> + :let &guifont=substitute(&guifont, '\(\d\+\)', '\=submatch(1) + 1', '')<CR>
-   nmap <silent> _ :let &guifont=substitute(&guifont, '\(\d\+\)', '\=(submatch(1) - 1)', '')<CR>
-else
-   set guifont=Consolas:h11:cANSI
-   nmap <silent> + :let &guifont=substitute(&guifont, '\(\d\+\)', '\=submatch(1) + 1', '')<CR>
-   nmap <silent> _ :let &guifont=substitute(&guifont, '\(\d\+\)', '\=(submatch(1) - 1)', '')<CR>
-endif
 
 "Opens a vertical split and switches over (\v)
 nnoremap <leader>v <C-w>v<C-w>l
@@ -356,7 +308,13 @@ map! <S-LeftMouse> <Esc><LeftMouse>*
 
 "Bubble single lines (kicks butt)
 "http://vimcasts.org/episodes/bubbling-text/
-nmap <C-Up> ddkP
+nmap <C-Up> dd" Use Neovim's built-in commenting with your F2 muscle memory
+nmap <F2> gcc
+vmap <F2> gc
+imap <F2> <Esc>gcc
+" Note: Built-in doesn't have a direct 'sexy' equivalent, 
+" but Shift-F2 can trigger a block comment:
+vmap <S-F2> gbkP
 nmap <C-Down> ddp
 "Bubble multiple lines
 vmap <C-Up> xkP`[V`]
@@ -375,7 +333,7 @@ endif
 
 "Shortcut for editing  vimrc file in a new tab - this is one of the most
 "usefull things in the world!
-nmap <leader>ev :tabedit $MYVIMRC<cr>
+nmap <leader>ev :tabedit $VIMHOME/vimrc<cr>
 nmap <leader>ep :tabedit $VIMHOME/sourced/plugin_config.vim<cr>
 
 " Source the vimrc file after saving it. This way, you don't have to reload Vim to see the changes. {{{
@@ -419,7 +377,7 @@ set cf "jump to first error in quickfix
 map <F7> :profile start /home/$USER/gvim_profile.log<CR>:profile func *<CR>:profile file *<CR>
 
 "fix problem where opening a tab causes the bottom line to dissapear
-set showtabline=2 
+set showtabline=1
 set listchars=eol:$,tab:\>\ ,trail:.,extends:>,precedes:<
 set nolist   " to turn on (use :set nolist to turn off)
 set isfname-=,
@@ -453,7 +411,6 @@ endfunction
 
 "Set up an HTML5 template for all new .html files FIXME for system verilog
 "autocmd BufNewFile * silent! 0r $VIMHOME/templates/%:e.tpl
-"source $VIMHOME/sourced/set_title.vim
 source $VIMHOME/sourced/my_python_functions.vim
 source $VIMHOME/sourced/new_files_template.vim
 "source $VIMHOME/sourced/set_title.vim

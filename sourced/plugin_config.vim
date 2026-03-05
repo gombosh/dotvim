@@ -1,16 +1,11 @@
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
+" Plugins file
 "{Vimplug plugins loading
 "
-"filetype off                  " required for vundle
+"filetype off " required for vundle
 if has('win32')
-   call plug#begin('$HOME/vimfiles/plugged')
+ call plug#begin('$HOME/vimfiles/plugged')
 else
-   silent! call plug#begin('~/.vim/plugged')
+ silent! call plug#begin('~/.vim/plugged')
 endif
 " alternatively, pass a path where it should install plugins
 "call plug#begin('~/some/path/here')
@@ -19,36 +14,18 @@ endif
 "" run copilot setup first
 Plug 'github/copilot.vim'
 "}
+" Brief help
 "{Tree view (NERDTree)
 Plug 'scrooloose/nerdtree', { 'on' : ['NERDTree','NERDTreeToggle'] }
 " use F6 as the main access key
 "}
-"{Rainbow paranthesis - this colors paranthesis opening/closing in the same color.
-Plug 'kien/rainbow_parentheses.vim'
-" this works automatically
-"}
-"{LiteLine - this is the nice buttom line with info
-Plug 'itchyny/lightline.vim'
-"Plug 'vim-airline/vim-airline'
-" already setup for you, but you can play with it if you want.
-"}
-"{Cscope (disabled) - this is a code browser, it allows you to jump to declaration, instance, etc.
-" this allows movement in the code from declaration to instance etc. (beta)
-"Plug 'brookhong/cscope.vim'
-"<leader>fa to start
-"}
-"{ctrlp - fuzzy smart file search
-Plug 'ctrlpvim/ctrlp.vim'
+"{fuzzy search files
+Plug 'ibhagwan/fzf-lua'
 " ctrl-p to activate, then just write what's on your mind
-" F5 from inside ctrlp will update the database
 "}
-"{grep plugins -  new plugin for fast grepping - TODO need to experiment with this.
-"Plug 'wsdjeg/flygrep.vim'
+"{grep plugins - new plugin for fast grepping - TODO need to experiment with this.
 Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
 "for now I've put it on F10 (and S-F10)
-" ACK is another option for grepping
-"Plug 'mileszs/ack.vim'
-Plug 'junegunn/fzf.vim'
 "}
 "{asyncrun - this allows to run commands asynchronously
 " asyncrun allows to run command asynchonously. use :AsyncRun <command>
@@ -62,66 +39,18 @@ Plug 'mhinz/vim-signify', { 'on' : 'SignifyToggle' }
 " activate with Shift-F11 - will show status for each line
 Plug 'tpope/vim-fugitive'
 "}
-"{blockit - this is a plugin for block selection box drawing
-" draw nice block around selection with <leader>bi
-Plug 'sk1418/blockit'
-"}
-"{verilog_systemverilog.vim - this is a plugin for verilog and systemverilog
-"" mega plugin with many cool features for systemverilog - TODO help commands +
-" disabled for now because it doesn't play well with airline
-" TODO check for alternatitve
-" add snipets + makeprg fpr xcelium analyze
-Plug 'vhda/verilog_systemverilog.vim', { 'for' : 'systemverilog,verilog_systemverilog,log' }
-"<leader>i/o/u/I (after tags file is ready)
-"for verilog_systemverilog - autocompleation with tab
-Plug 'ervandew/supertab'
-"for verilog_systemverilog - auto search for functions/variables in file
-"(needs ctags to be working)
-Plug 'majutsushi/tagbar' ", { 'on' : 'Tagbar' }
-" activate with F4
-"for verilog_systemverilog - should make folding faster in systemverilog
-"I don't know of any specific settings it needs to be working.
-"Plug 'Konfekt/FastFold'
-"no need to do anything.
-"}
 "{plugins for aligning text
 Plug 'junegunn/vim-easy-align'
 " visual select text, press enter, then select the alignment character
-Plug 'godlygeek/tabular'
-" use leader + a + =/:/<space>
 "}
 "{Auto close paranthesis
-"Plug 'raimondi/delimitmate'
-Plug 'jiangmiao/auto-pairs'
+Plug 'windwp/nvim-autopairs'
 "}
 "{Add lines of intentation
-Plug 'yggdroot/indentline'
+Plug 'lukas-reineke/indent-blankline.nvim'
 "}
 "{vim-fetch - open files with line numbers
 Plug 'kopischke/vim-fetch'
-"}
-"{autocomplete plugins
-"Best (and simplest) completion I found so far.
-"Plug 'maralla/completor.vim'
-"Plug 'ajh17/VimCompletesMe.git'
-"if has('nvim')
-"  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-"else
-"  Plug 'Shougo/deoplete.nvim'
-"  Plug 'roxma/nvim-yarp'
-"  Plug 'roxma/vim-hug-neovim-rpc'
-"endif
-"Plug 'deoplete-plugins/deoplete-jedi'
-"}
-"{Snippet plugins
-"-----------------
-"advanced snipets, need py3
-"Plug 'sirver/ultisnips'
-"Plug 'MarcWeber/vim-addon-mw-utils'
-"Plug 'tomtom/tlib_vim'
-"Plug 'garbas/vim-snipmate', {'pinned': 1}
-Plug 'honza/vim-snippets'
-"-----------------
 "}
 "{vim-colorschemes - Tons of colorschemes to choose from.
 Plug 'flazz/vim-colorschemes'
@@ -132,255 +61,62 @@ Plug 'will133/vim-dirdiff'
 " note: don't put the last slash on directory path
 " example: ':DirDiff a/b/c/ d/e/f/' wont work, but ':DirDiff a/b/c d/e/f' will.
 "}
-"{Python plugins
-" it's part of my git repo
-" in windows please close seperatly with 
-" git clone --recurse-submodules https://github.com/python-mode/python-mode -c core.symlinks=true bundle/python-mode
-"if !has('win32')
-"   Plug 'python-mode/python-mode' ", {'pinned': 1}
-"else
-"Plug 'python-mode/python-mode', { 'branch': 'develop' }
-"Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-"Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-"endif
 
 Plug 'psf/black', { 'for' : 'python', 'branch': 'stable' }
-"Plug 'davidhalter/jedi-vim', { 'for' : 'python' }
 Plug 'tweekmonster/impsort.vim', { 'for' : 'python' }
 Plug 'jmcantrell/vim-virtualenv', { 'for' : 'python' }
-"Plug 'sheerun/vim-polyglot', { 'for' : 'python' } "disabled - we use ale
-"}
-"{nerdcommenter - easy commenting
-Plug 'scrooloose/nerdcommenter'
-"}
-"{Plugins for html (I use it rarely)
-Plug 'rstacruz/sparkup', { 'for' : 'html' }
-Plug 'tpope/vim-surround', { 'for' : 'html' }
-Plug 'hallettj/jslint.vim', { 'for' : 'html' }
-Plug 'mattn/emmet-vim', { 'for' : 'html' }
-"Plug 'tweekmonster/django-plus.vim'
-"Plug 'vim-scripts/django.vim'
-"TODO add usage info
 "}
 "{Games
 Plug 'vim/killersheep'
 "}
 "{vim-log-highlighting - log highlighting
-Plug 'mtdl9/vim-log-highlighting'
+Plug 'fei6409/log-highlight.nvim'
 "}
 "{mru - most recently used files
-Plug 'yegappan/mru'
-"}
-"{Linting Plugins - I use ALE
-" MOST COMPLICATED!
-" auto syntax checking, should appear at the buttom line
-" it doesn't play well with airline - replaced by ALE
-"Plug 'scrooloose/syntastic'
-" trying an alternative
-" lint on the fly
-Plug 'dense-analysis/ale'
-
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'wsdjeg/mru.nvim'
 "}
 "{Vimplug ending loading settings
 " All of your Plugins must be added before the following line
-call plug#end()            " required
+call plug#end() " required
 " Enable filetype plugins
-filetype plugin indent on    " required
+filetype plugin indent on " required
 "}
 
-"{Matchit
-"if this is a modern version of vim, start matchit builtin plugin
-if has("eval")
-   packadd! matchit
-   runtime macros/matchit.vim
-   " If this variable is set, augroup is defined, and start highlighting.
-   let g:hl_matchit_enable_on_vim_startup = 1
-endif
-syntax enable
-"}
-"{UltiSnips settings
-let g:UltiSnipsUsePythonVersion = 3
-"let g:UltiSnipsExpandTrigger = '<C-j>'
-"let g:UltiSnipsJumpForwardTrigger = '<C-j>'
-"let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
-let g:UltiSnipsExpandTrigger = '<tab>'
-"}
-"{Lightline settings
-let g:lightline = {
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'absolutepath', 'modified' ] ],
-      \ }
-      \ }
-"}
-"{Supertab settings
-" dorong - brought this back for verilog_systemverilog
-let g:SuperTabDefaultCompletionType = 'context'
-"}
 "{impsort settings
 nnoremap <leader>is :<c-u>ImpSort!<cr>
 "}
-"{ Deoplete settings
-"let g:deoplete#enable_at_startup = 1
-"if has('win32')
-   "let g:python3_host_prog=expand('$HOME\AppData\Local\Programs\Python\Python39-32\python.exe')
-"endif
-"let g:loaded_python_provider = 0 "disable python2 support - we use python3
-"let g:deoplete#file#enable_buffer_path = 1
-"let g:deoplete#enable_smart_case = 1
-"let g:deoplete#sources#jedi#python_path = 'python3'
-"}
-"{Python-Mode
-""use python3 for pymode
-"let g:pymode_python = 'python3'
-""Enable pymode indentatio
-"let g:pymode_indent = 1
-""Enable pymode folding
-"let g:pymode_folding = 0
-""enable pymode motion
-"let g:pymode_motion = 1
-""enable pymode documentation script and set 'K' as a key for displaying docs
-"let g:pymode_doc = 1
-"let g:pymode_doc_bind = 'K'
-""Turn on the run code script and bind <leader>r to run command
-"let g:pymode_run = 1
-"let g:pymode_run_bind = '<leader>r'
-""enable breakpoints and set to <leader>b
-"let g:pymode_breakpoint = 1
-"let g:pymode_breakpoint_bind = '<leader>b'
-""enable auto lint on write
-"let g:pymode_lint = 1
-"let g:pymode_lint_on_write = 1
-"let g:pymode_lint_message = 1
-"let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe']
-"let g:pymode_lint_ignore = "E501"   "skip 'too long' warning
-""let g:pymode_lint_ignore = ["E501", "W",]   "skip 'too long' warning
-""enable all python highliting
-"let g:pymode_syntax_all = 1
-""E.g. "E501,W002", "E2,W" (Skip all Warnings and Errors that starts with E2) and etc
-"let g:pymode_lint_select = ["E501", "W0011", "W430"]
-""set location for rope projects
-"let g:pymode_rope_project_root = "$HOME/rope_projects"
-"
-""disable rope lookup project
-"let g:pymode_rope = 0
-"let g:pymode_rope_lookup_project = 0 "fix a bug in python mode
-""for pymode plugin - remove red end of line 
-""let g:pymode_options_max_line_length = 0
-"let g:pymode_options_colorcolumn = 0
-""Turn off code completion support in the plugin
-"let g:pymode_rope_completion = 0
-""Turn off the rope script
-"let g:pymode_rope = 0
-"}
-"{Jedi settings
-"let g:jedi#use_splits_not_buffers = "left"
-"}
-"{TagBar settings
-map <F4> :Tagbar<CR>
-if has('win32')
-   let g:tagbar_ctags_bin = '$VIMHOME/bin/ctags.exe'
-else
-   let g:tagbar_ctags_bin = '$VIMHOME/bin/uctags/bin/ctags'
-endif
-"}
-"{NerdCommenter settings
-vmap <F2> :call NERDComment('x', 'toggle')<CR> 
-nmap <F2> :call NERDComment('n', 'toggle')<CR> 
-imap <F2> <ESC>:call NERDComment('n', 'toggle')<CR>
-vmap <S-F2> :call NERDComment('x', 'sexy')<CR>
+"{Commenter settings
+" Use Neovim's built-in commenting with your F2 muscle memory
+nmap <F2> gcc
+vmap <F2> gc
+imap <F2> <Esc>gcc
+" Note: Built-in doesn't have a direct 'sexy' equivalent, 
+" but Shift-F2 can trigger a block comment:
+vmap <S-F2> gb
 "}
 "{MRU settings
 map <F1> :MRU <cr>
 "}
-"{ACK (grep) settings
-let g:ackprg = '/sw/common/bin/ack -s -H --nogroup --column'
-"}
 "{Grep Plugin settings
 source $VIMHOME/sourced/my_grep.vim
-"map  <F9>  :MyGrep
+"map <F9> :MyGrep
 "imap <F9> <ESC>:MyGrep
-"map  <S-F9> :MyGrep "<cword>" .<CR>
+"map <S-F9> :MyGrep "<cword>" .<CR>
 "vmap <S-F9> :MyGrep "<cword>" .<CR>
 "imap <S-F9> <ESC>:MyGrep "<cword>" .<CR>
-map  <F9>  :Ag
+map <F9> :Ag
 imap <F9> <ESC>:Ag 
-map  <S-F9> :Ag "<cword>" .<CR>
+map <S-F9> :Ag "<cword>" .<CR>
 vmap <S-F9> :Ag "<cword>" .<CR>
 imap <S-F9> <ESC>:Ag "<cword>" .<CR>
 map <F10> :Grepper -tool git<cr>
 nnoremap <S-F10> :Grepper -tool git -cword -noprompt<cr>
-map <leader>g :AsyncRun grep %<left><left>  
+map <leader>g :AsyncRun grep %<left><left> 
 let g:asyncrun_open = 8 "open the quickfix window automatically
 "map <leader>g :%!grep 
 command! -nargs=* -complete=file MyGrep call MyGrep(<f-args>)
 "}
-"{Verilog Systemverilog settings
-"au BufReadPost *.vsif so ~/bin/vsif.vim
-"let g:verilog_syntax_fold_lst = "all"
-let g:verilog_efm_level = "error"
-let g:verilog_efm_uvm_lst = "all"
-"let g:verilog_efm_uvm_lst = "fatal,error,warning"
-let g:verilog_navigate_split = 1
 
-"map <F5> :set makeprg=cat\ #<<CR>:VerilogErrorFormat ncverilog 3<CR>:cfile %<CR>:copen<CR>:cn<CR>
-map <F5> :set makeprg=grep\ -e\ UVM_FATAL\ -e\ *E\ -e\ *W\ -e\ *F\ %<CR>:VerilogErrorFormat ncverilog 1<CR>:tab sb<CR>:make<CR>:copen<CR><CR>
-nnoremap } :<C-R>=len(getqflist())==1?"cc":"cn"<CR><CR>
-nnoremap { :<C-R>=len(getqflist())==1?"cc":"cp"<CR><CR>
-
-nnoremap <leader>i :VerilogFollowInstance<CR>
-nnoremap <leader>I :VerilogFollowPort<CR>
-nnoremap <leader>u :VerilogGotoInstanceStart<CR>
-nnoremap <leader>o :VerilogReturnInstance<CR>
-"}
-"{rainbow_parentheses settings
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
-"}
-"{Syntastic settings
-" syntastic doesn't work well with airline, TODO check why
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
-if has('unix')
-   let g:syntastic_python_python_exec = '/usr/local/bin/python3'
-endif
-"}
-"{CSCOPE settings
-"if has('win32')
-   "let g:cscope_cmd = "$HOME/vimfiles/bin/cscope.exe"
-"else
-   "let g:cscope_cmd = '$HOME/.vim/bin/cscope.exe'
-"endif
-""let g:cscope_interested_files = '\.c$\|\.cpp$\|\.h$\|\.hpp'
-"let g:cscope_interested_files = '\.py$'
-
-"nnoremap <leader>fa :call CscopeFindInteractive(expand('<cword>'))<CR>
-"nnoremap <leader>l :call ToggleLocationList()<CR>
-
-"" s: Find this C symbol
-"nnoremap  <leader>fs :call CscopeFind('s', expand('<cword>'))<CR>
-"" g: Find this definition
-"nnoremap  <leader>fg :call CscopeFind('g', expand('<cword>'))<CR>
-"" d: Find functions called by this function
-"nnoremap  <leader>fd :call CscopeFind('d', expand('<cword>'))<CR>
-"" c: Find functions calling this function
-"nnoremap  <leader>fc :call CscopeFind('c', expand('<cword>'))<CR>
-"" t: Find this text string
-"nnoremap  <leader>ft :call CscopeFind('t', expand('<cword>'))<CR>
-"" e: Find this egrep pattern
-"nnoremap  <leader>fe :call CscopeFind('e', expand('<cword>'))<CR>
-"" f: Find this file
-"nnoremap  <leader>ff :call CscopeFind('f', expand('<cword>'))<CR>
-"" i: Find files #including this file
-"nnoremap  <leader>fi :call CscopeFind('i', expand('<cword>'))<CR>
-"}
 "{easy-align settings
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
@@ -394,130 +130,93 @@ vmap <leader>s :s/\s\+/ /g<CR>:noh<CR>
 "Show hidden files in NerdTree
 let NERDTreeShowHidden=1
 "toggle nerdtree with f6
-map  <silent> <F6>   :NERDTreeToggle<CR>
-imap  <silent> <F6>   <Esc>:NERDTreeToggle<CR>
+map <silent> <F6> :NERDTreeToggle<CR>
+imap <silent> <F6> <Esc>:NERDTreeToggle<CR>
 
 " Use netrw for remote files/directories, and NERDTree for everything else. {{{1
-
-    " Function to open the file or NERDTree or netrw.
-    "   Returns: 1 if a file explorer was opened; otherwise, 0.
-    function! s:OpenFileOrBrowser(...)
-        if a:0 == 0 || a:1 == ''
-            NERDTree
-        elseif filereadable(a:1)
-            execute 'edit '.a:1
-        elseif a:1 =~? '^\(scp\|ftp\)://' " Add other protocols as needed.
-            execute 'Vexplore '.a:1
-            return 1
-        elseif isdirectory(a:1)
-            execute 'NERDTree '.a:1
-            return 1
-        endif
-        return 0
-    endfunction
-
-    " Auto commands to handle OS commandline arguments.
-    autocmd StdinReadPre * let s:std_in=1
-    autocmd VimEnter * if argc()==1 && !exists('s:std_in') | if <SID>OpenFileOrBrowser(argv()[0]) | wincmd p | enew | wincmd p | endif | endif
-
-    " Command to call the OpenFileOrBrowser function.
-    command! -n=? -complete=file -bar Edit :call <SID>OpenFileOrBrowser('<args>')
-
-    " Key mapping to call Edit. With no arguments, this will open NERDTree.
-    nnoremap <C-P> :Edit<CR>
-
-    " Command-mode abbreviation to replace the :edit Vim command.
-    cnoreabbrev e Edit
-"}
-"{EMMET settings
-"Emmet plugin settings - only loaded for html
-let g:user_emmet_leader_key='<C-Space>'
-"}
-"{delimitmate settings
-"let delimitMate_expand_cr = 1
-"au FileType verilog_systemverilog inoremap begin begin<CR>end<up><end><CR>
-""au FileType verilog_systemverilog let b:delimitMate_matchpairs = "(:),[:],{:}"
-"au FileType verilog_systemverilog let b:delimitMate_quotes = "\""
-"au FileType vim let b:delimitMate_quotes = "' ` *"
-"}
-"{autopairs settings
-au FileType verilog_systemverilog let g:AutoPairs = {'(':')', '[':']', '{':'}','"':'"'}
-au FileType vim let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'"}
-"let g:AutoPairsShortcutToggle = '<C-S-p>' 
-let g:AutoPairsShortcutFastWrap = '<C-.>'
-"let g:AutoPairsShortcutJump = '<C-S-n>'
-let g:AutoPairsShortcutBackInsert = '<C-,>'
-"}
-"{ALE settings - Asynchronous Lint Engine
-let g:ale_fixers = {
-      \    'python': ['yapf'],
-      \}
-
-let g:ale_linters = {
-      \    'systemverilog': ['/sw/common/bin/svls'],
-      \    'verilog_systemverilog': ['/sw/common/bin/svls'],
-      \}
-
-let g:tagbar_type_systemverilog = {
-        \ 'ctagstype'   : 'SystemVerilog',
-        \ 'kinds'       : [
-            \ 'b:blocks:1:1',
-            \ 'c:constants:1:0',
-            \ 'e:events:1:0',
-            \ 'f:functions:1:1',
-            \ 'm:modules:0:1',
-            \ 'n:nets:1:0',
-            \ 'p:ports:1:0',
-            \ 'r:registers:1:0',
-            \ 't:tasks:1:1',
-            \ 'A:assertions:1:1',
-            \ 'C:classes:0:1',
-            \ 'V:covergroups:0:1',
-            \ 'I:interfaces:0:1',
-            \ 'M:modport:0:1',
-            \ 'K:packages:0:1',
-            \ 'P:programs:0:1',
-            \ 'R:properties:0:1',
-            \ 'T:typedefs:0:1'
-        \ ],
-        \ 'sro'         : '.',
-        \ 'kind2scope'  : {
-            \ 'm' : 'module',
-            \ 'b' : 'block',
-            \ 't' : 'task',
-            \ 'f' : 'function',
-            \ 'C' : 'class',
-            \ 'V' : 'covergroup',
-            \ 'I' : 'interface',
-            \ 'K' : 'package',
-            \ 'P' : 'program',
-            \ 'R' : 'property'
-        \ },
-    \ }
-"}
-"{Signify (repo browser) settings
-map <leader>dt :SignifyDiff<CR>
-set updatetime=1000 "for async update of signify
-let g:signify_disable_by_default = 1 "dont start signify by default
-map <S-F11> <ESC>:SignifyToggle<CR>
-"}
-"{VCS settings
-map <S-F12> :!svn ci % -m "Fixed a Bug"<CR>
+ " Function to open the file or NERDTree or netrw.
+ " Returns: 1 if a file explorer was opened; otherwise, 0.
+ function! s:OpenFileOrBrowser(...)
+ if a:0 == 0 || a:1 == ''
+ NERDTree
+ elseif filereadable(a:1)
+ execute 'edit '.a:1
+ elseif a:1 =~? '^\(scp\|ftp\)://' " Add other protocols as needed.
+ execute 'Vexplore '.a:1
+ return 1
+ elseif isdirectory(a:1)
+ execute 'NERDTree '.a:1
+ return 1
+ endif
+ return 0
+ endfunction
+ " Auto commands to handle OS commandline arguments.
+ autocmd StdinReadPre * let s:std_in=1
+ autocmd VimEnter * if argc()==1 && !exists('s:std_in') | if <SID>OpenFileOrBrowser(argv()[0]) | wincmd p | enew | wincmd p | endif | endif
+ " Command to call the OpenFileOrBrowser function.
+ command! -n=? -complete=file -bar Edit :call <SID>OpenFileOrBrowser('<args>')
+ " Command-mode abbreviation to replace the :edit Vim command.
+ cnoreabbrev e Edit
 "}
 "{Copilot settings
 let g:copilot_filetypes = {
-    \ 'gitcommit': v:true,
-    \ 'markdown': v:true,
-    \ 'yaml': v:true,
-    \ 'python': v:true,
-    \ 'groovy': v:true
-    \ }
+ \ 'gitcommit': v:true,
+ \ 'markdown': v:true,
+ \ 'yaml': v:true,
+ \ 'python': v:true,
+ \ 'groovy': v:true
+ \ }
 
 autocmd BufReadPre *
-     \ let f=getfsize(expand("<afile>"))
-     \ | if f > 100000 || f == -2
-     \ | let b:copilot_enabled = v:false
-     \ | endif
+ \ let f=getfsize(expand("<afile>"))
+ \ | if f > 100000 || f == -2
+ \ | let b:copilot_enabled = v:false
+ \ | endif
 "{VirtualEnv settings
 let g:virtualenv_directory = expand('./.venv')
+"}
+"{ibl settings
+
+lua << EOF
+require("ibl").setup {
+ indent = {
+ char = "▎", -- Common thin line character
+ },
+ scope = {
+ enabled = true, -- Highlights the current indentation level
+ show_start = false,
+ show_end = false,
+ },
+}
+EOF
+"}
+"{fuzzy lua search
+" --- Fzf-Lua Configuration ---
+"  need to install some stuff to make it work:
+"  choco install fzf ripgrep fd (windows)
+"  sudo apt install fzf (linux)
+lua << EOF
+local fzf = require('fzf-lua')
+
+fzf.setup({
+  "default", -- Use "default" profile (simpler for Windows than "fzf-native")
+  winopts = {
+    preview = {
+      layout = "vertical", -- Vertical preview works better on most Windows screens
+    },
+  },
+  files = {
+    -- Force using 'fd' if you have it, as it's faster on Windows NTFS
+    -- cmd = "fd --type f --hidden --follow --exclude .git",
+  },
+})
+
+-- Keybindings
+local map = vim.keymap.set
+map('n', '<leader>ff', fzf.files, { desc = 'Fzf Files' })
+map('n', '<leader>fg', fzf.live_grep, { desc = 'Fzf Live Grep' })
+map('n', '<leader>fb', fzf.buffers, { desc = 'Fzf Buffers' })
+map('n', '<leader>fh', fzf.help_tags, { desc = 'Fzf Help' })
+map('n', '<leader>gs', fzf.git_status, { desc = 'Fzf Git Status' })
+EOF
 "}
