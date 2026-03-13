@@ -75,6 +75,9 @@ Plug 'fei6409/log-highlight.nvim'
 "{mru - most recently used files
 Plug 'wsdjeg/mru.nvim'
 "}
+"{status line
+Plug 'nvim-lualine/lualine.nvim'
+"}
 "{Vimplug ending loading settings
 " All of your Plugins must be added before the following line
 call plug#end() " required
@@ -220,3 +223,13 @@ map('n', '<leader>fh', fzf.help_tags, { desc = 'Fzf Help' })
 map('n', '<leader>gs', fzf.git_status, { desc = 'Fzf Git Status' })
 EOF
 "}
+"{lualine
+lua << EOF
+require('lualine').setup {
+  options = {
+    theme = 'auto', -- Automatically picks a theme based on your colorscheme
+  }
+}
+EOF
+"}
+"

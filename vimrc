@@ -282,6 +282,8 @@ endfunction
 """"""""""""""""""""""""""""""
 " Always show the status line
 set laststatus=2
+" let lualine (plugin) use the trucolor support 
+set termguicolors
 "}
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "{ Editing mappings
