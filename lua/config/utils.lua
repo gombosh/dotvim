@@ -19,24 +19,6 @@ function M.visual_selection(direction, extra_filter)
   vim.fn.setreg('"', saved_reg)
 end
 
--- Tag location logic (Modern replacement for SET_TAGS_LOCATION)
-function M.set_tags_location()
-  local pwd = vim.fn.getcwd()
-  vim.opt.tags = "~/tags"
-  if pwd:find("users") then
-    local splitted_pwd = vim.split(pwd, "/")
-    while #splitted_pwd > 2 and pwd:find("users") do
-      local workdir_path = table.concat(splitted_pwd, "/")
-      local workdir_tags = workdir_path .. "/tags"
-      if vim.fn.filereadable(workdir_tags) == 1 then
-        vim.opt.tags:prepend(workdir_tags)
-        break
-      end
-      table.remove(splitted_pwd)
-    end
-  end
-end
-
 -- WS environment variable logic (Modern replacement for SET_WS)
 function M.set_ws()
   if os.getenv("WS") then

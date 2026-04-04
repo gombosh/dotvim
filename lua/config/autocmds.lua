@@ -40,14 +40,8 @@ autocmd("WinLeave", {
   end,
 })
 
--- Handle Workspace Tags and Environment Variable
+-- Handle Workspace Environment Variable
 local workspace_group = augroup("WorkspaceSettings", { clear = true })
-autocmd("BufReadPost", {
-  group = workspace_group,
-  callback = function()
-    utils.set_tags_location()
-  end,
-})
 autocmd("BufEnter", {
   group = workspace_group,
   callback = function()
