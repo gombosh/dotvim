@@ -1,39 +1,38 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
-name: Python application
+# This workflow will install dependencies and test the Neovim configuration
+name: Neovim Configuration Test
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "lua-migration" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "lua-migration" ]
 
 permissions:
   contents: read
 
 jobs:
-  build:
-
+  test-config:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
-    - name: Install dependencies
+
+    - name: Install Neovim and dependencies
       run: |
-        sudo add-apt-repository ppa:jonathonf/vim
+        sudo add-apt-repository ppa:neovim-ppa/stable
         sudo apt-get update
-        sudo apt-get install vim-gtk3 
-        python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Test plugins install
+        sudo apt-get install -y neovim fzf ripgrep fd-find
+
+    - name: Set up configuration
       run: |
-        vim --version
-        cd ..
-        rm -rf $HOME/.vim
-        cp -r dotvim $HOME/.vim
-        vim +PlugInstall +qall +silent
+        mkdir -p $HOME/.config/nvim
+        cp -r . $HOME/.config/nvim/
+
+    - name: Test Neovim headless startup and plugin installation
+      run: |
+        # Run nvim in headless mode to trigger lazy.nvim plugin installation
+        # We use a timeout to ensure it doesn't hang if there's an interactive prompt
+        timeout 300s nvim --headless "+Lazy! sync" +qa || true
+
+        # Verify that nvim can start without errors after sync
+        nvim --headless +qa
