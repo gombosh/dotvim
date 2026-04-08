@@ -33,7 +33,11 @@ map("n", "<F11>", ":close<CR>", { desc = "Close window" })
 map("n", "<S-W>", ":set wrap!<CR>", { desc = "Toggle wrap" })
 
 -- Visual Selection Search (*)
-map("v", "*", function() utils.visual_selection("", "") end, { silent = true, desc = "Search for current selection" })
+map("v", "*", function()
+  utils.visual_selection("", "")
+  -- Trigger search for the pattern set in utils.visual_selection
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("/<CR>", true, true, true), "n", false)
+end, { silent = true, desc = "Search for current selection" })
 
 -- Editing Mappings
 map("n", "<leader>dos", ":e ++ff=dos<CR>", { desc = "Re-edit file as DOS format" })
