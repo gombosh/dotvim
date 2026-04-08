@@ -1,65 +1,47 @@
-This is a plugin suite for nvim.
+# Neovim Configuration (Lua-based)
 
-first time use:
-go to your home directory (can be found by using ":echo $HOME" from nvim).
+This is a modern, modular Neovim configuration migrated from a legacy Vimscript/GVim setup. It uses **[lazy.nvim](https://github.com/folke/lazy.nvim)** for plugin management and follows best practices for Neovim 0.9+.
 
-create a myvimrc file to overide/add functionality.
+## Installation (Linux)
 
+1. **Backup your current configuration:**
+   ```bash
+   mv ~/.config/nvim ~/.config/nvim.bak
+   ```
 
-### linux:
-git clone https://github.com/gombosh/dotvim.git .vim
-copy the init.vim to the ~/.config/nvim folder (create it if missing)
+2. **Clone this repository into the Neovim config directory:**
+   ```bash
+   git clone https://github.com/gombosh/dotvim.git ~/.config/nvim
+   ```
 
-install vimplug if not installed:
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-cd .vim
-nvim +PlugInstall +qall (or run "PluginUpdate" from inside vim, ignore the initial errors).
-```
-reomve any ~/.vimrc and ~/.gvimrc files you have.
-  
-create a ~/myvimrc file to overide/add functionality.
+3. **Install Neovim (if not already installed):**
+   Ensure you have Neovim 0.9 or later. On Ubuntu:
+   ```bash
+   sudo apt install fzf ripgrep fd-find
+   ```
 
-### temp dirs (create manually):
-create "gvim_tmp" directory in parallel to .vim directory (for tmp operational files)
-you should monitor these directories any maybe do some cleanup once in a while.
+4. **Launch Neovim:**
+   The first time you run `nvim`, `lazy.nvim` will automatically download and install all plugins.
+   ```bash
+   nvim
+   ```
 
-I think in the minimum that the local "myvimrc" should contain the following line:
-colorscheme torte
+## Key Features
+- **Plugin Manager:** `lazy.nvim` (Faster startup, lazy-loading).
+- **Fuzzy Search:** `fzf-lua` (Replaces older FZF integrations).
+- **Status Line:** `lualine.nvim`.
+- **Modular Structure:** Separated `options.lua`, `keymaps.lua`, and `autocmds.lua`.
+- **Legacy Removal:** All GVim and Vim 8 specific logic has been removed for a cleaner experience.
 
-to update files use:
-git pull
+## Configuration Structure
+- `init.lua`: Main entry point.
+- `lua/config/`: Core settings and configuration logic.
+    - `options.lua`: General Neovim settings.
+    - `keymaps.lua`: Custom key mappings.
+    - `autocmds.lua`: Auto-commands and file templates.
+    - `lazy.lua`: Plugin manager initialization.
+- `lua/plugins/`: Modular plugin definitions.
+    - `init.lua`: Plugin list and their specific settings.
 
-to update plugins:
-PluginUpdate
-
-yes I know, I should have a script which updates everything.
-
-to check in use 
-git add .
-git commit -m "message"
-git push
-
-latest changes:
-added vimcompletesme which is very simple and useful.
-cleanup and move to vundle.
-
-oldef changes:
-- python3 support
-- fixed backup dir not existing issue
-- fixed fold doesn't exist issue
-
-tagbar instead of taglist
-airline changed to full path
-solarise color scheme not tested
-
-CSCOPE SUPPORT ADDED!!!!
-to use it you must have the cscope executable in your "PATH".
-for windows the file is a part of the repository at "vimfiles\bin" so just add it to "PATH".
-
-## Troubleshooting:
-if under windows we get an error when opening vim:
-```
-coc.nvim node is not executable
-```
-please download node.js for windows at https://nodejs.org/en/download/
+## Custom Overrides
+To add your own personal overrides without modifying this repository, create a `~/myvimrc` file. This file will be sourced at the end of the configuration.
