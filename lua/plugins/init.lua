@@ -44,17 +44,36 @@ return {
       { "<leader>fb", function() require("fzf-lua").buffers() end, desc = "Fzf Buffers" },
       { "<leader>fh", function() require("fzf-lua").help_tags() end, desc = "Fzf Help" },
       { "<leader>gs", function() require("fzf-lua").git_status() end, desc = "Fzf Git Status" },
-      { "<F9>", ":FzfLua ag<CR>", desc = "Ag search" }, -- Fixed from :Ag to :FzfLua ag
+      { "<F9>", ":FzfLua ag<CR>", desc = "Ag search" },
     },
     config = function()
-      require("fzf-lua").setup({
-        "default",
-        winopts = {
-          preview = {
-            layout = "vertical",
+      -- Check for fdfind (common on Ubuntu/Debian) and alias it to fd if found
+      if vim.fn.executable("fdfind") == 1 and vim.fn.executable("fd") == 0 then
+        -- We can tell fzf-lua to use fdfind
+        require("fzf-lua").setup({
+          "default",
+          winopts = {
+            preview = {
+              layout = "vertical",
+            },
           },
-        },
-      })
+          files = {
+            cmd = "fdfind --type f --hidden --follow --exclude .git",
+          },
+          grep = {
+            rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
+          }
+        })
+      else
+        require("fzf-lua").setup({
+          "default",
+          winopts = {
+            preview = {
+              layout = "vertical",
+            },
+          },
+        })
+      end
     end,
   },
 
